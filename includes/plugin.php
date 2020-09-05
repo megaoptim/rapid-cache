@@ -17,8 +17,4 @@ require_once dirname(__FILE__).'/stub.php';
 
 if ( ! Classes\Conflicts::check()) {
     $GLOBALS[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS] = new Classes\Plugin();
-
-    add_action('plugins_loaded', function () {
-        require_once __DIR__.'/api.php';
-    });
 }
