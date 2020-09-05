@@ -46,6 +46,7 @@ class MenuPageOptions extends MenuPage
         echo '  <div class="plugin-menu-page-support-links">'."\n";
         echo '      <a href="'.esc_attr('https://github.com/megaoptim/rapid-cache-kb').'" target="_blank"><i class="si si-book"></i> '.__('Knowledge Base', 'rapid-cache').'</a>'."\n";
         echo '      <a href="'.esc_attr('https://megaoptim.com/blog/category/rapid-cache/').'" target="_blank"><i class="si si-rss-square"></i> '.__('Blog', 'rapid-cache').'</a>'."\n";
+        echo '      <a href="'.esc_attr('https://github.com/megaoptim/rapid-cache-kb/other/reporting-issues.md').'" target="_blank"><i class="si si-ticket"></i> '.__('Report Issue', 'rapid-cache').'</a>'."\n";
         echo '   </div>'."\n";
 
         echo '<div class="plugin-menu-page-version">'."\n";
