@@ -1,17 +1,14 @@
 === Rapid Cache ===
 
-Stable tag: 170220
+Stable tag: 1.0.0
 Requires at least: 4.2
-Tested up to: 5.2
+Tested up to: 5.5
 Text Domain: rapid-cache
-
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Author: WP Sharks
-Author URI: https://rapid-cache.com
-Contributors: WebSharks, JasWSInc, raamdev, clavaque
-Donate link: http://websharks-inc.com/r/wp-theme-plugin-donation/
+Author: MegaOptim
+Author URI: https://megaoptim.com/rapid-cache
+Contributors: megaoptim,darkog
 Tags: cache, speed, performance, fast, caching, advanced cache, static, client-side cache, rss cache, feed cache, gzip compression, page cache
 
 Rapid Cache is advanced WordPress caching plugin inspired by simplicity that will make your site blazing fast!
