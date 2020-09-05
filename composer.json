@@ -12,7 +12,11 @@
     "autoload" : {
         "psr-4" : {
             "MegaOptim\\RapidCache\\": "includes/src/"
-        }
+        },
+        "files": [
+            "includes/utils/i18n.php",
+            "includes/utils/helpers.php"
+        ]
     },
     "require": {
         "symfony/polyfill-mbstring": "^1.18"
