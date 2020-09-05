@@ -46,9 +46,6 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 } elseif ((@include_once(dirname(RAPID_CACHE_PLUGIN_FILE).'/includes/utils/wp-cache-postload.php')) === false) {
     return; // Unable to find postload function(s). Fail softly.
 }
-Classes\AdvCacheBackCompat::zenCacheConstants();
-Classes\AdvCacheBackCompat::zcRequestVars();
-Classes\AdvCacheBackCompat::browserCacheConstant();
 
 if (!defined('RAPID_CACHE_PRO')) {
     /*

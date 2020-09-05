@@ -118,10 +118,6 @@ class Plugin extends AbsBaseAp
      */
     public $uninstall_cap = 'delete_plugins';
 
-    
-
-    
-
     /**
      * Cache directory.
      *
@@ -130,12 +126,6 @@ class Plugin extends AbsBaseAp
      * @type string Cache directory; relative to the configured base directory.
      */
     public $cache_sub_dir = 'cache';
-
-    
-
-    
-
-    
 
     /**
      * Plugin constructor.
@@ -479,14 +469,6 @@ class Plugin extends AbsBaseAp
 
         add_action('wp_loaded', [$this, 'actions']);
 
-        
-
-        
-
-        
-
-        
-
         add_action('admin_bar_menu', [$this, 'adminBarMenu']);
         add_action('wp_head', [$this, 'adminBarMetaTags'], 0);
         add_action('wp_enqueue_scripts', [$this, 'adminBarStyles']);
@@ -550,8 +532,6 @@ class Plugin extends AbsBaseAp
         add_action('edit_link', [$this, 'autoClearCache']);
         add_action('delete_link', [$this, 'autoClearCache']);
 
-        
-
         add_action('delete_user', [$this, 'autoClearAuthorPageCacheOnUserDeletion'], 10, 2);
         add_action('remove_user_from_blog', [$this, 'autoClearAuthorPageCacheOnUserDeletion'], 10, 1);
 
@@ -560,19 +540,15 @@ class Plugin extends AbsBaseAp
                 return 'disabled-by-'.MEGAOPTIM_RAPID_CACHE_SLUG; // MUST return a string literal that is not 'true' or '' (an empty string). See <http://bit.ly/1YItpdE>
             }); // See also why the Akismet nonce should be disabled: <http://jas.xyz/1R23f5c>
         }
-        
-        
-        
+
         /* -------------------------------------------------------------- */
 
         if (!is_multisite() || is_main_site()) { // Main site only.
             add_filter('cron_schedules', [$this, 'extendCronSchedules']);
             add_action('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cleanup', [$this, 'cleanupCache']);
-
-            
         }
-        /* -------------------------------------------------------------- */
 
+        /* -------------------------------------------------------------- */
         $this->doWpAction('after_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_'.__FUNCTION__, get_defined_vars());
         $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_'.__FUNCTION__.'_complete', get_defined_vars());
     }

@@ -278,7 +278,6 @@ trait ObUtils
         if (!($phase & PHP_OUTPUT_HANDLER_END)) {
             throw new \Exception(sprintf(__('Unexpected OB phase: `%1$s`.', 'rapid-cache'), $phase));
         }
-        Classes\AdvCacheBackCompat::zenCacheConstants();
 
         $cache = trim((string) $buffer);
 

@@ -151,7 +151,7 @@ class MenuPageOptions extends MenuPage
 
         echo '<h2 class="plugin-menu-page-section-heading">'.
              '  '.__('Basic Configuration (Required)', 'rapid-cache').
-             '  <small><span>'.sprintf(__('Review these basic options and %1$s&trade; will be ready-to-go!', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</span></small>'.
+             '  <small><span>'.sprintf(__('Review these basic options and %1$s will be ready-to-go!', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</span></small>'.
              '</h2>';
 
         /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */

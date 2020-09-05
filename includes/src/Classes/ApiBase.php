@@ -10,10 +10,7 @@ class ApiBase
 {
     /**
      * Current CC plugin instance.
-     *
-     * @since 1.0.0
-     *
-     * @return \rapid_cache\plugin instance.
+     * @return mixed
      */
     public static function plugin()
     {
