@@ -25,4 +25,3 @@ define('MEGAOPTIM_RAPID_CACHE_NS_PATH', str_replace('\\', '/', __NAMESPACE__));
 define('MEGAOPTIM_RAPID_CACHE_IS_PRO', mb_strtolower(basename(MEGAOPTIM_RAPID_CACHE_NS_PATH)) === 'pro');
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
-require_once dirname(__FILE__).'/utils/i18n.php';
