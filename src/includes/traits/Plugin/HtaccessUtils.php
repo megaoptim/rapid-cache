@@ -71,7 +71,7 @@ trait HtaccessUtils
                 'canonical-urls-no-ts-enable.txt',
             ] as $_template) {
             //
-            if (!is_file($_template_file = dirname(dirname(dirname(__FILE__))).'/templates/htaccess/'.$_template)) {
+            if (!is_file($_template_file = MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/'.$_template)) {
                 continue; // Template file missing; bypass.
                 // ↑ Some files might be missing in the lite version.
             } elseif (!($_template_file_contents = trim(file_get_contents($_template_file)))) {

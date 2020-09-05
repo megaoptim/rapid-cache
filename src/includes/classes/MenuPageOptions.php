@@ -43,17 +43,6 @@ class MenuPageOptions extends MenuPage
         echo '      <button type="button" class="plugin-menu-page-panels-close"><i class="si si-chevron-up"></i></button>'."\n";
         echo '   </div>'."\n";
 
-        echo '   <div class="plugin-menu-page-upsells">'."\n";
-        if (IS_PRO && current_user_can($this->plugin->update_cap)) {
-            echo '<a href="'.esc_attr('http://rapidcache.com/r/rapid-cache-subscribe/').'" target="_blank"><i class="si si-envelope"></i> '.__('Newsletter', 'rapid-cache').'</a>'."\n";
-            echo '<a href="'.esc_attr('http://rapidcache.com/r/rapid-cache-beta-testers-list/').'" target="_blank"><i class="si si-envelope"></i> '.__('Beta Testers', 'rapid-cache').'</a>'."\n";
-        }
-        if (!IS_PRO) {
-            echo '  <a href="'.esc_attr(add_query_arg(urlencode_deep(['page' => GLOBAL_NS, GLOBAL_NS.'_pro_preview' => '1']), self_admin_url('/admin.php'))).'"><i class="si si-eye"></i> '.__('Preview Pro Features', 'rapid-cache').'</a>'."\n";
-            echo '  <a href="'.esc_attr('http://rapidcache.com/prices/').'" target="_blank"><i class="si si-heart-o"></i> '.__('Pro Upgrade', 'rapid-cache').'</a>'."\n";
-        }
-        echo '   </div>'."\n";
-
         echo '  <div class="plugin-menu-page-support-links">'."\n";
         if (IS_PRO) {
             echo '  <a href="'.esc_attr('http://rapidcache.com/support/').'" target="_blank"><i class="si si-life-bouy"></i> '.__('Support', 'rapid-cache').'</a>'."\n";
@@ -1114,7 +1103,7 @@ class MenuPageOptions extends MenuPage
             echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(GLOBAL_NS.'-apache-optimizations--gzip-configuration').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
             echo '      <div class="'.esc_attr(GLOBAL_NS.'-apache-optimizations--gzip-configuration').'" style="display:none; margin-top:1em;">'."\n";
             echo '        <p>'.__('<strong>To enable GZIP compression:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-            echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/gzip-enable.txt'))).'</code></pre>'."\n";
+            echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/gzip-enable.txt'))).'</code></pre>'."\n";
             echo '        <p class="info" style="display:block;">'.__('<strong>Or</strong>, if your server is missing <code>mod_deflate</code>/<code>mod_filter</code>; open your <code>php.ini</code> file and add this line: <a href="http://php.net/manual/en/zlib.configuration.php" target="_blank" style="text-decoration:none;"><code>zlib.output_compression = on</code></a>', 'rapid-cache').'</p>'."\n";
             echo '      </div>'."\n";
 
@@ -1134,7 +1123,7 @@ class MenuPageOptions extends MenuPage
                 echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
                 echo '      <div class="'.esc_attr(GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'" style="display:none; margin-top:1em;">'."\n";
                 echo '        <p>'.__('<strong>To enable Browser Caching:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/browser-caching-enable.txt'))).'</code></pre>'."\n";
+                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/browser-caching-enable.txt'))).'</code></pre>'."\n";
                 echo '      </div>'."\n";
             }
             if (IS_PRO || $this->plugin->isProPreview()) {
@@ -1148,7 +1137,7 @@ class MenuPageOptions extends MenuPage
                 echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(GLOBAL_NS.'-apache-optimizations--enforce-exact-host-name').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
                 echo '      <div class="'.esc_attr(GLOBAL_NS.'-apache-optimizations--enforce-exact-host-name').'" style="display:none; margin-top:1em;">'."\n";
                 echo '        <p>'.__('<strong>To enforce an exact hostname:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/enforce-exact-host-name.txt'))).'</code></pre>'."\n";
+                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/enforce-exact-host-name.txt'))).'</code></pre>'."\n";
                 echo '      </div>'."\n";
             }
             if ((IS_PRO && !empty($GLOBALS['wp_rewrite']->permalink_structure)) || $this->plugin->isProPreview()) {
@@ -1163,9 +1152,9 @@ class MenuPageOptions extends MenuPage
                 echo '      <div class="'.esc_attr(GLOBAL_NS.'-apache-optimizations--enforce-cononical-urls').'" style="display:none; margin-top:1em;">'."\n";
                 echo '        <p>'.__('<strong>To enforce Canonical URLs:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
                 if ($GLOBALS['wp_rewrite']->use_trailing_slashes) {
-                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/canonical-urls-ts-enable.txt'))).'</code></pre>'."\n";
+                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/canonical-urls-ts-enable.txt'))).'</code></pre>'."\n";
                 } else {
-                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/canonical-urls-no-ts-enable.txt'))).'</code></pre>'."\n";
+                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/canonical-urls-no-ts-enable.txt'))).'</code></pre>'."\n";
                 }
                 echo '      </div>'."\n";
             }
@@ -1183,7 +1172,7 @@ class MenuPageOptions extends MenuPage
                 echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(GLOBAL_NS.'-apache-optimizations--access-control-allow-origin').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
                 echo '      <div class="'.esc_attr(GLOBAL_NS.'-apache-optimizations--access-control-allow-origin').'" style="display:none; margin-top:1em;">'."\n";
                 echo '        <p>'.__('<strong>To send the Access-Control-Allow-Origin header:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(dirname(__DIR__).'/templates/htaccess/access-control-allow-origin-enable.txt'))).'</code></pre>'."\n";
+                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/access-control-allow-origin-enable.txt'))).'</code></pre>'."\n";
                 echo '      </div>'."\n";
             }
             echo '   </div>'."\n";
