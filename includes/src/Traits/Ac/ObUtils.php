@@ -386,12 +386,13 @@ trait ObUtils
                 // Note: Not using `$this->mobile_adaptive_salt` here. Instead, generating a human readable variation.
                 $DebugNotes->add(__('Cache File for Mobile Device', 'rapid-cache'), $this->fillUaTokens(RAPID_CACHE_MOBILE_ADAPTIVE_SALT, false));
             }
-            $DebugNotes->add(__('Cache File Version Salt', 'rapid-cache'), $this->version_salt ? $this->version_salt : __('n/a', 'rapid-cache'));
-
-            $DebugNotes->addLineBreak();
 
             $DebugNotes->add(__('Cache File URL', 'rapid-cache'), $this->is_404 ? __('404 [error document]', 'rapid-cache') : $this->protocol.$this->host_token.$_SERVER['REQUEST_URI']);
             $DebugNotes->add(__('Cache File Path', 'rapid-cache'), str_replace(WP_CONTENT_DIR, '', $this->is_404 ? $this->cache_file_404 : $this->cache_file));
+
+            $DebugNotes->addLineBreak();
+
+            $DebugNotes->add(__('Cache File Version Salt', 'rapid-cache'), $this->version_salt ? $this->version_salt : __('n/a', 'rapid-cache'));
 
             $DebugNotes->addLineBreak();
 

@@ -17,6 +17,8 @@ class Conflicts
     public static function conflictingPlugins()
     {
         return array(
+            'css-js-booster',
+            'force-gzip',
             'wp-super-cache',
             'w3-total-cache',
             'hyper-cache',
@@ -27,6 +29,7 @@ class Conflicts
             'cachify',
             'simple-cache',
             'cache-enabler',
+            'plainview-activity-monitor',
         );
     }
 

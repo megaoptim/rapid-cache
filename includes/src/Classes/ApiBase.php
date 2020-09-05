@@ -2,8 +2,8 @@
 namespace MegaOptim\RapidCache\Classes;
 
 /**
- * API Base Class.
- *
+ * Class ApiBase
+ * @package MegaOptim\RapidCache\Classes
  * @since 1.0.0
  */
 class ApiBase
@@ -102,8 +102,6 @@ class ApiBase
 
         return $GLOBALS[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]->deleteFilesFromCacheDir($regex);
     }
-
-    
 
     /**
      * This wipes out the entire cache.

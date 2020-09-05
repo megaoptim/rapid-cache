@@ -4,8 +4,8 @@ namespace MegaOptim\RapidCache\Classes;
 use MegaOptim\RapidCache\Traits;
 
 /**
- * Advanced cache.
- *
+ * Class AdvancedCache
+ * @package MegaOptim\RapidCache\Classes
  * @since 1.0.0
  */
 class AdvancedCache extends AbsBaseAp

@@ -329,7 +329,7 @@ trait WcpUtils
         if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
-                sprintf(__('<strong>%1$s:</strong> detected significant changes that would normally trigger cache wiping routines. However, cache wiping routines have been disabled by a site administrator. [<a href="http://rapidcache.com/r/kb-clear-and-wipe-cache-routines/" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
+                sprintf(__('<strong>%1$s:</strong> detected significant changes that would normally trigger cache wiping routines. However, cache wiping routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache-kb/blob/master/questions/22-what-are-the-clear-cache-and-wipe-cache-routines.md" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
             );
         }
         return $is_disabled;
@@ -352,7 +352,7 @@ trait WcpUtils
         if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
-                sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache clearing routines. However, cache clearing routines have been disabled by a site administrator. [<a href="http://rapidcache.com/r/kb-clear-and-wipe-cache-routines/" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
+                sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache clearing routines. However, cache clearing routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache-kb/blob/master/questions/22-what-are-the-clear-cache-and-wipe-cache-routines.md" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
             );
         }
         return $is_disabled;
@@ -375,7 +375,7 @@ trait WcpUtils
         if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
-                sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache purging routines. However, cache purging routines have been disabled by a site administrator. [<a href="http://rapidcache.com/r/kb-clear-and-wipe-cache-routines/" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
+                sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache purging routines. However, cache purging routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache-kb/blob/master/questions/22-what-are-the-clear-cache-and-wipe-cache-routines.md" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
             );
         }
         return $is_disabled;
