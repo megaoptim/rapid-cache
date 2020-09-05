@@ -170,7 +170,7 @@ class RapidCache_Requirement_Checker
             $php_missing_functions = array(); // Initialize.
 
             foreach ($php_required_functions as $_required_function) {
-                if ( ! ___wp_php_rv_can_call_func($_required_function)) {
+                if ( ! $this->can_call_function($_required_function)) {
                     $php_missing_functions[] = $_required_function;
                 }
             }
@@ -266,7 +266,7 @@ class RapidCache_Requirement_Checker
                 $markup .= '</p>';
                 $markup .= '<p style="margin:0 0 .5em 0;">';
                 $markup .= $icon.sprintf(__('<strong>%1$s is not active.</strong> It requires PHP v%2$s (or higher).', 'wp-php-rv'), esc_html($brand_name), esc_html($php_min_version)).'<br />';
-                $markup .= sprintf(__('You\'re currently running the older PHP v%1$s, which is not supported by %2$s.', 'wp-php-rv'), esc_html($php_version), esc_html($brand_name)).'<br />';
+                $markup .= sprintf(__('You are currently running the older PHP v%1$s, which is not supported by %2$s.', 'wp-php-rv'), esc_html($php_version), esc_html($brand_name)).'<br />';
                 $markup .= $arrow.' '.__('An update is necessary. <strong>Please contact your hosting company for assistance</strong>.', 'wp-php-rv').'<br />';
                 $markup .= sprintf(__('<em style="font-size:80%%; opacity:.7;">To remove this message, upgrade PHP or remove %1$s from WordPress.</em>', 'wp-php-rv'), esc_html($brand_name));
                 $markup .= '</p>';
@@ -324,7 +324,7 @@ class RapidCache_Requirement_Checker
                 $markup .= '</p>';
                 $markup .= '<p style="margin:0 0 .5em 0;">';
                 $markup .= $icon.sprintf(__('<strong>%1$s is not active.</strong> It requires WP v%2$s (or higher).', 'wp-php-rv'), esc_html($brand_name), esc_html($wp_min_version)).'<br />';
-                $markup .= sprintf(__('You\'re currently running the older WP v%1$s, which is not supported by %2$s.', 'wp-php-rv'), esc_html($wp_version), esc_html($brand_name)).'<br />';
+                $markup .= sprintf(__('You are currently running the older WP v%1$s, which is not supported by %2$s.', 'wp-php-rv'), esc_html($wp_version), esc_html($brand_name)).'<br />';
                 $markup .= $arrow.' '.sprintf(__('An upgrade is necessary. <strong>Please <a href="%1$s">click here to upgrade now</a></strong>.', 'wp-php-rv'), esc_url(network_admin_url('/update-core.php'))).'<br />';
                 $markup .= sprintf(__('<em style="font-size:80%%; opacity:.7;">To remove this message, upgrade WordPress or deactivate %1$s.</em>', 'wp-php-rv'), esc_html($brand_name));
                 $markup .= '</p>';
@@ -371,6 +371,65 @@ class RapidCache_Requirement_Checker
                 'rapid-cache') === false;
     }
 
+    /**
+     * Can call a PHP function?
+     *
+     * @param $function
+     *
+     * @return bool True if callable.
+     */
+    public function can_call_function($function)
+    {
+
+        $start = microtime(true);
+
+        static $can        = array();
+        static $constructs = array(
+            'die',
+            'echo',
+            'empty',
+            'exit',
+            'eval',
+            'include',
+            'include_once',
+            'isset',
+            'list',
+            'require',
+            'require_once',
+            'return',
+            'print',
+            'unset',
+            '__halt_compiler',
+        );
+        static $functions_disabled; // Set below.
+
+        if (isset($can[$function = strtolower($function)])) {
+            return $can[$function]; // Already cached this.
+        }
+        if (!isset($functions_disabled)) {
+            $functions_disabled = array(); // Initialize.
+
+            if (($_ini_disable_functions = (string) @ini_get('disable_functions'))) {
+                $_ini_disable_functions = strtolower($_ini_disable_functions);
+                $functions_disabled     = array_merge($functions_disabled, preg_split('/[\s;,]+/u', $_ini_disable_functions, -1, PREG_SPLIT_NO_EMPTY));
+            }
+            if (($_ini_suhosin_blacklist_functions = (string) @ini_get('suhosin.executor.func.blacklist'))) {
+                $_ini_suhosin_blacklist_functions = strtolower($_ini_suhosin_blacklist_functions);
+                $functions_disabled               = array_merge($functions_disabled, preg_split('/[\s;,]+/u', $_ini_suhosin_blacklist_functions, -1, PREG_SPLIT_NO_EMPTY));
+            }
+            if (filter_var(@ini_get('suhosin.executor.disable_eval'), FILTER_VALIDATE_BOOLEAN)) {
+                $functions_disabled[] = 'eval'; // The `eval()` construct is disabled also.
+            }
+        } // We now have a full list of all disabled functions.
+
+        if ($functions_disabled && in_array($function, $functions_disabled, true)) {
+            return $can[$function] = false; // Not possible; e.g., `eval()`.
+        } elseif ((!function_exists($function) || !is_callable($function)) && !in_array($function, $constructs, true)) {
+            return $can[$function] = false; // Not possible.
+        }
+        return $can[$function] = true;
+    }
+
 }
 
 /**
@@ -381,6 +440,5 @@ class RapidCache_Requirement_Checker
 function rapid_cache_get_requirements_checker() {
     return  new RapidCache_Requirement_Checker(__('Rapid Cache'), array(
         'min' => '5.4.0',
-        'extensions' => 'mbstring',
     ));
 }
