@@ -15,7 +15,7 @@ Rapid Cache is advanced WordPress caching plugin inspired by simplicity that wil
 
 == Description ==
 
-Rapid Cache is fork of the popular Comet Cache plugin with additional features and updated to work with the most recent versions of WordPress and PHP.
+Rapid Cache is fork of the popular Rapic Cache plugin with additional features and updated to work with the most recent versions of WordPress and PHP.
 
 If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed :-) Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
 
@@ -90,10 +90,6 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Frequently Asked Questions ==
-
-= I already have ZenCache installed; how do I install Rapid Cache? =
-
-Rapid Cache is the successor to ZenCache and will automatically detect any existing ZenCache options and migrate those options over to Rapid Cache. For further details, please see the [migration FAQ](https://rapidcache.com/r/zencache-migration-faq/).
 
 = How do I know that Rapid Cache is working the way it should be? =
 
@@ -171,7 +167,7 @@ That being said, you could set this to just `60 seconds` and you would still see
 
 Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPress. However, if you're having a more serious issue, please follow the instructions here.
 
-1. Log into your site via FTP; perhaps using [FileZilla](http://www.youtube.com/watch?v=joXUMhr8PhU).
+1. Log into your site via FTP; perhaps using [FileZilla](https://www.youtube.com/watch?v=adxmlHDim6c).
 2. Delete this file: `/wp-content/advanced-cache.php`
 3. Delete this directory: `/wp-content/plugins/rapid-cache/`
 4. Remove this line from your `/wp-config.php` file: `define('WP_CACHE', TRUE);`
@@ -221,7 +217,7 @@ If your installation of Apache does not have `mod_deflate` installed. You can al
 
 Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPress. However, if you're having a more serious issue, please follow the instructions here.
 
-1. Log into your site via FTP; perhaps using [FileZilla](http://www.youtube.com/watch?v=joXUMhr8PhU).
+1. Log into your site via FTP; perhaps using [FileZilla](https://www.youtube.com/watch?v=adxmlHDim6c).
 2. Delete this file: `/wp-content/advanced-cache.php`
 3. Delete this directory: `/wp-content/plugins/rapid-cache/`
 4. Remove this line from your `/wp-config.php` file: `define('WP_CACHE', TRUE);`
@@ -235,8 +231,8 @@ In addition to the [WordPress Requirements](http://wordpress.org/about/requireme
 
 == License ==
 
-Copyright  © 2020 [MegaOptim] (https://megaoptim.com/)
-Copyright: © 2016-2019 [WebSharks, Inc.](http://www.websharks-inc.com/bizdev/) (coded in the USA)
+Copyright © 2020 [MegaOptim] (https://megaoptim.com/)
+Copyright © 2016-2019 WebSharks, Inc (coded in the USA)
 
 Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html).
 
@@ -266,5 +262,6 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Removed the PRO version front-end references
 - New: Moved the assets to own assets/ directory
 - New: Updated conflicting plugins
+- New: Removed old database migrations
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings

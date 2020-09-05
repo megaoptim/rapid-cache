@@ -2,7 +2,7 @@
 /*
 Plugin Name: Rapid Cache
 Plugin URI: https://megaoptim.com/tools/rapid-cache
-Description: Rapid Cache is fork of Comet Cache and advanced WordPress caching plugin inspired by simplicity
+Description: Rapid Cache is fork of Rapic Cache and advanced WordPress caching plugin inspired by simplicity
 Author: MegaOptim
 Author URI: https://megaoptim.com
 Version: 1.0.0
