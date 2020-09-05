@@ -1,0 +1,27 @@
+<?php
+/**
+ * Example AC (Advanced Cache) Plugin File.
+ *
+ * If implemented; this file should go in this special directory:
+ *    `/wp-content/ac-plugins/my-ac-plugin.php`
+ */
+if (!defined('WPINC')) {
+    exit('Do NOT access this file directly.');
+}
+function my_ac_plugin() // Example plugin.
+{
+    $ac = $GLOBALS['rapid_cache_advanced_cache']; // Rapid Cache instance.
+    $ac->addFilter('rapid_cache_version_salt', 'my_ac_version_salt_shaker');
+}
+function my_ac_version_salt_shaker($version_salt)
+{
+    if (mb_stripos($_SERVER['HTTP_USER_AGENT'], 'iphone') !== false) {
+        $version_salt .= 'iphones'; // Give iPhones their own variation of the cache.
+    } elseif (mb_stripos($_SERVER['HTTP_USER_AGENT'], 'android') !== false) {
+        $version_salt .= 'androids'; // Androic variation.
+    } else {
+        $version_salt .= 'other'; // A default group.
+    }
+    return $version_salt;
+}
+my_ac_plugin(); // Run this plugin.

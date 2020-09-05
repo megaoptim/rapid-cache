@@ -1,0 +1,21 @@
+# Force a trailing slash on all virtual requests (except WP admin area).
+<IfModule rewrite_module>
+  RewriteEngine On
+  RewriteBase %%REWRITE_BASE%%
+
+  # If not a real file or directory.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Not a part of the WP admin area.
+  RewriteCond %{REQUEST_URI} !(?:^|/)wp\-admin(?:/|$)
+
+  # Not a REST request, which never redirects.
+  RewriteCond %{REQUEST_URI} !(?:^|/)%%REST_REQUEST_PREFIX_AS_REGEX_FRAG%%(?:/|$)
+
+  # If there is no trailing slash.
+  RewriteCond %{REQUEST_URI} !/$
+
+  # Force a trailing slash on all virtual requests.
+  RewriteRule ^(.*)$ $1/ [QSA,L,R=301]
+</IfModule>
