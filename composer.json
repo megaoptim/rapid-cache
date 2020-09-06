@@ -18,6 +18,9 @@
             "includes/utils/helpers.php"
         ]
     },
+    "config": {
+        "optimize-autoloader": true
+    },
     "require": {
         "symfony/polyfill-mbstring": "^1.18"
     }
