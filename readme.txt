@@ -21,7 +21,7 @@ If you care about the speed of your site, Rapid Cache is one of those plugins th
 
 The Rapid Cache plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file. By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
 
-If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache-kb">Knowledge Base</a>.
+If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache/wiki">Wiki</a>.
 
 = Features =
 
@@ -131,7 +131,11 @@ Sure, we added the following functions:
 
 = Where can i find more details or guides about the plugin? =
 
-We have a <a href="https://github.com/megaoptim/rapid-cache-kb">Knowledge Base</a> page with gudes and some more FAQs
+We have a <a href="https://github.com/megaoptim/rapid-cache/wiki">Wiki page</a> page with gudes and some more FAQs
+
+= Does this plugin provides developer hooks ? =
+
+Sure. Read our <a href="https://github.com/megaoptim/rapid-cache/wiki/Developer-Hooks">Developer Hooks</a> guide
 
 = What happens if a user logs in? Are cache files used then? =
 
@@ -233,7 +237,8 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Moved the assets to own assets/ directory
 - New: Updated conflicting plugins
 - New: Removed old database migrations
-- New: Updated documentation https://github.com/megaoptim/rapid-cache-kb
+- New: Updated documentation https://github.com/megaoptim/rapid-cache/wiki
 - New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache(), rapidcache_get_options()
+- New: Added `rapid_cache_ob_callback_filter` that allow to filter the page output before saving into cache
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings
