@@ -117,6 +117,17 @@ The cache files are stored in a special directory: `/wp-content/cache/rapid-cach
 
 Whenever a request comes in from someone on the web, Rapid Cache checks to see if it can serve a cached file; e.g. it looks at the `HTTPS/HTTP_HOST/REQUEST_URI` environent variables, then it checks the `/rapid-cache/cache` directory. If a cache file has been built already, and it matches an existing `HTTPS.HTTP_HOST.REQUEST_URI` combination; and it is not too old (see: **Dashboard -› Rapid Cache -› Cache Directory/Expiration Time**), then it will serve that file instead of asking WordPress® to regenerate it. This adds tremendous speed to your site and reduces server load.
 
+= Is there a developer API that can be used to purge cache and other operations programmatically? =
+
+Sure, we added the following functions:
+
+    rapidcache_get_version(), // Returns the plugin version
+    rapidcache_clear_cache(), // Clear current site cache
+    rapidcache_clear_post_cache($post_id),  // Clear single post cache
+    rapidcache_clear_url_cache($url), // Clear url cache
+    rapidcache_wipe_cache(),  // Clear entire cache (all sites if multisite)
+    rapidcache_purge_expired_cache() // Clear only the expired cache files, leaving the valid intact.
+
 = Where can i find more details or guides about the plugin? =
 
 We have a <a href="https://github.com/megaoptim/rapid-cache-kb">"Knowledge Base"</a> page with gudes and some more FAQs
@@ -222,5 +233,6 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Updated conflicting plugins
 - New: Removed old database migrations
 - New: Updated documentation https://github.com/megaoptim/rapid-cache-kb
+- New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache()
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings
