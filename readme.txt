@@ -21,7 +21,7 @@ If you care about the speed of your site, Rapid Cache is one of those plugins th
 
 The Rapid Cache plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file. By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
 
-If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache-kb">"Knowledge Base"</a>.
+If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache-kb">Knowledge Base</a>.
 
 = Features =
 
@@ -121,16 +121,17 @@ Whenever a request comes in from someone on the web, Rapid Cache checks to see i
 
 Sure, we added the following functions:
 
-    rapidcache_get_version(), // Returns the plugin version
     rapidcache_clear_cache(), // Clear current site cache
     rapidcache_clear_post_cache($post_id),  // Clear single post cache
     rapidcache_clear_url_cache($url), // Clear url cache
     rapidcache_wipe_cache(),  // Clear entire cache (all sites if multisite)
     rapidcache_purge_expired_cache() // Clear only the expired cache files, leaving the valid intact.
+    rapidcache_get_version(), // Returns the plugin version
+    rapidcache_get_options(); // Returns the saved plugin options
 
 = Where can i find more details or guides about the plugin? =
 
-We have a <a href="https://github.com/megaoptim/rapid-cache-kb">"Knowledge Base"</a> page with gudes and some more FAQs
+We have a <a href="https://github.com/megaoptim/rapid-cache-kb">Knowledge Base</a> page with gudes and some more FAQs
 
 = What happens if a user logs in? Are cache files used then? =
 
@@ -233,6 +234,6 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Updated conflicting plugins
 - New: Removed old database migrations
 - New: Updated documentation https://github.com/megaoptim/rapid-cache-kb
-- New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache()
+- New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache(), rapidcache_get_options()
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings

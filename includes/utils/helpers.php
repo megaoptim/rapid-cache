@@ -109,3 +109,14 @@ function rapidcache_wipe_cache() {
 function rapidcache_purge_expired_cache() {
     return Plugin\Classes\ApiBase::purge();
 }
+
+/**
+ * Returns the current array of configured options.
+ *
+ * @since 1.0.0
+ *
+ * @return array Current array of options.
+ */
+function rapidcache_get_options() {
+    return Plugin\Classes\ApiBase::options();
+}
