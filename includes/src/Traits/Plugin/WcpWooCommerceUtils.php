@@ -58,9 +58,13 @@ trait WcpWooCommerceUtils
     }
 
     /**
-     * Retrieve the product ID safely
+     * Retrieve the product ID safely.
+     *
+     * Compatible with older versions
      *
      * @param $product
+     *
+     * @since 1.0.0
      *
      * @return int|string
      */

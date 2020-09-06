@@ -242,3 +242,5 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Added `rapid_cache_ob_callback_filter` that allow to filter the page output before saving into cache
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings
+- Fix: 'Notice: id was called incorrectly. Product properties should not be accessed directly.' warning with WooCommerce
+- New: Add Referrer-Policy to cacheable headers list

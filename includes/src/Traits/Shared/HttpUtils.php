@@ -90,6 +90,7 @@ trait HttpUtils
             'Proxy-Authenticate',
             'Refresh',
             'Retry-After',
+            'Referrer-Policy',
             'Server',
             'Status',
             'Strict-Transport-Security',
@@ -123,7 +124,7 @@ trait HttpUtils
         if (($status = (string) $this->httpStatus())) {
             array_unshift($headers, $this->httpProtocol().' '.$status);
         }
-        return $headers;
+        return $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_cacheable_headers', $headers);
     }
 
     /**
