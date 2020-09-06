@@ -13,18 +13,21 @@ trait WcpWooCommerceUtils
      * @attaches-to `woocommerce_product_set_stock` hook.
      *
      * @param \WC_Product $product A WooCommerce WC_Product object
+     *
+     * @return void
      */
     public function autoClearPostCacheOnWooCommerceSetStock($product)
     {
         $counter = 0; // Initialize.
 
         if (!is_null($done = &$this->cacheKey('autoClearPostCacheOnWooCommerceSetStock'))) {
-            return $counter; // Already did this.
+            return; // Already did this.
         }
         $done = true; // Flag as having been done.
 
         if (class_exists('\\WooCommerce')) {
-            $counter += $this->autoClearPostCache($product->id);
+            $product_id = $this->getProductId($product);
+            $counter += $this->autoClearPostCache($product_id);
         }
     }
 
@@ -36,18 +39,42 @@ trait WcpWooCommerceUtils
      * @attaches-to `woocommerce_product_set_stock_status` hook.
      *
      * @param string|int $product_id A WooCommerce product ID.
+     *
+     * @return void
      */
     public function autoClearPostCacheOnWooCommerceSetStockStatus($product_id)
     {
         $counter = 0; // Initialize.
 
         if (!is_null($done = &$this->cacheKey('autoClearPostCacheOnWooCommerceSetStockStatus'))) {
-            return $counter; // Already did this.
+            return; // Already did this.
         }
         $done = true; // Flag as having been done.
 
         if (class_exists('\\WooCommerce')) {
+            $product_id = $this->getProductId($product_id);
             $counter += $this->autoClearPostCache($product_id);
         }
+    }
+
+    /**
+     * Retrieve the product ID safely
+     *
+     * @param $product
+     *
+     * @return int|string
+     */
+    private function getProductId($product) {
+        $id = $product;
+        if(is_numeric($product)) {
+            $id = $product;
+        } else if(is_object($product)) {
+            if(method_exists($product, 'get_id')) {
+                $id = $product->get_id();
+            } else {
+                $id = isset($product->id) ? $product->id : $product;
+            }
+        }
+        return $id;
     }
 }
