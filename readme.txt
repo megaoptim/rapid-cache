@@ -15,11 +15,13 @@ Rapid Cache is advanced WordPress caching plugin inspired by simplicity that wil
 
 == Description ==
 
-Rapid Cache is fork of the popular Rapic Cache plugin with additional features and updated to work with the most recent versions of WordPress and PHP.
+Rapid Cache is fork of the popular Commet Cache plugin with additional features and updated to work with the most recent versions of WordPress and PHP.
 
 If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed :-) Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
 
 The Rapid Cache plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file. By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
+
+If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache-kb">"Knowledge Base"</a>.
 
 = Features =
 
@@ -115,9 +117,13 @@ The cache files are stored in a special directory: `/wp-content/cache/rapid-cach
 
 Whenever a request comes in from someone on the web, Rapid Cache checks to see if it can serve a cached file; e.g. it looks at the `HTTPS/HTTP_HOST/REQUEST_URI` environent variables, then it checks the `/rapid-cache/cache` directory. If a cache file has been built already, and it matches an existing `HTTPS.HTTP_HOST.REQUEST_URI` combination; and it is not too old (see: **Dashboard -› Rapid Cache -› Cache Directory/Expiration Time**), then it will serve that file instead of asking WordPress® to regenerate it. This adds tremendous speed to your site and reduces server load.
 
+= Where can i find more details or guides about the plugin? =
+
+We have a <a href="https://github.com/megaoptim/rapid-cache-kb">"Knowledge Base"</a> page with gudes and some more FAQs
+
 = What happens if a user logs in? Are cache files used then? =
 
-By default, Rapid Cache does NOT serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes. That being said, the Pro version of Rapid Cache DOES make it possible to cache pages even when users ARE logged-in; adding even more speed! This is particularly helpful on membership sites; e.g. sites that run plugins like s2Member™ for instance.
+By default, Rapid Cache does NOT serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
 
 = Will comments and other dynamic parts of my blog update immediately? =
 
@@ -174,54 +180,6 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
-== Further Details ==
-
-= So Why Does WordPress® Need To Be Cached? =
-
-To understand how Rapid Cache works, first you have to understand what a cached file is, and why it is absolutely necessary for your site and every visitor that comes to it. WordPress® (by its very definition) is a database-driven publishing platform. That means you have all these great tools on the back-end of your site to work with, but it also means that every time a Post/Page/Category is accessed on your site, dozens of connections to the database have to be made, and literally thousands of PHP routines run in harmony behind-the-scenes to make everything jive. The problem is, for every request that a browser sends to your site, all of these routines and connections have to be made (yes, every single time). Geesh, what a waste of processing power, memory, and other system resources. After all, most of the content on your site remains the same for at least a few minutes at a time. If you've been using WordPress® for very long, you've probably noticed that (on average) your site does not load up as fast as other sites on the web. Now you know why!
-
-= The Definition Of A Cached File (from the Wikipedia) =
-
-In computer science, a cache (pronounced /kash/) is a collection of data duplicating original values stored elsewhere or computed earlier, where the original data is expensive to fetch (owing to longer access time) or to compute, compared to the cost of reading the cache. In other words, a cache is a temporary storage area where frequently accessed data can be stored for rapid access. Once the data is stored in the cache, it can be used in the future by accessing the cached copy rather than re-fetching or recomputing the original data.
-
-= Prepare To Be Amazed / It's Time To Speed Things Up =
-
-Rapid Cache is extremely reliable, because it runs completely in PHP code, and does not hand important decisions off to the `mod_rewrite` engine or browser cache; also making Rapid Cache MUCH easier to setup and configure.
-
-In addition, Rapid Cache actually sends a no-cache header (yes, a no-cache header); which allows it to remain in control at all times. It might seem weird that a caching plugin would send a no-cache header :-). Well, no-cache headers are a key component in this plugin, and they will NOT affect performance negatively. On the contrary, this is how the system can accurately serve cache files to public users vs. users who are logged-in, commenters, etc.
-
-= Running Rapid Cache On A WordPress® Multisite Installation =
-
-WordPress® Multisite Networking is a special consideration in WordPress®. If Rapid Cache is installed under a Multisite Network installation, it will be enabled for ALL blogs the same way. The centralized config options for Rapid Cache, can only be modified by a Super Administrator operating on the main site. Rapid Cache has internal processing routines that prevent configuration changes, including menu displays; for anyone other than a Super Administrator operating on the main site.
-
-= How To Enable GZIP Compression for Even Greater Speeds =
-
-You don't have to use an `.htaccess` file to enjoy the performance enhancements provided by this plugin; caching is handled by WordPress®/PHP alone. That being said, if you want to take advantage of GZIP compression (and we do recommend this), then you WILL need an `.htaccess` file to accomplish that part. This plugin fully supports GZIP compression on its output. However, it does not handle GZIP compression directly. We purposely left GZIP compression out of this plugin, because GZIP compression is something that should really be enabled at the Apache level or inside your `php.ini` file. GZIP compression can be used for things like JavaScript and CSS files as well, so why bother turning it on for only WordPress-generated pages when you can enable GZIP at the server level and cover all the bases!
-
-If you want to enable GZIP and your site is running on the Apache web server, visit **Dashboard -> Rapid Cache -> Apache Optimizations -> Enable GZIP Compression?**; or to enable GZIP compression manually create an `.htaccess` file in your WordPress® installation directory (or edit the one that's already there) and put the following few lines in it. That is all there is to it. GZIP is now enabled!
-
-	<IfModule deflate_module>
-		<IfModule filter_module>
-			AddOutputFilterByType DEFLATE text/plain text/html
-			AddOutputFilterByType DEFLATE text/xml application/xml application/xhtml+xml application/xml-dtd
-			AddOutputFilterByType DEFLATE application/rdf+xml application/rss+xml application/atom+xml image/svg+xml
-			AddOutputFilterByType DEFLATE text/css text/javascript application/javascript application/x-javascript
-			AddOutputFilterByType DEFLATE font/otf font/opentype application/font-otf application/x-font-otf
-			AddOutputFilterByType DEFLATE font/ttf font/truetype application/font-ttf application/x-font-ttf
-		</IfModule>
-	</IfModule>
-
-If your installation of Apache does not have `mod_deflate` installed. You can also enable GZIP compression using PHP configuration alone. In your `php.ini` file, you can simply add the following line anywhere: `zlib.output_compression = on`
-
-= EMERGENCY: If All Else Fails (How-To Remove Rapid Cache) =
-
-Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPress. However, if you're having a more serious issue, please follow the instructions here.
-
-1. Log into your site via FTP; perhaps using [FileZilla](https://www.youtube.com/watch?v=adxmlHDim6c).
-2. Delete this file: `/wp-content/advanced-cache.php`
-3. Delete this directory: `/wp-content/plugins/rapid-cache/`
-4. Remove this line from your `/wp-config.php` file: `define('WP_CACHE', TRUE);`
-
 == Software Requirements ==
 
 In addition to the [WordPress Requirements](http://wordpress.org/about/requirements/), Rapid Cache requires the following minimum versions:
@@ -263,5 +221,6 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - New: Moved the assets to own assets/ directory
 - New: Updated conflicting plugins
 - New: Removed old database migrations
+- New: Updated documentation https://github.com/megaoptim/rapid-cache-kb
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings
