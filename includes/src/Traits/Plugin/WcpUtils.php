@@ -40,11 +40,9 @@ trait WcpUtils
             $regex = $this->assembleCachePathRegex('', '.+');
             $counter += $this->wipeFilesFromCacheDir($regex);
         }
-        
 
-        
+        $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wipe_cache', $counter);
 
-        
         return $counter;
     }
 
@@ -81,11 +79,9 @@ trait WcpUtils
             $regex = $this->buildHostCachePathRegex('', '.+');
             $counter += $this->clearFilesFromHostCacheDir($regex);
         }
-        
 
-        
+        $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_clear_cache', $counter);
 
-        
         return $counter;
     }
 
@@ -122,6 +118,8 @@ trait WcpUtils
             $regex = $this->buildHostCachePathRegex('', '.+');
             $counter += $this->purgeFilesFromHostCacheDir($regex);
         }
+
+        $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_purge_cache', $counter);
         
         return $counter;
     }
@@ -159,7 +157,9 @@ trait WcpUtils
             $regex = $this->assembleCachePathRegex('', '.+');
             $counter += $this->wurgeFilesFromCacheDir($regex);
         }
-        
+
+        $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wurge_cache', $counter);
+
         return $counter;
     }
 

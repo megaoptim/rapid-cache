@@ -243,4 +243,6 @@ Released under the terms of the [GNU General Public License](http://www.gnu.org/
 - Fix: 'Non static method should not be called statically
 - Fix: 'Headers already sent' warnings
 - Fix: 'Notice: id was called incorrectly. Product properties should not be accessed directly.' warning with WooCommerce
+- Fix: Warnings when disk_*_space functions are disabled
 - New: Add Referrer-Policy to cacheable headers list
+- New: Add actions: rapid_cache_wipe_cache, rapid_cache_clear_cache, rapid_cache_purge_cache, rapid_cache_wurge_cache
