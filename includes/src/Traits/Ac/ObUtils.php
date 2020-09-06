@@ -412,6 +412,9 @@ trait ObUtils
             }
             $cache .= "\n".$DebugNotes->asHtmlComments();
         }
+
+        $cache = $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_ob_callback_filter', $cache);
+
         if ($this->is_404) {
             if (file_put_contents($cache_file_tmp, serialize($this->cacheableHeadersList()).'<!--headers-->'.$cache) && rename($cache_file_tmp, $this->cache_file_404)) {
                 if (!(symlink($this->cache_file_404, $cache_file_tmp) && rename($cache_file_tmp, $this->cache_file))) {
