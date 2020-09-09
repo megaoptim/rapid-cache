@@ -208,7 +208,7 @@ In addition to the [WordPress Requirements](http://wordpress.org/about/requireme
 Copyright © 2020 [MegaOptim] (https://megaoptim.com/)
 Copyright © 2016-2019 WebSharks, Inc (coded in the USA)
 
-Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html).
+Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
 
 = Credits / Additional Acknowledgments =
 
