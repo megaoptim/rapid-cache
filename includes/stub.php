@@ -22,6 +22,6 @@ define('MEGAOPTIM_RAPID_CACHE_VERSION', '1.0.0');
 define('MEGAOPTIM_RAPID_CACHE_PATH', dirname(__DIR__).DIRECTORY_SEPARATOR);
 define('MEGAOPTIM_RAPID_CACHE_PLUGIN_FILE', MEGAOPTIM_RAPID_CACHE_PATH.MEGAOPTIM_RAPID_CACHE_SLUG.'.php');
 define('MEGAOPTIM_RAPID_CACHE_NS_PATH', str_replace('\\', '/', __NAMESPACE__));
-define('MEGAOPTIM_RAPID_CACHE_IS_PRO', mb_strtolower(basename(MEGAOPTIM_RAPID_CACHE_NS_PATH)) === 'pro');
+define('MEGAOPTIM_RAPID_CACHE_IS_PRO', false);
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
