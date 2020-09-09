@@ -16,7 +16,7 @@ use MegaOptim\RapidCache as Plugin;
  *
  * @note See `/wp-settings.php` around line #226.
  */
-function wp_cache_postload()
+function rapidcache_postload_cache()
 {
     $GLOBAL_NS      = MEGAOPTIM_RAPID_CACHE_GLOBAL_NS;
     $advanced_cache = $GLOBALS[$GLOBAL_NS.'_advanced_cache'];
