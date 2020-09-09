@@ -179,10 +179,6 @@ trait AdminBarUtils
         }
         $deps = ['jquery', 'admin-bar']; // Plugin dependencies.
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->adminBarShowing('stats')) {
-            $deps[] = 'chartjs'; // Add ChartJS dependency.
-            wp_enqueue_script('chartjs', set_url_scheme('//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'), [], null, true);
-        }
         wp_enqueue_script(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-admin-bar', $this->url('/assets/js/admin-bar.min.js'), $deps, MEGAOPTIM_RAPID_CACHE_VERSION, true);
     }
 }

@@ -43,10 +43,6 @@ trait MenuPageUtils
         }
         $deps = ['jquery']; // Plugin dependencies.
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO) {
-            $deps[] = 'chartjs'; // Add ChartJS dependency.
-            wp_enqueue_script('chartjs', set_url_scheme('//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'), [], null, true);
-        }
         wp_enqueue_script(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, $this->url('/assets/js/menu-pages.min.js'), $deps, MEGAOPTIM_RAPID_CACHE_VERSION, true);
         wp_localize_script(
             MEGAOPTIM_RAPID_CACHE_GLOBAL_NS,
