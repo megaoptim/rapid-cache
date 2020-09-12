@@ -15,7 +15,7 @@ Rapid Cache is advanced WordPress caching plugin inspired by simplicity that wil
 
 == Description ==
 
-Rapid Cache is fork of the popular Commet Cache plugin with additional features and updated to work with the most recent versions of WordPress and PHP.
+Rapid Cache is advanced WordPress caching plugin inspired by Comet Cache that focuses on new features, stability and simplicity.
 
 If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed :-) Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
 
@@ -37,7 +37,7 @@ If you need more details, check our <a href="https://github.com/megaoptim/rapid-
 - The ability to cache or ignore URLs that contain query strings (GET Requests).
 - Apache Optimizations to enable GZIP Compression.
 - WP-CLI Compatibility.
-- An Advanced Cache Plugin system for theme and plugin developers.
+- An advanced actions and filters for developers
 
 == Screenshots ==
 
@@ -116,6 +116,18 @@ In computer science, a cache (pronounced /kash/) is a collection of data duplica
 The cache files are stored in a special directory: `/wp-content/cache/rapid-cache`. This directory needs to remain writable, just like the `/wp-content/uploads` directory on many WordPress® installations. The `/rapid-cache/cache` directory is where cache files reside. These files are stored using an intutive directory structure that named based on the request URL (`HTTPS/HTTP_HOST/REQUEST_URI`). See also: **Dashboard -› Rapid Cache -› Cache Directory/Expiration Time** for further details.
 
 Whenever a request comes in from someone on the web, Rapid Cache checks to see if it can serve a cached file; e.g. it looks at the `HTTPS/HTTP_HOST/REQUEST_URI` environent variables, then it checks the `/rapid-cache/cache` directory. If a cache file has been built already, and it matches an existing `HTTPS.HTTP_HOST.REQUEST_URI` combination; and it is not too old (see: **Dashboard -› Rapid Cache -› Cache Directory/Expiration Time**), then it will serve that file instead of asking WordPress® to regenerate it. This adds tremendous speed to your site and reduces server load.
+
+= Is this plugin compatible with Autoptimize?
+
+Sure, this is actually a great combination.
+
+= Is this plugin comaptible with WP Rocket?
+
+No, WP Rocket has its own caching mechanisms.
+
+= Is this plugin compatible with WooCommerce
+
+Yes, sure!
 
 = Is there a developer API that can be used to purge cache and other operations programmatically? =
 
