@@ -15,29 +15,29 @@ Rapid Cache is advanced WordPress caching plugin inspired by simplicity that wil
 
 == Description ==
 
-Rapid Cache is advanced WordPress caching plugin inspired by Comet Cache that focuses on new features, stability and simplicity.
+**Rapid Cache** is a fork of *Comet Cache* that focuses on new features, stability and simplicity.
 
 If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed :-) Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
 
 The Rapid Cache plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file. By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
 
-If you need more details, check our <a href="https://github.com/megaoptim/rapid-cache/wiki">Wiki</a>.
+If you need more details, check our [Wiki](https://github.com/megaoptim/rapid-cache/wiki/)
 
 = Features =
 
-- SIMPLE and well-documented configuration (just enable and you're all set!).
+- SIMPLE and well-documented (just enable and you're all set).
 - Options to control the automatic cache clearing behavior for Home and Posts Page, Author Page, Category, Tag, and Custom Term Archives, Custom Post Type Archives, RSS/RDF/ATOM Feeds, and XML Sitemaps.
 - URI exclusion patterns (now supporting wildcards too).
 - User-Agent exclusion patterns (now supporting wildcards too).
 - HTTP referrer exclusion patterns (now supporting wildcards too).
 - The ability to set an automatic expiration time for cache files.
-- Client-Side Caching (to allow double-caching in the client-side browser).
-- Caching for 404 requests to reduce the impact of those requests on the server.
-- RSS, RDF, and Atom Feed caching.
-- The ability to cache or ignore URLs that contain query strings (GET Requests).
+- Client-Side Caching (to allow double-caching in the client browser).
+- Caching for 404 requests to reduce the impact of those on the server.
+- Feed Caching (RSS, RDF, and Atom Feed caching).
+- Cache or ignore URLs that contain query strings (GET Requests).
 - Apache Optimizations to enable GZIP Compression.
 - WP-CLI Compatibility.
-- An advanced actions and filters for developers
+- [Actions/filters](https://github.com/megaoptim/rapid-cache/wiki/Developer-Hooks) and [PHP API](https://github.com/megaoptim/rapid-cache/wiki/Clearing-the-Cache-Dynamically) for developers
 
 == Screenshots ==
 
@@ -92,7 +92,7 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Frequently Asked Questions ==
 
-= How do I know that Rapid Cache is working the way it should be? =
+= How do I know that Rapid Cache is functional? =
 
 First of all, make sure that you've enabled Rapid Cache. After you activate the plugin, go to the Rapid Cache options panel and enable it, then scroll to the bottom and click Save All Changes. All of the other options on that page are already pre-configured for typical usage. Skip them all for now. You can go back through all of them later and fine-tune things the way you like them.
 
@@ -128,7 +128,7 @@ No, WP Rocket has its own caching mechanisms.
 
 Yes, sure!
 
-= Is there a developer API that can be used to purge cache and other operations programmatically? =
+= How can i clear the cache programmatically? =
 
 Sure, we added the following functions:
 
@@ -142,11 +142,11 @@ Sure, we added the following functions:
 
 = Where can i find more details or guides about the plugin? =
 
-We have a <a href="https://github.com/megaoptim/rapid-cache/wiki">Wiki page</a> page with gudes and some more FAQs
+We have a [Wiki](https://github.com/megaoptim/rapid-cache/wiki/) page with gudes and some more FAQs
 
 = Does this plugin provides developer hooks ? =
 
-Sure. Read our <a href="https://github.com/megaoptim/rapid-cache/wiki/Developer-Hooks">Developer Hooks</a> guide
+Sure. Read our [developer hooks](https://github.com/megaoptim/rapid-cache/wiki/Developer-Hooks) guide!
 
 = What happens if a user logs in? Are cache files used then? =
 
@@ -177,12 +177,11 @@ If you want to enable GZIP and your site is running on the Apache web server, vi
 
 If your installation of Apache does not have `mod_deflate` installed. You can also enable gzip compression using PHP configuration alone. In your `php.ini` file, you can simply add the following line anywhere: `zlib.output_compression = on`
 
-= I'm a plugin developer. How can I prevent certain files from being cached? =
+= I'm a developer. How can I prevent certain files from being cached? =
 
-	<?php
-	define('RAPID_CACHE_ALLOWED', FALSE); // The easiest way.
-	// or $_SERVER['RAPID_CACHE_ALLOWED'] = FALSE; // Also very easy.
-	// or define('DONOTCACHEPAGE', TRUE); // For compatibility with other cache plugins.
+    // define('RAPID_CACHE_ALLOWED', FALSE); // The easiest way.
+    // or $_SERVER['RAPID_CACHE_ALLOWED'] = FALSE; // Also very easy.
+    // or define('DONOTCACHEPAGE', TRUE); // For compatibility with other cache plugins.
 
 When your script finishes execution, Rapid Cache will know that it should NOT cache that particular page. It does not matter where or when you define this Constant; e.g. `define('RAPID_CACHE_ALLOWED', FALSE);` because Rapid Cache is the last thing to run during execution. So as long as you define this Constant at some point in your routines, everything will be fine.
 
@@ -207,34 +206,19 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
-== Software Requirements ==
+== Requirements ==
 
 In addition to the [WordPress Requirements](http://wordpress.org/about/requirements/), Rapid Cache requires the following minimum versions:
 
-- PHP 5.4+
-- Apache 2.1+ or Nginx 1.6.0
+- At least PHP 5.4 (we recommend PHP 7.2+)
+- Web server (Apache, NGINX, Litespeed, other)
 
 == License ==
 
-Copyright © 2020 [MegaOptim] (https://megaoptim.com/)
-Copyright © 2016-2019 WebSharks, Inc (coded in the USA)
+Copyright © 2020 [MegaOptim](https://megaoptim.com/)
+Copyright © 2016 WebSharks, Inc (coded in the USA)
 
 Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
-
-= Credits / Additional Acknowledgments =
-
-* Software designed for WordPress®.
-	- GPL License <http://codex.wordpress.org/GPL>
-	- WordPress® <http://wordpress.org>
-* Some JavaScript extensions require jQuery.
-	- GPL-Compatible License <http://jquery.org/license>
-	- jQuery <http://jquery.com/>
-* CSS framework and some JavaScript functionality provided by Bootstrap.
-	- GPL-Compatible License <http://getbootstrap.com/getting-started/#license-faqs>
-	- Bootstrap <http://getbootstrap.com/>
-* Icons provided by Font Awesome.
-	- GPL-Compatible License <http://fortawesome.github.io/Font-Awesome/license/>
-	- Font Awesome <http://fortawesome.github.io/Font-Awesome/>
 
 == Changelog ==
 
