@@ -51,12 +51,11 @@ If you need more details, check our <a href="https://github.com/megaoptim/rapid-
 8. Client-Side Cache
 9. GET Requests
 10. 404 Requests
-11. RSS, RDF, and Atom Feeds
+11. Feed Caching
 12. URI Exclusion Patterns
 13. HTTP Referrer Exclusion Patterns
 14. User-Agent Exclusion Patterns
-15. Apache Optimizations
-16. Theme/Plugin Developers
+15. Theme/Plugin Developers
 
 == Installation ==
 
