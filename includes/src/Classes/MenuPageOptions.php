@@ -1064,28 +1064,26 @@ class MenuPageOptions extends MenuPage
 
         /* ----------------------------------------------------------------------------------------- */
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' pro-preview' : '').'">'."\n";
+	    echo '<div class="plugin-menu-page-panel">'."\n";
 
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-arrow-circle-o-up"></i> '.__('Import/Export Options', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
+	    echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
+	    echo '      <i class="si si-arrow-circle-o-up"></i> '.__('Import/Export Options', 'rapid-cache')."\n";
+	    echo '   </a>'."\n";
 
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <i class="si si-arrow-circle-o-up si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <h3>'.sprintf(__('Import Options from Another %1$s Installation?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
-            echo '      <p>'.sprintf(__('Upload your <code>%1$s-options.json</code> file and click "Save All Changes" below. The options provided by your import file will override any that exist currently.', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'</p>'."\n";
-            echo '      <p><input type="file" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[import_options]" /></p>'."\n";
-            echo '      <hr />'."\n";
-            echo '      <h3>'.sprintf(__('Export Existing Options from this %1$s Installation?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
-            echo '      <button type="button" class="plugin-menu-page-export-options" style="float:right; margin: 0 0 0 25px;"'.// Exports existing options from this installation.
-             '         data-action="'.esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['exportOptions' => '1']]), self_admin_url('/admin.php'))).'">'.
-             '         '.__('options.json', 'rapid-cache').' <i class="si si-arrow-circle-o-down"></i></button>'."\n";
-            echo '      <p>'.sprintf(__('Download your existing options and import them all into another %1$s installation; saves time on future installs.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '   </div>'."\n";
+	    echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
+	    echo '      <i class="si si-arrow-circle-o-up si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
+	    echo '      <h3>'.sprintf(__('Import Options from Another %1$s Installation?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
+	    echo '      <p>'.sprintf(__('Upload your <code>options.json</code> file and click "Save All Changes" below. The options provided by your import file will override any that exist currently.', 'rapid-cache')).'</p>'."\n";
+	    echo '      <p><input type="file" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[import_options]" /></p>'."\n";
+	    echo '      <hr />'."\n";
+	    echo '      <h3>'.sprintf(__('Export Existing Options from this %1$s Installation?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
+	    echo '      <button type="button" class="plugin-menu-page-export-options" style="float:right; margin: 0 0 0 25px;"'.// Exports existing options from this installation.
+	         '         data-action="'.esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['exportOptions' => '1']]), self_admin_url('/admin.php'))).'">'.
+	         '         '.__('options.json', 'rapid-cache').' <i class="si si-arrow-circle-o-down"></i></button>'."\n";
+	    echo '      <p>'.sprintf(__('Download your existing options and import them all into another %1$s installation; saves time on future installs.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+	    echo '   </div>'."\n";
 
-            echo '</div>'."\n";
-        }
+	    echo '</div>'."\n";
         /* ----------------------------------------------------------------------------------------- */
 
         echo '<div class="plugin-menu-page-save">'."\n";

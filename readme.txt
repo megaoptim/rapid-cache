@@ -17,9 +17,13 @@ Rapid Cache is advanced WordPress caching plugin inspired by simplicity that wil
 
 **Rapid Cache** is a fork of *Comet Cache* that focuses on new features, stability and simplicity.
 
-If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed :-) Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
+If you care about the speed of your site, Rapid Cache is one of those plugins that you absolutely MUST have installed! 🤓
 
-The Rapid Cache plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file. By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
+Rapid Cache takes a real-time snapshot (building a cache) of every Page, Post, Category, Link, etc. These snapshots are then stored (cached) intuitively, so they can be referenced later, in order to save all of that processing time that has been dragging your site down and costing you money.
+
+The plugin uses configuration options that you select from the options panel. See: **Rapid Cache -› Options** in your Dashboard. Once a file has been cached, Rapid Cache uses advanced techniques that allow it to recognize when it should and should not serve a cached version of the file.
+
+By default, Rapid Cache does not serve cached pages to users who are logged in, or to users who have left comments recently. Rapid Cache also excludes administrative pages, login pages, POST/PUT/DELETE/GET(w/ query string) requests and/or CLI processes.
 
 If you need more details, check our [Wiki](https://github.com/megaoptim/rapid-cache/wiki/)
 
@@ -38,6 +42,20 @@ If you need more details, check our [Wiki](https://github.com/megaoptim/rapid-ca
 - Apache Optimizations to enable GZIP Compression.
 - WP-CLI Compatibility.
 - [Actions/filters](https://github.com/megaoptim/rapid-cache/wiki/Developer-Hooks) and [PHP API](https://github.com/megaoptim/rapid-cache/wiki/Clearing-the-Cache-Dynamically) for developers
+
+= Requirements =
+
+In addition to the [WordPress Requirements](http://wordpress.org/about/requirements/), Rapid Cache requires the following minimum versions:
+
+- At least PHP 5.4 (we recommend PHP 7.2+)
+- Web server (Apache, NGINX, Litespeed, other)
+
+= License =
+
+Copyright © 2020 [MegaOptim](https://megaoptim.com/)
+Copyright © 2016 WebSharks, Inc (coded in the USA)
+
+Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
 
 == Screenshots ==
 
@@ -205,20 +223,6 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 4. Remove this line from your `/wp-config.php` file: `define('WP_CACHE', TRUE);`
 
 Rapid Cache is now completely uninstalled and you can start fresh :-)
-
-== Requirements ==
-
-In addition to the [WordPress Requirements](http://wordpress.org/about/requirements/), Rapid Cache requires the following minimum versions:
-
-- At least PHP 5.4 (we recommend PHP 7.2+)
-- Web server (Apache, NGINX, Litespeed, other)
-
-== License ==
-
-Copyright © 2020 [MegaOptim](https://megaoptim.com/)
-Copyright © 2016 WebSharks, Inc (coded in the USA)
-
-Released under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
 
 == Changelog ==
 

@@ -29,6 +29,7 @@ class Actions extends AbsBase
         'saveOptions',
         'restoreDefaultOptions',
         'dismissNotice',
+	    'exportOptions',
     ];
 
     /**
@@ -181,16 +182,28 @@ class Actions extends AbsBase
             return; // Unauthenticated POST data.
         }
         if ( ! empty($_FILES[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]['tmp_name']['import_options'])) {
-            $import_file_contents = file_get_contents($_FILES[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]['tmp_name']['import_options']);
+        	$import_file_contents = file_get_contents($_FILES[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]['tmp_name']['import_options']);
             unlink($_FILES[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]['tmp_name']['import_options']); // Deleted uploaded file.
 
             $args = wp_slash(json_decode($import_file_contents, true));
 
-            unset($args['crons_setup']); // CANNOT be imported!
-            unset($args['last_pro_update_check']); // CANNOT be imported!
-            unset($args['last_pro_stats_log']); // CANNOT be imported!
+            // Can not be imported.
+            $excluded = array(
+            	'crons_setup',
+	            'crons_setup_on_namespace',
+	            'last_pro_update_check',
+	            'crons_setup_on_wp_with_schedules',
+	            'version',
+            );
+            foreach($excluded as $key) {
+            	if(isset($args[$key])) {
+            		unset($args[$key]);
+	            }
+            }
+            if(isset($args['base_dir'])) {
+            	$args['base_dir'] = str_replace(MEGAOPTIM_RAPID_CACHE_OLD_SLUG, MEGAOPTIM_RAPID_CACHE_SLUG, $args['base_dir']);
+            }
         }
-
 
         $args = $this->plugin->trimDeep(stripslashes_deep((array) $args));
         $this->plugin->updateOptions($args); // Save/update options.
@@ -323,6 +336,45 @@ class Actions extends AbsBase
         wp_redirect($redirect_to);
         exit();
     }
+
+	/**
+	 * Action handler.
+	 *
+	 * @since 150422 Rewrite.
+	 *
+	 * @param mixed Input action argument(s).
+	 * @param mixed $args
+	 */
+	protected function exportOptions($args)
+	{
+		if (!current_user_can($this->plugin->cap)) {
+			return; // Nothing to do.
+		} elseif (is_multisite() && !current_user_can($this->plugin->network_cap)) {
+			return; // Nothing to do.
+		} elseif (empty($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'])) {
+			return; // Unauthenticated POST data.
+		}
+		ini_set('zlib.output_compression', false);
+
+		if ($this->plugin->functionIsPossible('apache_setenv')) {
+			apache_setenv('no-gzip', '1');
+		}
+		while (@ob_end_clean()) {
+			// Cleans output buffers.
+		}
+		$export    = json_encode($this->plugin->options, JSON_PRETTY_PRINT);
+		$file_name = MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-options.json';
+
+		nocache_headers();
+
+		header('Accept-Ranges: none');
+		header('Content-Encoding: none');
+		header('Content-Length: '.strlen($export));
+		header('Content-Type: application/json; charset=UTF-8');
+		header('Content-Disposition: attachment; filename="'.$file_name.'"');
+
+		exit($export); // Deliver the export file.
+	}
 
     /**
      * Action handler.
