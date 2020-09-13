@@ -95,4 +95,92 @@ trait OptionUtils
 
         return $this->getOptions($intersect);
     }
+
+
+	/**
+	 * Clean up third party (exported or migrated from legacy) plugin options
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+    public function cleanUpOptions(array $options) {
+	    $excluded = array(
+		    'crons_setup',
+		    'crons_setup_on_namespace',
+		    'last_pro_update_check',
+		    'crons_setup_on_wp_with_schedules',
+		    'version',
+	    );
+	    foreach($excluded as $key) {
+		    if(isset($options[$key])) {
+			    unset($options[$key]);
+		    }
+	    }
+	    if(isset($options['base_dir'])) {
+		    $options['base_dir'] = str_replace(MEGAOPTIM_RAPID_CACHE_OLD_SLUG, MEGAOPTIM_RAPID_CACHE_SLUG, $args['base_dir']);
+	    }
+	    return $options;
+    }
+
+	/**
+	 * Refresh the plugin state after options update
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param array $query_args
+	 *
+	 * @return void
+	 */
+    public function refreshAfterOptionsUpdate(&$query_args = array()) {
+
+	    // Ensures `autoCacheMaybeClearPrimaryXmlSitemapError()` always validates the XML Sitemap when saving options (when applicable).
+	    delete_transient(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-'.md5($this->plugin->options['auto_cache_sitemap_url']));
+
+	    $this->plugin->autoWipeCache(); // May produce a notice.
+
+	    if ($this->plugin->options['enable']) {
+		    if ( ! ($add_wp_cache_to_wp_config = $this->plugin->addWpCacheToWpConfig())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_config_wp_cache_add_failure'] = '1';
+		    }
+		    if ($this->plugin->isApache() && ! ($add_wp_htaccess = $this->plugin->addWpHtaccess())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_htaccess_add_failure'] = '1';
+		    }
+		    if ($this->plugin->isNginx() && $this->plugin->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_htaccess_nginx_notice', true)
+		        && ( ! isset($_SERVER['WP_NGINX_CONFIG']) || $_SERVER['WP_NGINX_CONFIG'] !== 'done')) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_htaccess_nginx_notice'] = '1';
+		    }
+		    if ( ! ($add_advanced_cache = $this->plugin->addAdvancedCache())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_advanced_cache_add_failure'] = $add_advanced_cache === null ? 'advanced-cache' : '1';
+		    }
+
+		    if ( ! $this->plugin->options['auto_cache_enable']) {
+			    // Dismiss and check again on `admin_init` via `autoCacheMaybeClearPhpReqsError()`.
+			    $this->plugin->dismissMainNotice('auto_cache_engine_minimum_requirements');
+		    }
+		    if ( ! $this->plugin->options['auto_cache_enable'] || ! $this->plugin->options['auto_cache_sitemap_url']) {
+			    // Dismiss and check again on `admin_init` via `autoCacheMaybeClearPrimaryXmlSitemapError()`.
+			    $this->plugin->dismissMainNotice('xml_sitemap_missing');
+		    }
+		    $this->plugin->updateBlogPaths(); // Multisite networks only.
+	    } else {
+		    if ( ! ($remove_wp_cache_from_wp_config = $this->plugin->removeWpCacheFromWpConfig())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_config_wp_cache_remove_failure'] = '1';
+		    }
+		    if ($this->plugin->isApache() && ! ($remove_wp_htaccess = $this->plugin->removeWpHtaccess())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_wp_htaccess_remove_failure'] = '1';
+		    }
+		    if ( ! ($remove_advanced_cache = $this->plugin->removeAdvancedCache())) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_advanced_cache_remove_failure'] = '1';
+		    }
+		    // Dismiss notice when disabling plugin.
+		    $this->plugin->dismissMainNotice('xml_sitemap_missing');
+
+		    // Dismiss notice when disabling plugin.
+		    $this->plugin->dismissMainNotice('auto_cache_engine_minimum_requirements');
+	    }
+    }
+
 }

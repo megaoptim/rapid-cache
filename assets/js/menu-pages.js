@@ -20,15 +20,20 @@
     $('[data-toggle-target]', plugin.$menuPage).on('click', plugin.doDataToggleTarget);
 
     $('select[name$="_enable\\]"], select[data-toggle~="enable-disable"]', plugin.$menuPage).not('.-no-if-enabled').on('change', plugin.enableDisable).trigger('change');
+    $('.plugin-delete-legacy-data').on('change', plugin.toggleMigrationDeleteLegacyData);
 
-    
-
-    
-
-    
-
-    
   };
+
+  plugin.toggleMigrationDeleteLegacyData = function(event) {
+    var $button = $('.plugin-action-migrate');
+    var action_purge = $button.data('action-purge');
+    var action_normal = $button.data('action-normal');
+    if($(this).is(':checked')) {
+      $button.data('action', action_purge);
+    } else {
+      $button.data('action', action_normal);
+    }
+  }
 
   plugin.toggleAllPanelsOpen = function (event) {
     plugin.preventDefault(event);
@@ -143,11 +148,6 @@
     }
   };
 
-  
-
-  
-
-  
 
   plugin.bytesToSizeLabel = function (bytes, decimals) {
     if (typeof bytes !== 'number' || bytes <= 1) {

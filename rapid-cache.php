@@ -5,7 +5,7 @@ Plugin URI: https://megaoptim.com/tools/rapid-cache
 Description: Rapid Cache is fork of Commet Cache and advanced WordPress caching plugin inspired by simplicity
 Author: MegaOptim
 Author URI: https://megaoptim.com
-Version: 1.0.0
+Version: 1.0.1
 Text Domain: rapid-cache
 Domain Path: /languages
 */

@@ -82,6 +82,11 @@ class MenuPageOptions extends MenuPage
             echo '   <i class="si si-thumbs-up"></i> '.__('Default options successfully restored.', 'rapid-cache')."\n";
             echo '</div>'."\n";
         }
+	    if (!empty($_REQUEST[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_migrated'])) {
+		    echo '<div class="plugin-menu-page-notice notice">'."\n";
+		    echo '   <i class="si si-thumbs-up"></i> '.sprintf(__('Legacy %s options preserved successfully!', 'rapid-cache'), '<strong>'.MEGAOPTIM_RAPID_CACHE_OLD_NAME.'</strong>')."\n";
+		    echo '</div>'."\n";
+	    }
         if (!empty($_REQUEST[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cache_wiped'])) {
             echo '<div class="plugin-menu-page-notice notice">'."\n";
             echo '   <img src="'.esc_attr($this->plugin->url('/assets/images/wipe.png')).'" /> '.__('Cache wiped across all sites; re-creation will occur automatically over time.', 'rapid-cache')."\n";
@@ -1067,7 +1072,7 @@ class MenuPageOptions extends MenuPage
 	    echo '<div class="plugin-menu-page-panel">'."\n";
 
 	    echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
-	    echo '      <i class="si si-arrow-circle-o-up"></i> '.__('Import/Export Options', 'rapid-cache')."\n";
+	    echo '      <i class="si si-arrow-circle-o-up"></i> '.__('Import/Export/Migrate', 'rapid-cache')."\n";
 	    echo '   </a>'."\n";
 
 	    echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
@@ -1077,10 +1082,29 @@ class MenuPageOptions extends MenuPage
 	    echo '      <p><input type="file" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[import_options]" /></p>'."\n";
 	    echo '      <hr />'."\n";
 	    echo '      <h3>'.sprintf(__('Export Existing Options from this %1$s Installation?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
-	    echo '      <button type="button" class="plugin-menu-page-export-options" style="float:right; margin: 0 0 0 25px;"'.// Exports existing options from this installation.
-	         '         data-action="'.esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['exportOptions' => '1']]), self_admin_url('/admin.php'))).'">'.
-	         '         '.__('options.json', 'rapid-cache').' <i class="si si-arrow-circle-o-down"></i></button>'."\n";
 	    echo '      <p>'.sprintf(__('Download your existing options and import them all into another %1$s installation; saves time on future installs.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+	    echo '      <p><button type="button" class="plugin-menu-page-export-options"'.// Exports existing options from this installation.
+	         '         data-action="'.esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['exportOptions' => '1']]), self_admin_url('/admin.php'))).'">'.
+	         '         <i class="si si-arrow-circle-o-down"></i> '.__('Export', 'rapid-cache').'</button></p>'."\n";
+
+	    if(get_option(MEGAOPTIM_RAPID_CACHE_OLD_GLOBAL_NS.'_options')) {
+	    	$_confirm = __('Are you sure that you want to copy the old options from Comet Cache? This will overwrite your current options and will not be possible to revert.');
+	    	$action_migrate_purge = esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['migrateFromLegacy' => '1'], 'purgeLegacy' => 1]), self_admin_url('/admin.php')));
+	    	$action_migrate_normal = esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, '_wpnonce' => wp_create_nonce(), MEGAOPTIM_RAPID_CACHE_GLOBAL_NS => ['migrateFromLegacy' => '1']]), self_admin_url('/admin.php')));
+		    $action_migrate_default = $action_migrate_normal;
+		    echo '     <hr />'."\n";
+		    echo '     <h3>'.sprintf(__('Migration from %s', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_OLD_NAME)).'</h3>'."\n";
+		    echo '     <p>'.sprintf(__('We detected that you had a previous install of %s on your site. Click on the button to preserve the options.', 'rapid-cache'), '<strong>'.esc_html(MEGAOPTIM_RAPID_CACHE_OLD_NAME).'</strong>').'</p>'."\n";
+		    echo '     <p>'."\n";
+		    echo '     <p><input type="checkbox" class="plugin-delete-legacy-data">'.sprintf(__('Do you want to delete %s plugin options data?', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_OLD_NAME).'</p>';
+		    echo '     <button type="button" class="plugin-action-migrate plugin-menu-page-export-options"'.// Exports existing options from this installation.
+		         '        data-confirmation="'.$_confirm.'" '.
+		         '        data-action="'.$action_migrate_default.'" '.
+		         '        data-action-purge="'.$action_migrate_purge.'" '.
+		         '        data-action-normal="'.$action_migrate_normal.'">'.
+		         '        <i class="si si-copy"></i> '.__('Migrate', 'rapid-cache').'</button></p>'."\n";
+	    }
+
 	    echo '   </div>'."\n";
 
 	    echo '</div>'."\n";

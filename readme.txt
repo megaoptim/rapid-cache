@@ -1,6 +1,6 @@
 === Rapid Cache ===
 
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires at least: 4.2
 Tested up to: 5.5
 Text Domain: rapid-cache
@@ -109,6 +109,13 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Frequently Asked Questions ==
+
+= How can i migrate from Comet Cache =
+
+Rapid Cache comes with migration tool to allow you to migrate your settings from Comet Cache, but you can also do that manually. To utilize the migration tool, follow the steps:
+
+1. Go to Comet Cache settings and make sure "Plugin Deletion Safeguards" is set to "Safeguard my options and Cache" and then deactivate it!
+2. Activate Rapid Cache and navigate to Rapid Cache Settings > Import/Export/Migrate and click on the "Migrate" button. That's all!
 
 = How do I know that Rapid Cache is functional? =
 
@@ -226,8 +233,15 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
 
+= 1.0.1 =
+
+Release date: 13th September 2020
+- New: Added import/export options
+- New: Added option to preserve settings of the previous Comet install in Rapid Cache > "Import/Export"
+
 = 1.0.0  =
 
+Release date: 11th September 2020
 - New: Added composer PSR4 autoloading
 - New: Added mbstring polyfill for better compatibility
 - New: Removed old notification about deprecated APC support
