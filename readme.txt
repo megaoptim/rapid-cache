@@ -1,6 +1,6 @@
 === Rapid Cache ===
 
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires at least: 4.2
 Tested up to: 5.5
 Text Domain: rapid-cache
@@ -232,6 +232,9 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
+
+= 1.0.2 =
+- Fix: Enable/Disable the 404 requests cache option
 
 = 1.0.1 =
 
