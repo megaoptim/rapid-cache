@@ -212,9 +212,6 @@ trait ObUtils
                 return $this->maybeSetDebugInfo($this::NC_DEBUG_EXCLUDED_REFS);
             } // Based on the HTTP referrer in this case.
         }
-        if($this->is_404 && !RAPID_CACHE_CACHE_404_REQUESTS) { // Do not cache 404 requests.
-	        return $this->maybeSetDebugInfo($this::NC_DEBUG_404_REQUEST);
-        }
         $this->host_token           = $this->hostToken();
         $this->host_base_dir_tokens = $this->hostBaseDirTokens();
         $this->protocol             = $this->isSsl() ? 'https://' : 'http://';
@@ -370,6 +367,7 @@ trait ObUtils
             throw new \Exception(sprintf(__('Cache directory not writable. %1$s needs this directory please: `%2$s`. Set permissions to `755` or higher; `777` might be needed in some cases.', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_NAME, $cache_file_dir));
         }
         # This is where a new 404 request might be detected for the first time.
+
         if ($this->is_404 && is_file($this->cache_file_404)) {
             if (!(symlink($this->cache_file_404, $cache_file_tmp) && rename($cache_file_tmp, $this->cache_file))) {
                 throw new \Exception(sprintf(__('Unable to create symlink: `%1$s` » `%2$s`. Possible permissions issue (or race condition), please check your cache directory: `%3$s`.', 'rapid-cache'), $this->cache_file, $this->cache_file_404, RAPID_CACHE_DIR));
