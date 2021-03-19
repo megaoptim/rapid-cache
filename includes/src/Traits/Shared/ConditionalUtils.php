@@ -120,7 +120,7 @@ trait ConditionalUtils
         $short_name_lc = mb_strtolower(MEGAOPTIM_RAPID_CACHE_SHORT_NAME); // Needed below.
 
         if (isset($_GET[$short_name_lc.'AC']) && filter_var($_GET[$short_name_lc.'AC'], FILTER_VALIDATE_BOOLEAN)) {
-            return $contains = false; // `?ccAC` allows caching.
+            return $contains = false; // `?rcAC` allows caching.
         }
         return $contains = $this->filterQueryVars($_GET) ? true : false;
     }
