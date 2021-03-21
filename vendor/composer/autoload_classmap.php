@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'MegaOptim\\RapidCache\\Classes\\AbsBase' => $baseDir . '/includes/src/Classes/AbsBase.php',
     'MegaOptim\\RapidCache\\Classes\\AbsBaseAp' => $baseDir . '/includes/src/Classes/AbsBaseAp.php',
     'MegaOptim\\RapidCache\\Classes\\Actions' => $baseDir . '/includes/src/Classes/Actions.php',

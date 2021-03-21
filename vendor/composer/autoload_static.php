@@ -35,6 +35,7 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'MegaOptim\\RapidCache\\Classes\\AbsBase' => __DIR__ . '/../..' . '/includes/src/Classes/AbsBase.php',
         'MegaOptim\\RapidCache\\Classes\\AbsBaseAp' => __DIR__ . '/../..' . '/includes/src/Classes/AbsBaseAp.php',
         'MegaOptim\\RapidCache\\Classes\\Actions' => __DIR__ . '/../..' . '/includes/src/Classes/Actions.php',
