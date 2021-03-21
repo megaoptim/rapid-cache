@@ -1,6 +1,6 @@
 === Rapid Cache ===
 
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 Requires at least: 4.2
 Tested up to: 5.7
 Text Domain: rapid-cache
@@ -237,7 +237,7 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
 
-= 1.0.2 =
+= 1.1.0 =
 Release date: March 21st, 2020
 - New: Added more options for clearing cache in the Admin Bar
 - New: Fix wrong query parameter in 'GET Requests' settings. @props aj-adl
