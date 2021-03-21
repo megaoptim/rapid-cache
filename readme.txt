@@ -1,8 +1,8 @@
 === Rapid Cache ===
 
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires at least: 4.2
-Tested up to: 5.5
+Tested up to: 5.7
 Text Domain: rapid-cache
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -149,6 +149,10 @@ Sure, this is actually a great combination.
 
 No, WP Rocket has its own caching mechanisms.
 
+= Does this plugin optimizes images?
+
+No, for image optimization please check <a href="https://wordpress.org/plugins/megaoptim-image-optimizer/">MegaOptim Image Optimizer</a>, it works great in combination with Rapid Cache.
+
 = Is this plugin compatible with WooCommerce
 
 Yes, sure!
@@ -232,6 +236,11 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
+
+= 1.0.2 =
+Release date: March 21st, 2020
+- New: Fix wrong query parameter in 'GET Requests' settings. @props aj-adl
+- Fix: Improved instructions in Import/Export/Migration tab
 
 = 1.0.1 =
 
