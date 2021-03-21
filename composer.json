@@ -22,6 +22,6 @@
         "optimize-autoloader": true
     },
     "require": {
-        "symfony/polyfill-mbstring": "^1.18"
+        "symfony/polyfill-mbstring": "1.18.*"
     }
 }

@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b9460ce73e462896c87485987b6566520ee68a7d',
+    'reference' => 'bd8a361aa253c6521ea2516f31847883b4515129',
     'name' => 'megaoptim/rapid-cache',
   ),
   'versions' => 
@@ -42,16 +42,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b9460ce73e462896c87485987b6566520ee68a7d',
+      'reference' => 'bd8a361aa253c6521ea2516f31847883b4515129',
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.22.1',
-      'version' => '1.22.1.0',
+      'pretty_version' => 'v1.18.1',
+      'version' => '1.18.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
+      'reference' => 'a6977d63bf9a0ad4c65cd352709e230876f9904a',
     ),
   ),
 );
