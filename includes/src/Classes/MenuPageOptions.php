@@ -746,7 +746,7 @@ class MenuPageOptions extends MenuPage
 
         echo '</div>'."\n";
 
-        /* ----------------------------------------------------------------------------------------- */
+	    /* ----------------------------------------------------------------------------------------- */
 
         echo '<div class="plugin-menu-page-panel">'."\n";
 
@@ -1096,7 +1096,7 @@ class MenuPageOptions extends MenuPage
 		    echo '     <h3>'.sprintf(__('Migration from %s', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_OLD_NAME)).'</h3>'."\n";
 		    echo '     <p>'.sprintf(__('We detected that you had a previous install of %s on your site. Click on the button to preserve the options.', 'rapid-cache'), '<strong>'.esc_html(MEGAOPTIM_RAPID_CACHE_OLD_NAME).'</strong>').'</p>'."\n";
 		    echo '     <p>'."\n";
-		    echo '     <p><input type="checkbox" class="plugin-delete-legacy-data">'.sprintf(__('Do you want to delete %s plugin options data?', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_OLD_NAME).'</p>';
+		    echo '     <p><input type="checkbox" class="plugin-delete-legacy-data">'.sprintf(__('Do you want to delete %s plugin options data after migration?', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_OLD_NAME).'</p>';
 		    echo '     <button type="button" class="plugin-action-migrate plugin-menu-page-export-options"'.// Exports existing options from this installation.
 		         '        data-confirmation="'.$_confirm.'" '.
 		         '        data-action="'.$action_migrate_default.'" '.
