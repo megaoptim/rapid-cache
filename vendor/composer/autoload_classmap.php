@@ -56,6 +56,7 @@ return array(
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpSettingUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpSettingUtils.php',
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpSitemapUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpSitemapUtils.php',
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTermUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpTermUtils.php',
+    'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTransientUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpTransientUtils.php',
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUpdaterUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpUpdaterUtils.php',
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpUtils.php',
     'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpWooCommerceUtils' => $baseDir . '/includes/src/Traits/Plugin/WcpWooCommerceUtils.php',

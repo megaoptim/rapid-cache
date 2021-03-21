@@ -239,6 +239,7 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 = 1.0.2 =
 Release date: March 21st, 2020
+- New: Added more options for clearing cache in the Admin Bar
 - New: Fix wrong query parameter in 'GET Requests' settings. @props aj-adl
 - Fix: Improved instructions in Import/Export/Migration tab
 

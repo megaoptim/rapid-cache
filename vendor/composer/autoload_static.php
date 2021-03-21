@@ -85,6 +85,7 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpSettingUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpSettingUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpSitemapUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpSitemapUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTermUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpTermUtils.php',
+        'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTransientUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpTransientUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUpdaterUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpUpdaterUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpWooCommerceUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpWooCommerceUtils.php',

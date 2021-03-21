@@ -8,19 +8,21 @@
     $document = $(document);
 
   plugin.onReady = function () {
-    
+
     plugin.hideAJAXResponseTimeout = null;
     plugin.vars = $('#' + plugin.namespace + '-admin-bar-vars').data('json');
 
     $('#wp-admin-bar-' + plugin.namespace + '-wipe > a').on('click', plugin.wipeCache);
     $('#wp-admin-bar-' + plugin.namespace + '-clear > a').on('click', plugin.clearCache);
 
-    
+    $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-home-url-only > a').on('click', plugin.clearCacheHomeUrlOnly);
+    $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-current-url-only > a').on('click', plugin.clearCacheCurrentUrlOnly);
+    $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-specific-url-only > a').on('click', plugin.clearCacheSpecificUrlOnly);
+    $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-opcache-only > a').on('click', plugin.clearCacheOpCacheOnly);
+    $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-transients-only > a').on('click', plugin.clearExpiredTransientsOnly);
+
     $document.on('click', '.' + plugin.namespace + '-ajax-response', plugin.hideAJAXResponse);
 
-    
-
-    
   };
 
   plugin.wipeCache = function (event) {
@@ -55,9 +57,11 @@
   plugin.clearCache = function (event, options) {
     plugin.preventDefault(event);
 
-    
-
-    
+    var o = $.extend({}, {
+      urlOnly: '',
+      opCacheOnly: false,
+      transientsOnly: false
+    }, options || {});
 
     var postVars = {
       _wpnonce: plugin.vars._wpnonce
@@ -68,13 +72,30 @@
       $clearOptionsLabel = $(),
       $clearOptions = $();
 
-    
+    if (o.urlOnly) {
+      isClearOption = true;
+      postVars[plugin.namespace] = {
+        ajaxClearCacheUrl: o.urlOnly
+      };
+    } else if (o.opCacheOnly) {
+      isClearOption = true;
+      postVars[plugin.namespace] = {
+        ajaxClearOpCache: '1'
+      };
+    }  else if (o.transientsOnly) {
+      isClearOption = true;
+      postVars[plugin.namespace] = {
+        ajaxClearExpiredTransients: '1'
+      };
+    } else {
       postVars[plugin.namespace] = {
         ajaxClearCache: '1'
       };
-      
+    }
 
-    $clear = $('#wp-admin-bar-' + plugin.namespace + '-clear > a'); 
+    $clear = $('#wp-admin-bar-' + plugin.namespace + '-clear > a');
+    $clearOptionsLabel = $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper .-label');
+    $clearOptions = $('#wp-admin-bar-' + plugin.namespace + '-clear-options-wrapper  .-options');
 
     plugin.removeAJAXResponse();
 
@@ -101,17 +122,43 @@
     });
   };
 
-  
+  plugin.clearCacheHomeUrlOnly = function (event) {
+    plugin.clearCache(event, {
+      urlOnly: 'home'
+    });
+  };
 
-  
+  plugin.clearCacheCurrentUrlOnly = function (event) {
+    plugin.clearCache(event, {
+      urlOnly: document.URL
+    });
+  };
 
-  
+  plugin.clearCacheSpecificUrlOnly = function (event) {
+    var url = $.trim(prompt(plugin.vars.i18n.enterSpecificUrl, 'http://'));
 
-  
+    if (url && url !== 'http://') {
+      plugin.clearCache(event, {
+        urlOnly: url
+      });
+    } else {
+      plugin.preventDefault(event);
+    }
+  };
 
-  
+  plugin.clearCacheOpCacheOnly = function (event) {
+    plugin.clearCache(event, {
+      opCacheOnly: true
+    });
+  };
 
-  
+  plugin.clearExpiredTransientsOnly = function (event) {
+    plugin.clearCache(event, {
+      transientsOnly: true
+    });
+  };
+
+
 
   plugin.showAJAXResponse = function () {
     clearTimeout(plugin.hideAJAXResponseTimeout);
@@ -148,7 +195,7 @@
       .off(plugin.animationEndEvents).remove();
   };
 
-  
+
 
   plugin.bytesToSizeLabel = function (bytes, decimals) {
     if (typeof bytes !== 'number' || bytes <= 1) {

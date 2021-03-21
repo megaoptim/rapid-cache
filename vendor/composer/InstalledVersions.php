@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '71f4f7d2b88bb93533fa4baba4e10bd785e8269b',
+    'reference' => 'b9460ce73e462896c87485987b6566520ee68a7d',
     'name' => 'megaoptim/rapid-cache',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '71f4f7d2b88bb93533fa4baba4e10bd785e8269b',
+      'reference' => 'b9460ce73e462896c87485987b6566520ee68a7d',
     ),
     'symfony/polyfill-mbstring' => 
     array (

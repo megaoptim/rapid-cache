@@ -48,6 +48,7 @@ class Plugin extends AbsBaseAp
     use Traits\Plugin\WcpSettingUtils;
     use Traits\Plugin\WcpSitemapUtils;
     use Traits\Plugin\WcpTermUtils;
+	use Traits\Plugin\WcpTransientUtils;
     use Traits\Plugin\WcpUpdaterUtils;
     use Traits\Plugin\WcpUtils;
     use Traits\Plugin\WcpWooCommerceUtils;
