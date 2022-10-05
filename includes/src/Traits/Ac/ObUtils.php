@@ -220,6 +220,7 @@ trait ObUtils
 
         $this->version_salt = $this->applyFilters(get_class($this).'__version_salt', $this->version_salt);
         $this->version_salt = $this->applyFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_version_salt', $this->version_salt);
+        $this->version_salt = $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_version_salt', $this->version_salt);
 
         $this->cache_path = $this->buildCachePath($this->protocol.$this->host_token.$_SERVER['REQUEST_URI'], '', $this->version_salt);
         $this->cache_file = RAPID_CACHE_DIR.'/'.$this->cache_path; // Not considering a user cache. That's done in the postload phase.
