@@ -37,7 +37,7 @@ trait FsUtils
         }
         if (mb_strpos($dir_file, ':' !== false)) {
             if (preg_match('/^(?P<drive_letter>[a-zA-Z])\:[\/\\\\]/u', $dir_file)) {
-                $dir_file = preg_replace_callback('/^(?P<drive_letter>[a-zA-Z])\:[\/\\\\]/u', create_function('$m', 'return mb_strtoupper($m[0]);'), $dir_file);
+                $dir_file = preg_replace_callback('/^(?P<drive_letter>[a-zA-Z])\:[\/\\\\]/u', array($this, 'sanitizePathForDriveLetter'), $dir_file);
             }
         }
         $dir_file = preg_replace('/\/+/u', '/', str_replace([DIRECTORY_SEPARATOR, '\\', '/'], '/', $dir_file));
@@ -48,6 +48,16 @@ trait FsUtils
         }
         return $dir_file; // Normalized now.
     }
+
+	/**
+	 * Sanitizes path for drive letter
+	 * @param $m
+	 *
+	 * @return array|false|string|string[]|null
+	 */
+	public function sanitizePathForDriveLetter($m) {
+		return function_exists('mb_strtoupper') ? mb_strtoupper($m[0]) : strtoupper($m[0]);
+	}
 
     /**
      * Acquires system tmp directory path.
