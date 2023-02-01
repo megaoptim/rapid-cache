@@ -68,7 +68,7 @@ trait WcpPostTypeUtils
         $regex = $this->buildHostCachePathRegex($custom_post_type_archive_link);
         $counter += $this->clearFilesFromHostCacheDir($regex);
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ($counter && is_admin()) {
             $this->enqueueNotice(sprintf(__('Found %1$s in the cache for Custom Post Type: <code>%2$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($counter)), esc_html($custom_post_type_name)), ['combinable' => true]);
         }
         $counter += $this->autoClearXmlFeedsCache('custom-post-type', $post_id);

@@ -26,10 +26,9 @@ trait WcpOpcacheUtils
     public function wipeOpcache($manually = false, $maybe = true, $files = [])
     {
         $counter = 0; // Initialize counter.
-
-        if ($maybe && !$this->options['cache_clear_opcache_enable']) {
-            return $counter; // Not enabled at this time.
-        }
+	    if ($maybe && !$this->options['cache_clear_opcache_enable']) {
+		    return $counter; // Not enabled at this time.
+	    }
         if (!$this->functionIsPossible('opcache_reset')) {
             return $counter; // Not possible.
         }

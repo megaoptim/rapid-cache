@@ -12,7 +12,14 @@ use MegaOptim\RapidCache\Classes;
 
 trait TokenUtils
 {
-    
+	/**
+	 * A simple utility flag.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @type bool `TRUE` if expired or invalid.
+	 */
+	public $user_login_cookie_expired_or_invalid = false;
 
     /**
      * Current host.
@@ -60,6 +67,7 @@ trait TokenUtils
                 $token = trim($token, '-');
             }
         }
+		$token = $this->applyWpFilters( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_host_token', $token );
         return $token;
     }
 
@@ -303,5 +311,43 @@ trait TokenUtils
         return $tokens = preg_replace('/\/+/u', '/', $tokens);
     }
 
+	/**
+	 * Produces a token based on the current user.
+	 *
+	 * @since 1.2.0.
+	 *
+	 * @return string Produces a token based on the current user;
+	 *                else an empty string if that's not possible to do.
+	 *
+	 * @note The return value of this function is cached to reduce overhead on repeat calls.
+	 *
+	 * @note This routine may trigger a flag which indicates that the current user was logged-in at some point,
+	 *    but now the login cookie can no longer be validated by WordPress; i.e. they are NOT actually logged in any longer.
+	 *    See {@link $user_login_cookie_expired_or_invalid}
+	 *
+	 * @warning Do NOT call upon this method until WordPress reaches it's cache postload phase.
+	 */
+	public function userToken()
+	{
+		if (!is_null($token = &$this->staticKey('userToken'))) {
+			return $token; // Already cached this.
+		}
+
+		if ($this->functionIsPossible('wp_validate_auth_cookie')) {
+			if (($user_id = (integer) wp_validate_auth_cookie('', 'logged_in'))) {
+				return $token = (string) $user_id; // A real user in this case.
+			} elseif (!empty($_COOKIE['wordpress_logged_in_'.COOKIEHASH])) {
+				$this->user_login_cookie_expired_or_invalid = true;
+			}
+		}
+		if (!empty($_COOKIE['comment_author_email_'.COOKIEHASH])) {
+			return $token = md5(mb_strtolower(stripslashes((string) $_COOKIE['comment_author_email_'.COOKIEHASH])));
+		} elseif (!empty($_COOKIE['wp-postpass_'.COOKIEHASH])) {
+			return $token = md5(stripslashes((string) $_COOKIE['wp-postpass_'.COOKIEHASH]));
+		} elseif (defined('SID') && SID) {
+			return $token = preg_replace('/[^a-z0-9]/ui', '', (string) SID);
+		}
+		return $token = '';
+	}
     
 }

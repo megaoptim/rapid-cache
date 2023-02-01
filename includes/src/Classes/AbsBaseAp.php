@@ -77,6 +77,6 @@ abstract class AbsBaseAp extends AbsBase
         if (isset($this->{$closure}) && is_callable($this->{$closure})) {
             return call_user_func_array($this->{$closure}, $args);
         }
-        throw new \Exception(sprintf(__('Undefined method/closure: `%1$s`.', 'rapid-cache'), $closure));
+        throw new \Exception(sprintf('Undefined method/closure: `%1$s`.', $closure));
     }
 }

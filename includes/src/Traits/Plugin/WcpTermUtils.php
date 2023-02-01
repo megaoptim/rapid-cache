@@ -137,7 +137,7 @@ trait WcpTermUtils
             $_term_counter = $this->clearFilesFromHostCacheDir($_term_regex);
             $counter += $_term_counter; // Add to overall counter.
 
-            if ($_term_counter && $enqueued_notices < 100 && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+            if (($_term_counter && $enqueued_notices < 100 && is_admin())) {
                 $this->enqueueNotice(sprintf(__('Found %1$s in the cache for %2$s: <code>%3$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($_term_counter)), esc_html($_term['taxonomy_label']), esc_html($_term['term_name'])), ['combinable' => true]);
                 ++$enqueued_notices; // Increment enqueued notices counter.
             }

@@ -117,7 +117,7 @@ trait WcpFeedUtils
             $counter += $this->clearFilesFromHostCacheDir($_regex);
         } // unset($_i, $_variation_regex_frags, $_regex); // Housekeeping.
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ($counter && is_admin()) {
             $this->enqueueNotice(sprintf(__('Found %1$s in the cache, for XML feeds of type: <code>%2$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($counter)), esc_html($type)), ['combinable' => true]);
         }
         return $counter;

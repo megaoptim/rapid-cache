@@ -96,7 +96,7 @@ trait WcpPostUtils
         $regex = $this->buildHostCachePathRegex($permalink);
         $counter += $this->clearFilesFromHostCacheDir($regex);
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ($counter && is_admin()) {
             $this->enqueueNotice(sprintf(__('Found %1$s in the cache for %2$s ID: <code>%3$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($counter)), esc_html($post_type_singular_name), esc_html($post_id)), ['combinable' => true]);
         }
         $counter += $this->autoClearXmlFeedsCache('blog');
@@ -108,8 +108,8 @@ trait WcpPostUtils
         $counter += $this->autoClearPostsPageCache();
         $counter += $this->autoClearPostTermsCache($post_id, $force);
         $counter += $this->autoClearDateArchiveCache($post_id, $force);
-        $counter += $this->autoClearCustomPostTypeArchiveCache($post_id);
-        
+	    $counter += $this->autoClearCustomPostTypeArchiveCache($post_id);
+	    $counter += $this->autoClearUrlsCache();
 
         if ($post_type !== 'page' && ($parent_post_id = wp_get_post_parent_id($post_id))) {
             // Recursion: i.e., nested post types like bbPress forums/topic/replies.

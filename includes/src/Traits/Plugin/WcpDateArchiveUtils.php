@@ -88,7 +88,7 @@ trait WcpDateArchiveUtils
             $_url_counter = $this->clearFilesFromHostCacheDir($_url_regex);
             $counter += $_url_counter; // Add to overall counter.
 
-            if ($_url_counter && $enqueued_notices < 100 && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+            if ($_url_counter && $enqueued_notices < 100 && is_admin()) {
                 $this->enqueueNotice(sprintf(__('Found %1$s in the cache for %2$s; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($_url_counter)), esc_html($_label)), ['combinable' => true]);
                 ++$enqueued_notices; // Increment enqueued notices counter.
             }

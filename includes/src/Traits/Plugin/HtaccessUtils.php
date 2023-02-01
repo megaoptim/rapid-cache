@@ -31,10 +31,8 @@ trait HtaccessUtils
      * @note This avoids: <http://git.io/vEFIH>
      */
     public $options_with_htaccess_rules = [
-        'cdn_enable',
         'htaccess_browser_caching_enable',
         'htaccess_gzip_enable',
-        'htaccess_enforce_canonical_urls',
     ];
 
     /**
@@ -91,6 +89,11 @@ trait HtaccessUtils
                         $template_blocks .= $_template_file_contents."\n\n";
                     } // ↑ Only if GZIP is enabled at this time.
                     break;
+	            case 'browser-caching-enable.txt':
+		            if ($this->options['htaccess_browser_caching_enable']) {
+			            $template_blocks .= $_template_file_contents."\n\n";
+		            } // ↑ Only if browser caching is enabled at this time.
+		            break;
 
                 
             }

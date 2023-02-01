@@ -32,13 +32,15 @@ trait NcDebugUtils
     public function maybeSetDebugInfo($reason_code, $reason = '')
     {
         if (!RAPID_CACHE_DEBUGGING_ENABLE) {
-            return; // Nothing to do.
+            return null; // Nothing to do.
         }
         $reason = (string) $reason;
         if (!($reason_code = (string) $reason_code)) {
-            return; // Not applicable.
+            return null; // Not applicable.
         }
         $this->debug_info = ['reason_code' => $reason_code, 'reason' => $reason];
+
+		return null;
     }
 
     /**

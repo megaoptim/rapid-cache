@@ -8,7 +8,6 @@
  */
 namespace MegaOptim\RapidCache\Traits\Plugin;
 
-use MegaOptim\RapidCache\Classes;
 
 trait WcpUpdaterUtils
 {

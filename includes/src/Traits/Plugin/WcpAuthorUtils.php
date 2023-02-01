@@ -81,7 +81,7 @@ trait WcpAuthorUtils
             $_author_counter = $this->clearFilesFromHostCacheDir($_author_regex);
             $counter += $_author_counter; // Add to overall counter.
 
-            if ($_author_counter && $enqueued_notices < 100 && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+            if ($_author_counter && $enqueued_notices < 100 && is_admin()) {
                 $this->enqueueNotice(sprintf(__('Found %1$s in the cache for Author Page: <code>%2$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($_author_counter)), esc_html($_author['display_name'])), ['combinable' => true]);
                 ++$enqueued_notices; // Increment enqueued notices counter.
             }
@@ -144,7 +144,7 @@ trait WcpAuthorUtils
             $_author_counter = $this->clearFilesFromHostCacheDir($_author_regex);
             $counter += $_author_counter; // Add to overall counter.
 
-            if ($_author_counter && $enqueued_notices < 100 && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+            if ($_author_counter && $enqueued_notices < 100 && is_admin()) {
                 $this->enqueueNotice(sprintf(__('Found %1$s in the cache for Author Page: <code>%2$s</code>; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($_author_counter)), esc_html($_author['display_name'])), ['combinable' => true]);
                 ++$enqueued_notices; // Increment enqueued notices counter.
             }

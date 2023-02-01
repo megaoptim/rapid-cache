@@ -85,7 +85,7 @@ class AdvancedCache extends AbsBaseAp
         $this->registerShutdownFlag();
         $this->maybeIgnoreUserAbort();
         $this->maybeStopBrowserCaching();
-        
-        $this->maybeStartOutputBuffering();
+	    $this->maybePostloadInvalidateWhenLoggedIn();
+	    $this->maybeStartOutputBuffering();
     }
 }

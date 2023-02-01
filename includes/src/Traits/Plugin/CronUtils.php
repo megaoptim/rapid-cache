@@ -46,12 +46,14 @@ trait CronUtils
             || $this->options['crons_setup_with_cache_cleanup_schedule'] !== $this->options['cache_cleanup_schedule']
             || $this->options['crons_setup_on_wp_with_schedules'] !== sha1(serialize(wp_get_schedules()))
             || !wp_next_scheduled('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cleanup')
-            
-        ) {
-            wp_clear_scheduled_hook('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cleanup');
-            wp_schedule_event(time() + 60, $this->options['cache_cleanup_schedule'], '_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cleanup');
+            || !wp_next_scheduled('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_auto_cache')
 
-            
+        ) {
+	        wp_clear_scheduled_hook( '_cron_' . MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_cleanup' );
+	        wp_schedule_event( time() + 60, $this->options['cache_cleanup_schedule'], '_cron_' . MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_cleanup' );
+
+	        wp_clear_scheduled_hook( '_cron_' . MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_auto_cache' );
+	        wp_schedule_event( time() + 60, 'every15m', '_cron_' . MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_auto_cache' );
 
             $this->updateOptions(
                 [

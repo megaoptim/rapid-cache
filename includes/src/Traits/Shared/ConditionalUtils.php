@@ -170,27 +170,50 @@ trait ConditionalUtils
         return $is = false;
     }
 
-    /**
-     * Are we in a LOCALHOST environment?
-     *
-     * @since 1.0.0
-     *
-     * @return bool True if we are in a LOCALHOST environment.
-     */
-    public function isLocalhost()
-    {
-        if (($is = &$this->staticKey(__FUNCTION__)) !== null) {
-            return $is; // Already cached this.
-        }
-        if (defined('LOCALHOST')) {
-            return $is = (bool) LOCALHOST;
-        } elseif (preg_match('/\b(?:localhost|127\.0\.0\.1)\b/ui', $this->hostToken())) {
-            return $is = true;
-        }
-        return $is = false;
-    }
+	/**
+	 * Are we in a LOCALHOST environment?
+	 *
+	 * @return bool True if we are in a LOCALHOST environment.
+	 * @since 1.0.0
+	 *
+	 */
+	public function isLocalhost() {
+		if ( ( $is = &$this->staticKey( __FUNCTION__ ) ) !== null ) {
+			return $is; // Already cached this.
+		}
 
-    
+		if ( defined( 'LOCALHOST' ) ) {
+			$is = (bool) LOCALHOST;
+		} elseif ( defined( 'RAPID_CACHE_LOCALHOST' ) ) {
+			$is = (bool) RAPID_CACHE_LOCALHOST;
+		} elseif ( preg_match( '/\b(?:localhost|127\.0\.0\.1)\b/ui', $this->hostToken() ) ) {
+			$is = true;
+		} else {
+			$is = false;
+		}
+
+		$is = $this->applyWpFilters( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_is_localhost', $is );
+
+		return $is;
+	}
+
+	/**
+	 * Is the current request for the Auto-Cache Engine?
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool True if the current request is for the Auto-Cache Engine.
+	 */
+	public function isAutoCacheEngine()
+	{
+		if (($is = &$this->staticKey(__FUNCTION__)) !== null) {
+			return $is; // Already cached this.
+		}
+		if (!empty($_SERVER['HTTP_USER_AGENT']) && mb_stripos($_SERVER['HTTP_USER_AGENT'], MEGAOPTIM_RAPID_CACHE_GLOBAL_NS) !== false) {
+			return $is = true;
+		}
+		return $is = false;
+	}
 
     /**
      * Is the current request for a feed?

@@ -38,7 +38,7 @@ trait ObUtils
      * @type string Host base/dir tokens.
      */
     public $host_base_dir_tokens = '';
-    
+
 
     /**
      * Version salt.
@@ -129,10 +129,12 @@ trait ObUtils
      * @note This is a vital part of Rapid Cache.
      *       This method serves existing (fresh) cache files. It is also responsible
      *       for beginning the process of collecting the output buffer.
+     *
+     * @return mixed
      */
     public function maybeStartOutputBuffering()
     {
-        if (strcasecmp(PHP_SAPI, 'cli') === 0) {
+	    if (strcasecmp(PHP_SAPI, 'cli') === 0) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_PHP_SAPI_CLI);
         }
         if (empty($_SERVER['HTTP_HOST']) || !$this->hostToken()) {
@@ -150,7 +152,7 @@ trait ObUtils
         if (defined('DONOTCACHEPAGE')) { // Common to most WP cache plugins.
             return $this->maybeSetDebugInfo($this::NC_DEBUG_DONOTCACHEPAGE_CONSTANT);
         }
-        if (isset($_SERVER['DONOTCACHEPAGE'])) {
+	    if (isset($_SERVER['DONOTCACHEPAGE'])) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_DONOTCACHEPAGE_SERVER_VAR);
         }
         if (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) {
@@ -162,18 +164,18 @@ trait ObUtils
         if (isset($_GET[mb_strtolower(MEGAOPTIM_RAPID_CACHE_SHORT_NAME).'AC']) && !filter_var($_GET[mb_strtolower(MEGAOPTIM_RAPID_CACHE_SHORT_NAME).'AC'], FILTER_VALIDATE_BOOLEAN)) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_AC_GET_VAR);
         }
-        if ($this->isUncacheableRequestMethod()) {
+	    if ($this->isUncacheableRequestMethod()) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_UNCACHEABLE_REQUEST);
         }
         if (isset($_SERVER['SERVER_ADDR']) && $this->currentIp() === $_SERVER['SERVER_ADDR']) {
-            if ((!MEGAOPTIM_RAPID_CACHE_IS_PRO || !$this->isAutoCacheEngine()) && !$this->isLocalhost()) {
+            if ((!$this->isAutoCacheEngine()) && !$this->isLocalhost()) {
                 return $this->maybeSetDebugInfo($this::NC_DEBUG_SELF_SERVE_REQUEST);
             } // Don't trip on requests by the auto-cache engine.
         }
         if (!RAPID_CACHE_FEEDS_ENABLE && $this->isFeed()) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_FEED_REQUEST);
         }
-        if (preg_match('/\/(?:wp\-[^\/]+|xmlrpc)\.php(?:[?]|$)/ui', $_SERVER['REQUEST_URI'])) {
+	    if (preg_match('/\/(?:wp\-[^\/]+|xmlrpc)\.php(?:[?]|$)/ui', $_SERVER['REQUEST_URI'])) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_WP_SYSTEMATICS);
         }
         if (is_admin() || preg_match('/\/wp-admin(?:[\/?]|$)/ui', $_SERVER['REQUEST_URI'])) {
@@ -182,13 +184,13 @@ trait ObUtils
         if (is_multisite() && preg_match('/\/files(?:[\/?]|$)/ui', $_SERVER['REQUEST_URI'])) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_MS_FILES);
         }
-        if ((!MEGAOPTIM_RAPID_CACHE_IS_PRO || !RAPID_CACHE_WHEN_LOGGED_IN) && $this->isLikeUserLoggedIn()) {
+	    if (!RAPID_CACHE_WHEN_LOGGED_IN && $this->isLikeUserLoggedIn()) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_IS_LIKE_LOGGED_IN_USER);
         }
-        if (!RAPID_CACHE_GET_REQUESTS && $this->requestContainsUncacheableQueryVars()) {
+	    if (!RAPID_CACHE_GET_REQUESTS && $this->requestContainsUncacheableQueryVars()) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_GET_REQUEST_QUERIES);
         }
-        if (!empty($_REQUEST['preview'])) { // Don't cache previews under any circumstance.
+	    if (!empty($_REQUEST['preview'])) { // Don't cache previews under any circumstance.
             return $this->maybeSetDebugInfo($this::NC_DEBUG_PREVIEW);
         }
         if (RAPID_CACHE_EXCLUDE_HOSTS && preg_match(RAPID_CACHE_EXCLUDE_HOSTS, $_SERVER['HTTP_HOST'])) {
@@ -197,8 +199,8 @@ trait ObUtils
         if (RAPID_CACHE_EXCLUDE_URIS && preg_match(RAPID_CACHE_EXCLUDE_URIS, $_SERVER['REQUEST_URI'])) {
             return $this->maybeSetDebugInfo($this::NC_DEBUG_EXCLUDED_URIS);
         }
-        if (RAPID_CACHE_EXCLUDE_AGENTS && !empty($_SERVER['HTTP_USER_AGENT']) && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || !$this->isAutoCacheEngine())) {
-            if (preg_match(RAPID_CACHE_EXCLUDE_AGENTS, $_SERVER['HTTP_USER_AGENT'])) {
+        if (RAPID_CACHE_EXCLUDE_AGENTS && !empty($_SERVER['HTTP_USER_AGENT']) || (!$this->isAutoCacheEngine())) {
+            if (!empty($_SERVER['HTTP_USER_AGENT']) && preg_match(RAPID_CACHE_EXCLUDE_AGENTS, $_SERVER['HTTP_USER_AGENT'])) {
                 return $this->maybeSetDebugInfo($this::NC_DEBUG_EXCLUDED_AGENTS);
             } // Don't trip on requests by the auto-cache engine.
         }
@@ -233,8 +235,7 @@ trait ObUtils
         $this->cache_max_age       = strtotime('-'.RAPID_CACHE_MAX_AGE); // Initialize; global config.
         $this->nonce_cache_max_age = strtotime('-12 hours'); // Initialize; based on a fixed expiration time.
 
-
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO && RAPID_CACHE_WHEN_LOGGED_IN === 'postload' && $this->isLikeUserLoggedIn()) {
+        if (defined('RAPID_CACHE_WHEN_LOGGED_IN') && RAPID_CACHE_WHEN_LOGGED_IN === 'postload' && $this->isLikeUserLoggedIn()) {
             $this->postload['when_logged_in'] = true; // Enable postload check.
         } elseif (is_file($this->cache_file) && ($this->cache_max_age_disabled || filemtime($this->cache_file) >= $this->cache_max_age)) {
             list($headers, $cache) = explode('<!--headers-->', file_get_contents($this->cache_file), 2);
@@ -313,14 +314,14 @@ trait ObUtils
         if (defined('REST_REQUEST') && REST_REQUEST) {
             return (bool) $this->maybeSetDebugInfo($this::NC_DEBUG_REST_REQUEST_CONSTANT);
         }
-        if ((!MEGAOPTIM_RAPID_CACHE_IS_PRO || !RAPID_CACHE_WHEN_LOGGED_IN) && $this->is_user_logged_in) {
+        if ((!defined('RAPID_CACHE_WHEN_LOGGED_IN') || !RAPID_CACHE_WHEN_LOGGED_IN) && $this->is_user_logged_in) {
             return (bool) $this->maybeSetDebugInfo($this::NC_DEBUG_IS_LOGGED_IN_USER);
         }
-        if ((!MEGAOPTIM_RAPID_CACHE_IS_PRO || !RAPID_CACHE_WHEN_LOGGED_IN) && $this->isLikeUserLoggedIn()) {
+        if ((!defined('RAPID_CACHE_WHEN_LOGGED_IN') || !RAPID_CACHE_WHEN_LOGGED_IN) && $this->isLikeUserLoggedIn()) {
             return (bool) $this->maybeSetDebugInfo($this::NC_DEBUG_IS_LIKE_LOGGED_IN_USER);
         }
-        if (!RAPID_CACHE_CACHE_NONCE_VALUES && preg_match('/\b(?:_wpnonce|akismet_comment_nonce)\b/u', $cache)) {
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO && RAPID_CACHE_WHEN_LOGGED_IN && $this->isLikeUserLoggedIn()) {
+        if (!RAPID_CACHE_CACHE_NONCE_VALUES && preg_match('/\b(?:'.implode('|', $this->getPossibleNonceKeys()).')\b/u', $cache)) {
+            if (defined('RAPID_CACHE_WHEN_LOGGED_IN') && RAPID_CACHE_WHEN_LOGGED_IN && $this->isLikeUserLoggedIn()) {
                 if (!RAPID_CACHE_CACHE_NONCE_VALUES_WHEN_LOGGED_IN) {
                     return (bool) $this->maybeSetDebugInfo($this::NC_DEBUG_IS_LOGGED_IN_USER_NONCE);
                 }
@@ -387,10 +388,10 @@ trait ObUtils
             $DebugNotes->addAsciiArt(sprintf(__('%1$s is Fully Functional', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_NAME));
             $DebugNotes->addLineBreak();
 
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO && RAPID_CACHE_WHEN_LOGGED_IN && $this->user_token) {
+            if (defined('RAPID_CACHE_WHEN_LOGGED_IN') && RAPID_CACHE_WHEN_LOGGED_IN && $this->user_token) {
                 $DebugNotes->add(__('Cache File User Token', 'rapid-cache'), $this->user_token);
             }
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO && RAPID_CACHE_MOBILE_ADAPTIVE_SALT_ENABLE && RAPID_CACHE_MOBILE_ADAPTIVE_SALT && $this->mobile_adaptive_salt) {
+            if (defined('RAPID_CACHE_MOBILE_ADAPTIVE_SALT_ENABLE') && RAPID_CACHE_MOBILE_ADAPTIVE_SALT_ENABLE && defined('RAPID_CACHE_MOBILE_ADAPTIVE_SALT') && RAPID_CACHE_MOBILE_ADAPTIVE_SALT && $this->mobile_adaptive_salt) {
                 // Note: Not using `$this->mobile_adaptive_salt` here. Instead, generating a human readable variation.
                 $DebugNotes->add(__('Cache File for Mobile Device', 'rapid-cache'), $this->fillUaTokens(RAPID_CACHE_MOBILE_ADAPTIVE_SALT, false));
             }
@@ -404,13 +405,13 @@ trait ObUtils
 
             $DebugNotes->addLineBreak();
 
-            $DebugNotes->add(__('Cache File Generated Via', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->isAutoCacheEngine() ? __('Auto-Cache Engine', 'rapid-cache') : __('HTTP request', 'rapid-cache'));
+            $DebugNotes->add(__('Cache File Generated Via', 'rapid-cache'), $this->isAutoCacheEngine() ? __('Auto-Cache Engine', 'rapid-cache') : __('HTTP request', 'rapid-cache'));
             $DebugNotes->add(__('Cache File Generated On', 'rapid-cache'), date('M jS, Y @ g:i a T'));
             $DebugNotes->add(__('Cache File Generated In', 'rapid-cache'), sprintf(__('%1$s seconds', 'rapid-cache'), $total_time));
 
             $DebugNotes->addLineBreak();
 
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO && RAPID_CACHE_WHEN_LOGGED_IN && $this->cache_max_age < $this->nonce_cache_max_age && preg_match('/\b(?:_wpnonce|akismet_comment_nonce)\b/u', $cache)) {
+            if ((defined('RAPID_CACHE_WHEN_LOGGED_IN') && RAPID_CACHE_WHEN_LOGGED_IN) && $this->cache_max_age < $this->nonce_cache_max_age && preg_match('/\b(?:'.implode('|', $this->getPossibleNonceKeys()).')\b/u', $cache)) {
                 $DebugNotes->add(__('Cache File Expires Early', 'rapid-cache'), __('yes, due to nonce in markup', 'rapid-cache'));
                 $DebugNotes->add(__('Cache File Expires On', 'rapid-cache'), date('M jS, Y @ g:i a T', $time + ($time - $this->nonce_cache_max_age)));
                 $DebugNotes->add(__('Cache File Auto-Rebuild On', 'rapid-cache'), date('M jS, Y @ g:i a T', $time + ($time - $this->nonce_cache_max_age)));
@@ -438,4 +439,19 @@ trait ObUtils
         @unlink($cache_file_tmp); // Clean this up (if it exists); and throw an exception with information for the site owner.
         throw new \Exception(sprintf(__('%1$s: failed to write cache file for: `%2$s`; possible permissions issue (or race condition), please check your cache directory: `%3$s`.', 'rapid-cache'), MEGAOPTIM_RAPID_CACHE_NAME, $_SERVER['REQUEST_URI'], RAPID_CACHE_DIR));
     }
+
+	/**
+	 * Returns all possible nonce keys
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string[]
+	 */
+	protected function getPossibleNonceKeys() {
+		return $this->applyWpFilters( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '_possible_nonce_keys', [
+			'_wpnonce',
+			'akismet_comment_nonce',
+			'rest_nonce',
+		] );
+	}
 }

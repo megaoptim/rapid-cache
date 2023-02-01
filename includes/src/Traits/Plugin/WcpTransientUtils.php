@@ -108,4 +108,3 @@ trait WcpTransientUtils
         return $counter;
     }
 }
-/*[/pro]*/

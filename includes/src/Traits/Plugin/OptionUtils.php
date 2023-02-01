@@ -78,14 +78,8 @@ trait OptionUtils
      */
     public function updateOptions(array $options, $intersect = true)
     {
-        if (!MEGAOPTIM_RAPID_CACHE_IS_PRO) { // Do not save Pro option keys.
-            $options = array_diff_key($options, $this->pro_only_option_keys);
-        }
-        if (!empty($options['base_dir']) && $options['base_dir'] !== $this->options['base_dir']) {
+	    if (!empty($options['base_dir']) && $options['base_dir'] !== $this->options['base_dir']) {
             $this->tryErasingAllFilesDirsIn($this->wpContentBaseDirTo(''));
-        }
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO && !empty($options['pro_update_username']) && !empty($options['pro_update_password'])) {
-            $this->dismissMainNotice('configure-pro-updater');
         }
         $this->options = array_merge($this->default_options, $this->options, $options);
         $this->options = $intersect ? array_intersect_key($this->options, $this->default_options) : $this->options;
@@ -154,6 +148,9 @@ trait OptionUtils
 		    }
 		    if ( ! ($add_advanced_cache = $this->plugin->addAdvancedCache())) {
 			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_advanced_cache_add_failure'] = $add_advanced_cache === null ? 'advanced-cache' : '1';
+		    }
+		    if ($this->plugin->options['mobile_adaptive_salt_enable'] && !$this->plugin->maybePopulateUaInfoDirectory()) {
+			    $query_args[MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_ua_info_dir_population_failure'] = '1';
 		    }
 
 		    if ( ! $this->plugin->options['auto_cache_enable']) {

@@ -51,9 +51,10 @@ trait WcpSitemapUtils
         $regex = $this->buildHostCachePathRegex('', '\/'.$regex_frags.'\.');
         $counter += $this->clearFilesFromHostCacheDir($regex);
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+        if ($counter && is_admin()) {
             $this->enqueueNotice(sprintf(__('Found %1$s in the cache for XML sitemaps; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($counter))), ['combinable' => true]);
         }
         return $counter;
     }
+
 }

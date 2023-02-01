@@ -52,7 +52,6 @@ trait MenuPageUtils
                 'isMultisite'              => is_multisite(), // Network?
                 'currentUserHasCap'        => current_user_can($this->cap),
                 'currentUserHasNetworkCap' => current_user_can($this->network_cap),
-                'htmlCompressorEnabled'    => (bool) $this->options['htmlc_enable'],
                 'ajaxURL'                  => site_url('/wp-load.php', is_ssl() ? 'https' : 'http'),
                 'emptyStatsCountsImageUrl' => $this->url('/assets/images/stats-fc-empty.png'),
                 'emptyStatsFilesImageUrl'  => $this->url('/assets/images/stats-fs-empty.png'),

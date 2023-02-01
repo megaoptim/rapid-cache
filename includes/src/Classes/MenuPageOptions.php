@@ -145,12 +145,6 @@ class MenuPageOptions extends MenuPage
             echo '   <i class="si si-thumbs-down"></i> '.sprintf(__('Failed to populate User-Agent detection files for Mobile-Adaptive Mode. User-Agent detection files are pulled from a remote location so you\'ll always have the most up-to-date information needed for accurate detection. However, it appears the remote source of this information is currently unvailable. Please wait 15 minutes, then try saving your %1$s options again.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))."\n";
             echo '</div>'."\n";
         }
-        if (!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-notice info">'."\n";
-            echo '<a href="'.add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS]), self_admin_url('/admin.php')).'" class="pull-right" style="margin:0 0 15px 25px; float:right; font-variant:small-caps; text-decoration:none;">'.__('close', 'rapid-cache').' <i class="si si-eye-slash"></i></a>'."\n";
-            echo '   <i class="si si-eye"></i> '.sprintf(__('<strong>Pro Features (Preview)</strong> ~ New option panels below. Please explore before <a href="#" target="_blank">upgrading <i class="si si-heart-o"></i></a>.<br /><small>NOTE: the free version of %1$s (this lite version) is more-than-adequate for most sites. Please upgrade only if you desire advanced features or would like to support the developer.</small>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))."\n";
-            echo '</div>'."\n";
-        }
         if (!$this->plugin->options['enable']) {
             echo '<div class="plugin-menu-page-notice warning">'."\n";
             echo '   <i class="si si-warning"></i> '.sprintf(__('%1$s is currently disabled; please review options below.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))."\n";
@@ -223,83 +217,9 @@ class MenuPageOptions extends MenuPage
 
         /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel">'."\n";
+        echo '<div class="plugin-menu-page-panel">'."\n";
 
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-broom"></i> '.__('Manual Cache Clearing', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <h3>'.__('Clearing the Cache Manually', 'rapid-cache').'</h3>'."\n";
-            echo '      <img src="'.esc_attr($this->plugin->url('/assets/images/clear-cache-ops1-ss.png')).'" class="-clear-cache-ops-ss screenshot" />'."\n";
-            echo '      <p>'.sprintf(__('Once %1$s is enabled, you will find this new option in your WordPress Admin Bar (screenshot on right). Clicking this button will clear the cache and you can start fresh at anytime (e.g., you can do this manually; and as often as you wish).', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p>'.sprintf(__('Depending on the structure of your site, there could be many reasons to clear the cache. However, the most common reasons are related to Post/Page edits or deletions, Category/Tag edits or deletions, and Theme changes. %1$s handles most scenarios all by itself. However, many site owners like to clear the cache manually; for a variety of reasons (just to force a refresh).', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_admin_bar_enable]" data-target=".-cache-clear-admin-bar-options, .-cache-clear-admin-bar-roles-caps" style="width:auto;">'."\n";
-            echo '          <option value="1"'.selected($this->plugin->options['cache_clear_admin_bar_enable'], '1', false).'>'.__('Yes, enable &quot;Clear Cache&quot; button in admin bar', 'rapid-cache').'</option>'."\n";
-            echo '          <option value="0"'.selected($this->plugin->options['cache_clear_admin_bar_enable'], '0', false).'>'.__('No, I don\'t intend to clear the cache manually.', 'rapid-cache').'</option>'."\n";
-            echo '         </select>'."\n";
-            echo '         <span class="plugin-menu-page-panel-if-enabled -cache-clear-admin-bar-options"><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_admin_bar_options_enable]" class="-no-if-enabled" style="width:auto;">'."\n";
-            echo '             <option value="1"'.selected($this->plugin->options['cache_clear_admin_bar_options_enable'], '1', false).'>'.__('w/ dropdown options.', 'rapid-cache').'</option>'."\n";
-            echo '             <option value="2"'.selected($this->plugin->options['cache_clear_admin_bar_options_enable'], '2', false).'>'.__('w/ dropdown options in split menu.', 'rapid-cache').'</option>'."\n";
-            echo '             <option value="0"'.selected($this->plugin->options['cache_clear_admin_bar_options_enable'], '0', false).'>'.__('w/o dropdown options.', 'rapid-cache').'</option>'."\n";
-            echo '         </select></span></p>'."\n";
-
-            if (is_multisite()) {
-                echo '  <div class="plugin-menu-page-panel-if-enabled -cache-clear-admin-bar-roles-caps">'."\n";
-                echo '      <h4 style="margin-bottom:0;">'.__('Also allow Child Sites in a Network to clear the cache from their Admin Bar?', 'rapid-cache').'</h4>'."\n";
-                echo '      <p style="margin-top:2px;">'.sprintf(__('In a Multisite Network, each child site can clear its own cache. If you want child sites to see the "Clear Cache" button in their WordPress Admin Bar, you can specify a comma-delimited list of <a href="https://wordpress.org/support/article/roles-and-capabilities/" target="_blank">Roles and/or Capabilities</a> that are allowed. For example, if I want Administrators to be capable of clearing the cache from their Admin Bar, I could enter <code>administrator</code> here. If I also want to allow Editors, I can use a comma-delimited list: <code>administrator,editor</code>. Or, I could use a single Capability of: <code>edit_others_posts</code>; which covers both Administrators &amp; Editors at the same time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '      <p style="margin-bottom:0;"><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_admin_bar_roles_caps]" value="'.esc_attr($this->plugin->options['cache_clear_admin_bar_roles_caps']).'" /></p>'."\n";
-                echo '      <p style="margin-top:0;">'.sprintf(__('<strong>Note:</strong> As a security measure, in addition to the Role(s) and/or Capabilities that you list here, each child site owner must also have the ability to <code>%1$s</code>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_IS_PRO ? $this->plugin->clear_min_cap : 'edit_posts')).'</p>'."\n";
-                echo '  </div>'."\n";
-            } else {
-                echo '  <div class="plugin-menu-page-panel-if-enabled -cache-clear-admin-bar-roles-caps">'."\n";
-                echo '      <h4 style="margin-bottom:0;">'.__('Also allow others to clear the cache from their Admin Bar?', 'rapid-cache').'</h4>'."\n";
-                echo '      <p style="margin-top:2px;">'.sprintf(__('If you want others to see the "Clear Cache" button in their WordPress Admin Bar, you can specify a comma-delimited list of <a href="https://wordpress.org/support/article/roles-and-capabilities/" target="_blank">Roles and/or Capabilities</a> that are allowed. For example, if I want Editors to be capable of clearing the cache from their Admin Bar, I could enter <code>editor</code> here. If I also want to allow Authors, I can use a comma-delimited list: <code>editor,author</code>. Or, I could use a single Capability of: <code>publish_posts</code>; which covers both Editors &amp; Authors at the same time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '      <p style="margin-bottom:0;"><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_admin_bar_roles_caps]" value="'.esc_attr($this->plugin->options['cache_clear_admin_bar_roles_caps']).'" /></p>'."\n";
-                echo '      <p style="margin-top:0;">'.sprintf(__('<strong>Note:</strong> As a security measure, in addition to the Role(s) and/or Capabilities that you list here, each user must also have the ability to <code>%1$s</code>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_IS_PRO ? $this->plugin->clear_min_cap : 'edit_posts')).'</p>'."\n";
-                echo '  </div>'."\n";
-            }
-            if ($this->plugin->functionIsPossible('opcache_reset')) {
-                echo '  <hr />'."\n";
-                echo '  <h3>'.__('Clear the <a href="https://www.php.net/manual/en/book.opcache.php" target="_blank">PHP OPcache</a> Too?', 'rapid-cache').'</h3>'."\n";
-                echo '  <p>'.sprintf(__('If you clear the cache manually, do you want %1$s to clear the PHP OPcache too? This is not necessary, but if you want a truly clean start, this will clear all PHP files in the server\'s opcode cache also. Note: If you don\'t already know what the PHP OPcache is, it is suggested that you leave this disabled. It really is not necessary. This is just an added feature for advanced users.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '  <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_opcache_enable]" class="-no-if-enabled">'."\n";
-                echo '      <option value="0"'.selected($this->plugin->options['cache_clear_opcache_enable'], '0', false).'>'.__('No, I don\'t use the PHP OPcache extension; or, I don\'t want the opcode cache cleared.', 'rapid-cache').'</option>'."\n";
-                echo '      <option value="1"'.selected($this->plugin->options['cache_clear_opcache_enable'], '1', false).'>'.__('Yes, if the PHP OPcache extension is enabled, also clear the entire PHP opcode cache.', 'rapid-cache').'</option>'."\n";
-                echo '  </select></p>'."\n";
-            }
-            if ($this->plugin->functionIsPossible('s2clean')) {
-                echo '  <hr />'."\n";
-                echo '  <h3>'.__('Clear the <a href="http://websharks-inc.com/product/s2clean/" target="_blank">s2Clean</a> Cache Too?', 'rapid-cache').'</h3>'."\n";
-                echo '  <p>'.sprintf(__('If the s2Clean theme is installed, and you clear the cache manually, %1$s can clear the s2Clean Markdown cache too (if you\'ve enabled Markdown processing with s2Clean).', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '  <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_s2clean_enable]" class="-no-if-enabled">'."\n";
-                echo '      <option value="1"'.selected($this->plugin->options['cache_clear_s2clean_enable'], '1', false).'>'.__('Yes, if the s2Clean theme is installed, also clear s2Clean-related caches.', 'rapid-cache').'</option>'."\n";
-                echo '      <option value="0"'.selected($this->plugin->options['cache_clear_s2clean_enable'], '0', false).'>'.__('No, I don\'t use s2Clean; or, I don\'t want s2Clean-related caches cleared.', 'rapid-cache').'</option>'."\n";
-                echo '  </select></p>'."\n";
-            }
-            echo '      <hr />'."\n";
-            echo '      <h3>'.__('Evaluate Custom PHP Code when Clearing the Cache?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.sprintf(__('If you have any custom routines you\'d like to process when the cache is cleared manually, please enter PHP code here. If your PHP code outputs a message, it will be displayed along with any other notes from %1$s itself. This feature is intended for developers, and it may come in handy if you need to clear any system caches not already covered by %1$s configuration options.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p style="margin-bottom:0;"><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_eval_code]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['cache_clear_eval_code']).'</textarea></p>'."\n";
-            echo '      <p class="info" style="margin-top:0;">'.__('<strong>Example:</strong> <code>&lt;?php apc_clear_cache(); echo \'&lt;p&gt;Also cleared APC cache.&lt;/p&gt;\'; ?&gt;</code>', 'rapid-cache').'</p>'."\n";
-
-            echo '      <hr />'."\n";
-            echo '      <h3>'.__('Clear the CDN Cache Too?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.sprintf(__('If you clear the cache manually, do you want %1$s to automatically bump the CDN invalidation counter too? i.e., automatically increment the <code>?%2$s=[counter]</code> in all static CDN URLs?', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME), esc_html($this->plugin->options['cdn_invalidation_var'])).'</p>'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_cdn_enable]" class="-no-if-enabled">'."\n";
-            echo '            <option value="0"'.selected($this->plugin->options['cache_clear_cdn_enable'], '0', false).'>'.__('No, I don\'t use Static CDN Filters; or, I don\'t want the CDN cache cleared.', 'rapid-cache').'</option>'."\n";
-            echo '            <option value="1"'.selected($this->plugin->options['cache_clear_cdn_enable'], '1', false).'>'.__('Yes, if Static CDN Filters are enabled, also clear the CDN cache.', 'rapid-cache').'</option>'."\n";
-            echo '      </select></p>'."\n";
-            echo '   </div>'."\n";
-
-            echo '</div>'."\n";
-        }
-        /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-
-        echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? ' pro-preview' : '').'">'."\n";
-
-        echo '   <a href="#" class="plugin-menu-page-panel-heading" data-additional-pro-features="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? __('additional pro features', 'rapid-cache') : '').'">'."\n";
+        echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
         echo '      <i class="si si-server"></i> '.__('Automatic Cache Clearing', 'rapid-cache')."\n";
         echo '   </a>'."\n";
 
@@ -308,14 +228,6 @@ class MenuPageOptions extends MenuPage
         echo '      <h3>'.__('Clearing the Cache Automatically', 'rapid-cache').'</h3>'."\n";
         echo '      <img src="'.esc_attr($this->plugin->url('/assets/images/auto-clear-ss.png')).'" class="screenshot" />'."\n";
         echo '      <p>'.sprintf(__('This is built into the %1$s plugin; i.e., this functionality is "always on". If you edit a Post/Page (or delete one), %1$s will automatically clear the cache file(s) associated with that content. This way a new updated version of the cache will be created automatically the next time this content is accessed. Simple updates like this occur each time you make changes in the Dashboard, and %1$s will notify you of these as they occur. %1$s monitors changes to Posts (of any kind, including Pages), Categories, Tags, Links, Themes (even Users), and more.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '  <div data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][change_notifications_enable]" class="-no-if-enabled" style="width:auto;">'."\n";
-            echo '          <option value="1"'.selected($this->plugin->options['change_notifications_enable'], '1', false).'>'.sprintf(__('Yes, enable %1$s notifications in the Dashboard when cache files are cleared automatically.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</option>'."\n";
-            echo '          <option value="0"'.selected($this->plugin->options['change_notifications_enable'], '0', false).'>'.sprintf(__('No, I don\'t want to know (don\'t really care) what %1$s is doing behind-the-scene.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</option>'."\n";
-            echo '      </select></p>'."\n";
-            echo '  </div>'."\n";
-        }
         echo '      <hr />'."\n";
         echo '      <h3>'.__('Primary Page Options', 'rapid-cache').'</h3>'."\n";
 
@@ -404,69 +316,17 @@ class MenuPageOptions extends MenuPage
         if (is_multisite()) {
             echo '      <p class="info" style="display:block; margin-top:-15px;">'.__('In a Multisite Network, each child blog (whether it be a sub-domain, a sub-directory, or a mapped domain); will automatically change the leading <code>http://[sub.]domain/[sub-directory]</code> used in pattern matching. In short, there is no need to add sub-domains or sub-directories for each child blog in these patterns. Please include only the <a href="https://gist.github.com/jaswsinc/338b6eb03a36c048c26f" target="_blank">REQUEST_URI</a> (i.e., the path) which leads to the XML Sitemap on all child blogs in the network.', 'rapid-cache').'</p>'."\n";
         }
-        echo '      </div>'."\n";
-
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '      <hr />'."\n";
-            echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('Misc. Auto-Clear Options', 'rapid-cache').'</h3>'."\n";
-            echo '      <h4 style="margin-bottom:0;">'.__('Auto-Clear Custom URL Patterns Too?', 'rapid-cache').'</h4>'."\n";
-            echo '      <p style="margin-top:2px;">'.sprintf(__('<strong>Auto-Clear Custom URL Patterns (one per line):</strong> When you update a Post/Page, approve a Comment, etc., %1$s will detect that a Post/Page cache should be cleared to keep your site up-to-date. When this occurs, %1$s can also clear a list of custom URLs that you enter here. Please list one URL per line. A wildcard <code>*</code> character can be used when necessary; e.g., <code>https://example.com/category/abc/**</code>. Note that <code>**</code> (double asterisk) means 0 or more characters of any kind, including <code>/</code> slashes. <code>*</code> (a single asterisk) means 0 or more characters that are NOT a slash <code>/</code>. Your patterns must match from beginning to end; i.e., the special chars: <code>^</code> (beginning of string) and <code>$</code> (end of the string) are always on for these patterns (i.e., applied internally). For that reason, if you want to match part of a URL, use <code>**</code> to match anything before and/or after the fragment you\'re searching for. For example, <code>https://**/category/abc/**</code> will find all URLs containing <code>/category/abc/</code> (anywhere); whereas <code>https://*/category/abc/*</code> will match URLs on any domain, but the path must then begin with <code>/category/abc/</code> and the pattern will only match paths in that immediate directory — bypassing any additional paths in sub-directories. To learn more about this syntax, please see <a href="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_clear_urls]" spellcheck="false" wrap="off" rows="5">'.format_to_edit($this->plugin->options['cache_clear_urls']).'</textarea></p>'."\n";
-            echo '      <p class="info" style="display:block;">'.__('<strong>Note:</strong> Relative URLs (e.g., <code>/name-of-post</code>) should NOT be used. Each entry above should start with <code>http://</code> or <code>https://</code> and include a fully qualified domain name (or wildcard characters in your pattern that will match the domain).', 'rapid-cache').'</p>'."\n";
-        }
-        echo '   </div>'."\n";
+	    echo '      </div>' . "\n";
+	    echo '      <hr />' . "\n";
+	    echo '      <h3>' . __( 'Misc. Auto-Clear Options', 'rapid-cache' ) . '</h3>' . "\n";
+	    echo '      <h4 style="margin-bottom:0;">' . __( 'Auto-Clear Custom URL Patterns Too?', 'rapid-cache' ) . '</h4>' . "\n";
+	    echo '      <p style="margin-top:2px;">' . sprintf( __( '<strong>Auto-Clear Custom URL Patterns (one per line):</strong> When you update a Post/Page, approve a Comment, etc., %1$s will detect that a Post/Page cache should be cleared to keep your site up-to-date. When this occurs, %1$s can also clear a list of custom URLs that you enter here. Please list one URL per line. A wildcard <code>*</code> character can be used when necessary; e.g., <code>https://example.com/category/abc/**</code>. Note that <code>**</code> (double asterisk) means 0 or more characters of any kind, including <code>/</code> slashes. <code>*</code> (a single asterisk) means 0 or more characters that are NOT a slash <code>/</code>. Your patterns must match from beginning to end; i.e., the special chars: <code>^</code> (beginning of string) and <code>$</code> (end of the string) are always on for these patterns (i.e., applied internally). For that reason, if you want to match part of a URL, use <code>**</code> to match anything before and/or after the fragment you\'re searching for. For example, <code>https://**/category/abc/**</code> will find all URLs containing <code>/category/abc/</code> (anywhere); whereas <code>https://*/category/abc/*</code> will match URLs on any domain, but the path must then begin with <code>/category/abc/</code> and the pattern will only match paths in that immediate directory — bypassing any additional paths in sub-directories. To learn more about this syntax, please see <a href="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache' ), esc_html( MEGAOPTIM_RAPID_CACHE_NAME ) ) . '</p>' . "\n";
+	    echo '      <p><textarea name="' . esc_attr( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS ) . '[saveOptions][cache_clear_urls]" spellcheck="false" wrap="off" rows="5">' . format_to_edit( $this->plugin->options['cache_clear_urls'] ) . '</textarea></p>' . "\n";
+	    echo '      <p class="info" style="display:block;">' . __( '<strong>Note:</strong> Relative URLs (e.g., <code>/name-of-post</code>) should NOT be used. Each entry above should start with <code>http://</code> or <code>https://</code> and include a fully qualified domain name (or wildcard characters in your pattern that will match the domain).', 'rapid-cache' ) . '</p>' . "\n";
+	    echo '   </div>' . "\n";
 
         echo '</div>'."\n";
 
-        /* ----------------------------------------------------------------------------------------- */
-
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel">'."\n";
-
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-pie-chart"></i> '.__('Cache-Related Statistics', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            if ($this->plugin->isProPreview()) {
-                echo '      <img src="'.esc_attr($this->plugin->url('/assets/images/stats-preview.png')).'" style="width:100%;border: 1px dashed #cac9c9;margin-bottom: 20px;">';
-            }
-            echo '      <i class="si si-pie-chart si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <h3>'.__('Enable Cache-Related Stats &amp; Charts?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.sprintf(__('%1$s can collect and display cache-related statistics (including charts). Stats are displayed in the WordPress Admin Bar, and also in your Dashboard under: <strong>%1$s → Stats/Charts</strong>. Cache-related stats provide you with a quick look at what\'s happening behind-the-scenes. Your site grows faster and faster as the cache grows larger in size.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][stats_enable]" data-target=".-stats-admin-bar-enable">'."\n";
-            echo '            <option value="1"'.selected($this->plugin->options['stats_enable'], '1', false).'>'.__('Yes, enable stats collection &amp; the menu page in WordPress for viewing stats.', 'rapid-cache').'</option>'."\n";
-            echo '            <option value="0"'.selected($this->plugin->options['stats_enable'], '0', false).'>'.__('No, I have a VERY large site and I want to avoid any unnecessary directory scans.', 'rapid-cache').'</option>'."\n";
-            echo '         </select></p>'."\n";
-            echo '      <p class="info">'.sprintf(__('<strong>Note:</strong> %1$s does a great job of collecting stats, in ways that don\'t cause a performance issue. In addition, as your cache grows larger than several hundred files in total size, statistics are collected less often and at longer intervals. All of that being said, if you run a VERY large site (e.g., more than 20K posts), you might want to disable stats collection in favor of blazing fast speeds not impeded by any directory scans needed to collect stats.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <hr />'."\n";
-
-            echo '      <div class="plugin-menu-page-panel-if-enabled -stats-admin-bar-enable">'."\n";
-            echo '          <h3>'.__('Show Stats in the WordPress Admin Bar?', 'rapid-cache').'</h3>'."\n";
-            echo '          <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][stats_admin_bar_enable]" data-target=".-stats-admin-bar-roles-caps">'."\n";
-            echo '              <option value="1"'.selected($this->plugin->options['stats_admin_bar_enable'], '1', false).'>'.__('Yes, enable stats in the WordPress admin bar.', 'rapid-cache').'</option>'."\n";
-            echo '              <option value="0"'.selected($this->plugin->options['stats_admin_bar_enable'], '0', false).'>'.__('No, I\'ll review stats from the menu page in WordPress if I need to.', 'rapid-cache').'</option>'."\n";
-            echo '          </select></p>'."\n";
-            if (is_multisite()) {
-                echo '      <div class="plugin-menu-page-panel-if-enabled -stats-admin-bar-roles-caps">'."\n";
-                echo '          <h4 style="margin-bottom:0;">'.__('Allow Child Sites in a Network to See Stats in Admin Bar?', 'rapid-cache').'</h4>'."\n";
-                echo '          <p style="margin-top:2px;">'.sprintf(__('In a Multisite Network, each child site has stats of its own. If you want child sites to see cache-related stats in their WordPress Admin Bar, you can specify a comma-delimited list of <a href="https://wordpress.org/support/article/roles-and-capabilities/" target="_blank">Roles and/or Capabilities</a> that are allowed to see stats. For example, if I want the Administrator to see stats in their Admin Bar, I could enter <code>administrator</code> here. If I also want to show stats to Editors, I can use a comma-delimited list: <code>administrator,editor</code>. Or, I could use a single Capability of: <code>edit_others_posts</code>; which covers both Administrators &amp; Editors at the same time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '          <p style="margin-bottom:0;"><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][stats_admin_bar_roles_caps]" value="'.esc_attr($this->plugin->options['stats_admin_bar_roles_caps']).'" /></p>'."\n";
-                echo '          <p style="margin-top:0;">'.sprintf(__('<strong>Note:</strong> As a security measure, in addition to the Role(s) and/or Capabilities that you list here, each child site owner must also have the ability to <code>%1$s</code>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_IS_PRO ? $this->plugin->stats_min_cap : 'edit_posts')).'</p>'."\n";
-                echo '      </div>'."\n";
-            } else {
-                echo '      <div class="plugin-menu-page-panel-if-enabled -stats-admin-bar-roles-caps">'."\n";
-                echo '          <h4 style="margin-bottom:0;">'.__('Allow Others to See Stats in Admin Bar?', 'rapid-cache').'</h4>'."\n";
-                echo '          <p style="margin-top:2px;">'.sprintf(__('If you want others to see cache-related stats in their WordPress Admin Bar, you can specify a comma-delimited list of <a href="https://wordpress.org/support/article/roles-and-capabilities/" target="_blank">Roles and/or Capabilities</a> that are allowed to see stats. For example, if I want Editors to see stats in their Admin Bar, I could enter <code>editor</code> here. If I also want to show stats to Authors, I can use a comma-delimited list: <code>editor,author</code>. Or, I could use a single Capability of: <code>publish_posts</code>; which covers both Editors &amp; Authors at the same time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-                echo '          <p style="margin-bottom:0;"><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][stats_admin_bar_roles_caps]" value="'.esc_attr($this->plugin->options['stats_admin_bar_roles_caps']).'" /></p>'."\n";
-                echo '          <p style="margin-top:0;">'.sprintf(__('<strong>Note:</strong> As a security measure, in addition to the Role(s) and/or Capabilities that you list here, each user must also have the ability to <code>%1$s</code>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_IS_PRO ? $this->plugin->stats_min_cap : 'edit_posts')).'</p>'."\n";
-                echo '      </div>'."\n";
-            }
-            echo '      </div>'."\n";
-            echo '   </div>'."\n";
-
-            echo '</div>'."\n";
-        }
         /* ----------------------------------------------------------------------------------------- */
 
         echo '<div class="plugin-menu-page-panel">'."\n";
@@ -485,9 +345,9 @@ class MenuPageOptions extends MenuPage
 
         /* ----------------------------------------------------------------------------------------- */
 
-        echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? ' pro-preview' : '').'">'."\n";
+	    echo '<div class="plugin-menu-page-panel">'."\n";
 
-        echo '   <a href="#" class="plugin-menu-page-panel-heading" data-additional-pro-features="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? __('additional pro features', 'rapid-cache') : '').'">'."\n";
+        echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
         echo '      <i class="si si-clock-o"></i> '.__('Cache Expiration Time', 'rapid-cache')."\n";
         echo '   </a>'."\n";
 
@@ -512,26 +372,64 @@ class MenuPageOptions extends MenuPage
         unset($_wp_cron_schedule_key, $_wp_cron_schedule);
         echo '      </select></p>'."\n";
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            $_sys_getloadavg_unavailable = ($this->plugin->isProPreview() ? false : !$this->plugin->sysLoadAverages());
-            echo '  <div>'."\n";
-            echo '      <hr />'."\n";
-            echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'" style="'.($_sys_getloadavg_unavailable ? 'opacity: 0.5;' : '').'">'.__('Disable Cache Expiration If Server Load Average is High?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p style="'.($_sys_getloadavg_unavailable ? 'opacity: 0.5;' : '').'">'.sprintf(__('If you have high traffic at certain times of the day, %1$s can be told to check the current load average via <a href="https://www.php.net/manual/en/function.sys-getloadavg.php" target="_blank"><code>sys_getloadavg()</code></a>. If your server\'s load average has been high in the last 15 minutes or so, cache expiration is disabled automatically to help reduce stress on the server; i.e., to avoid generating a new version of the cache while the server is very busy.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p style="'.($_sys_getloadavg_unavailable ? 'opacity: 0.5;' : '').'">'.sprintf(__('To enable this functionality you should first determine what a high load average is for your server. If you log into your machine via SSH you can run the <code>top</code> command to get a feel for what a high load average looks like. Once you know the number, you can enter it in the field below; e.g., <code>1.05</code> might be a high load average for a server with one CPU. See also: <a href="https://bit.ly/2QZLwkI" target="_blank">Understanding Load Average</a>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p><input '.($_sys_getloadavg_unavailable ? 'disabled' : '').' type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_max_age_disable_if_load_average_is_gte]" value="'.esc_attr($this->plugin->options['cache_max_age_disable_if_load_average_is_gte']).'" /></p>'."\n";
-            if ($_sys_getloadavg_unavailable && mb_stripos(PHP_OS, 'win') === 0) { // See: <http://jas.xyz/1HZsZ9v>
-                echo '  <p class="warning">'.__('<strong>Note:</strong> It appears that your server is running Windows. The <code>sys_getloadavg()</code> function has not been implemented in PHP for Windows servers yet.', 'rapid-cache').'</p>'."\n";
-            } elseif ($_sys_getloadavg_unavailable && mb_stripos(PHP_OS, 'win') !== 0) {
-                echo '  <p class="warning">'.__('<strong>Note:</strong> <code>sys_getloadavg()</code> has been disabled by your web hosting company or is not available on your server.', 'rapid-cache').'</p>'."\n";
-            }
-            echo '   </div>'."\n";
-        }
         echo '   </div>'."\n";
 
         echo '</div>'."\n";
 
-        /* ----------------------------------------------------------------------------------------- */
+	    /* ----------------------------------------------------------------------------------------- */
+
+	    echo '<div class="plugin-menu-page-panel">'."\n";
+
+	    echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
+	    echo '      <i class="si si-sitemap"></i> '.__('Cache Preloading', 'rapid-cache')."\n";
+	    echo '   </a>'."\n";
+
+	    echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
+	    echo '      <i class="si si-question-circle si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
+	    echo '      <h3>'.__('Enable the Auto-Cache Engine?', 'rapid-cache').'</h3>'."\n";
+	    echo '      <p>'.sprintf(__('After using %1$s for awhile (or any other page caching plugin, for that matter); it becomes obvious that at some point (based on your configured Expiration Time) %1$s has to refresh itself. It does this by ditching its cached version of a page, reloading the database-driven content, and then recreating the cache with the latest data. This is a never ending regeneration cycle that is based entirely on your configured Expiration Time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+	    echo '      <p>'.__('Understanding this, you can see that 99% of your visitors are going to receive a lightning fast response from your server. However, there will always be around 1% of your visitors that land on a page for the very first time (before it\'s been cached), or land on a page that needs to have its cache regenerated, because the existing cache has become outdated. We refer to this as a <em>First-Come Slow-Load Issue</em>. Not a huge problem, but if you\'re optimizing your site for every ounce of speed possible, the Auto-Cache Engine can help with this. The Auto-Cache Engine has been designed to combat this issue by taking on the responsibility of being that first visitor to a page that has not yet been cached, or has an expired cache. The Auto-Cache Engine is powered, in part, by <a href="http://codex.wordpress.org/Category:WP-Cron_Functions" target="_blank">WP-Cron</a> (already built into WordPress). The Auto-Cache Engine runs at 15-minute intervals via WP-Cron. It also uses the <a href="http://core.trac.wordpress.org/browser/trunk/wp-includes/http.php" target="_blank">WP_Http</a> class, which is also built into WordPress already.', 'rapid-cache').'</p>'."\n";
+	    echo '      <p>'.__('The Auto-Cache Engine obtains its list of URLs to auto-cache, from two different sources. It can read an <a href="http://wordpress.org/extend/plugins/google-sitemap-generator/" target="_blank">XML Sitemap</a> and/or a list of specific URLs that you supply. If you supply both sources, it will use both sources collectively. The Auto-Cache Engine takes ALL of your other configuration options into consideration too, including your Expiration Time, as well as any cache exclusion rules.', 'rapid-cache').'</p>'."\n";
+	    echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_enable]" data-target=".-auto-cache-options">'."\n";
+	    echo '            <option value="0"'.(selected($this->plugin->options['auto_cache_enable'], '0', false)).'>'.__('No, leave the Auto-Cache Engine disabled please.', 'rapid-cache').'</option>'."\n";
+	    echo '            <option value="1"'.(selected($this->plugin->options['auto_cache_enable'], '1', false)).'>'.__('Yes, I want the Auto-Cache Engine to keep pages cached automatically.', 'rapid-cache').'</option>'."\n";
+	    echo '         </select></p>'."\n";
+
+	    echo '      <hr />'."\n";
+
+	    echo '      <div class="plugin-menu-page-panel-if-enabled -auto-cache-options">'."\n";
+	    echo '         <h3>'.__('XML Sitemap URL (or an XML Sitemap Index)', 'rapid-cache').'</h3>'."\n";
+	    echo '         <table style="width:100%;"><tr><td style="width:1px; font-weight:bold; white-space:pre;">'.esc_html(home_url('/')).'</td><td><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_sitemap_url]" value="'.esc_attr($this->plugin->options['auto_cache_sitemap_url']).'" /></td></tr></table>'."\n";
+	    if (is_multisite()) {
+		    echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_ms_children_too]">'."\n";
+		    echo '            <option value="0"'.selected($this->plugin->options['auto_cache_ms_children_too'], '0', false).'>'.__('All URLs in this network are in the sitemap for the main site.', 'rapid-cache').'</option>'."\n";
+		    echo '            <option value="1"'.selected($this->plugin->options['auto_cache_ms_children_too'], '1', false).'>'.__('Using the path I\'ve given, look for blog-specific sitemaps in each child blog also.', 'rapid-cache').'</option>'."\n";
+		    echo '         </select></p>'."\n";
+		    echo '      <p class="info" style="display:block; margin-top:0;">'.sprintf(__('<strong>↑</strong> If enabled here, each child blog can be auto-cached too. %1$s will dynamically change the leading <code>%2$s</code> as necessary; for each child blog in the network. %1$s supports both sub-directory &amp; sub-domain networks, including domain mapping plugins. For more information about how the Auto-Cache Engine caches child blogs, see <a href="#" target="_blank">this article</a>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME), esc_html(home_url('/'))).'</p>'."\n";
+	    }
+	    echo '         <hr />'."\n";
+
+	    echo '         <h3>'.__('And/Or; a List of URLs to Auto-Cache (One Per Line)', 'rapid-cache').'</h3>'."\n";
+	    echo '         <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_other_urls]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['auto_cache_other_urls']).'</textarea></p>'."\n";
+	    echo '         <p class="info" style="display:block; margin-top:-5px;">'.__('<strong>Note:</strong> Wildcards are NOT supported here. If you are going to supply a list of URLs above, each line must contain one full URL for the Auto-Cache Engine to auto-cache. If you have many URLs, we recommend using an <a href="https://en.wikipedia.org/wiki/Sitemaps" target="_blank">XML Sitemap</a>.', 'rapid-cache').'</p>'."\n";
+
+	    echo '         <hr />'."\n";
+
+	    echo '         <h3>'.__('Auto-Cache Delay Timer (in Milliseconds)', 'rapid-cache').'</h3>'."\n";
+	    echo '         <p>'.__('As the Auto-Cache Engine runs through each URL, you can tell it to wait X number of milliseconds between each connection that it makes. It is strongly suggested that you DO have some small delay here. Otherwise, you run the risk of hammering your own web server with multiple repeated connections whenever the Auto-Cache Engine is running. This is especially true on very large sites; where there is the potential for hundreds of repeated connections as the Auto-Cache Engine goes through a long list of URLs. Adding a delay between each connection will prevent the Auto-Cache Engine from placing a heavy load on the processor that powers your web server. A value of <code>500</code> milliseconds is suggested here (half a second). If you experience problems, you can bump this up a little at a time, in increments of <code>500</code> milliseconds; until you find a happy place for your server. <em>Please note that <code>1000</code> milliseconds = <code>1</code> full second.</em>', 'rapid-cache').'</p>'."\n";
+	    echo '         <p><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_delay]" value="'.esc_attr($this->plugin->options['auto_cache_delay']).'" /></p>'."\n";
+
+	    echo '         <hr />'."\n";
+
+	    echo '         <h3>'.__('Auto-Cache User-Agent String', 'rapid-cache').'</h3>'."\n";
+	    echo '         <table style="width:100%;"><tr><td><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_user_agent]" value="'.esc_attr($this->plugin->options['auto_cache_user_agent']).'" /></td><td style="width:1px; font-weight:bold; white-space:pre;">; '.esc_html(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.' '.MEGAOPTIM_RAPID_CACHE_VERSION).'</td></tr></table>'."\n";
+	    echo '         <p class="info" style="display:block;">'.__('This is how the Auto-Cache Engine identifies itself when connecting to URLs. See <a href="http://en.wikipedia.org/wiki/User_agent" target="_blank">User Agent</a> in the Wikipedia.', 'rapid-cache').'</p>'."\n";
+	    echo '      </div>'."\n";
+	    echo '   </div>'."\n";
+
+	    echo '</div>'."\n";
+
+	    /* ----------------------------------------------------------------------------------------- */
 
         echo '<div class="plugin-menu-page-panel">'."\n";
 
@@ -565,69 +463,73 @@ class MenuPageOptions extends MenuPage
 
         echo '</div>'."\n";
 
+	    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+	    if ( $this->plugin->functionIsPossible( 'opcache_reset' ) ) {
+
+		    echo '<div class="plugin-menu-page-panel">' . "\n";
+
+		    echo '   <a href="#" class="plugin-menu-page-panel-heading">' . "\n";
+		    echo '      <i class="si si-code"></i> ' . __( 'OPcache Control', 'rapid-cache' ) . "\n";
+		    echo '   </a>' . "\n";
+
+		    echo '   <div class="plugin-menu-page-panel-body clearfix">' . "\n";
+
+		    echo '  <h3>' . __( 'Clear the <a href="https://github.com/megaoptim/rapid-cache/wiki/OPcache-Control" target="_blank">PHP OPcache</a> Too?', 'rapid-cache' ) . '</h3>' . "\n";
+		    echo '  <p>' . sprintf( __( 'If you clear the cache manually, do you want %1$s to clear the PHP OPcache too? This is not necessary, but if you want a truly clean start, this will clear all PHP files in the server\'s opcode cache also. Note: If you don\'t already know what the PHP OPcache is, it is suggested that you leave this disabled. It really is not necessary. This is just an added feature for advanced users.', 'rapid-cache' ), 'Rapid Cache' ) . '</p>' . "\n";
+		    echo '  <p><select name="' . esc_attr( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS ) . '[saveOptions][cache_clear_opcache_enable]" class="-no-if-enabled">' . "\n";
+		    echo '      <option value="0"' . selected( $this->plugin->options['cache_clear_opcache_enable'], '0', false ) . '>' . __( 'No, I don\'t use the PHP OPcache extension; or, I don\'t want the opcode cache cleared.', 'rapid-cache' ) . '</option>' . "\n";
+		    echo '      <option value="1"' . selected( $this->plugin->options['cache_clear_opcache_enable'], '1', false ) . '>' . __( 'Yes, if the PHP OPcache extension is enabled, also clear the entire PHP opcode cache.', 'rapid-cache' ) . '</option>' . "\n";
+		    echo '  </select></p>' . "\n";
+
+		    echo '   </div>' . "\n";
+
+		    echo '</div>' . "\n";
+	    }
+
         /* ----------------------------------------------------------------------------------------- */
+        echo '<div class="plugin-menu-page-panel">'."\n";
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' pro-preview' : '').'">'."\n";
+        echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
+        echo '      <i class="si si-octi-organization"></i> '.__('Users Cache', 'rapid-cache')."\n";
+        echo '   </a>'."\n";
 
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-octi-organization"></i> '.__('Logged-In Users', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <i class="si si-group si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <h3>'.__('Caching Enabled for Logged-In Users &amp; Comment Authors?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.__('This should almost always be set to <code>No</code>. Most sites don\'t cache content generated while a user is logged-in. Doing so could result in a cache of dynamic content generated specifically for a particular user, where the content being cached may contain details that pertain only to the user that was logged-in when the cache was generated. In short, don\'t turn this on unless you know what you\'re doing. Note also that most sites get most (sometimes all) of their traffic from users who <em>are not</em> logged-in. When a user <em>is</em> logged-in, disabling the cache is generally a good idea because a logged-in user has a session open with your site. The content they view should remain very dynamic in this scenario.', 'rapid-cache').'</p>'."\n";
-            echo '      <i class="si si-sitemap si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <p>'.sprintf(__('<strong>Exception (Membership Sites):</strong> If you run a site with many users and the majority of your traffic comes from users who <em>are</em> logged-in, choose: <code>Yes (maintain separate cache)</code>. %1$s will operate normally, but when a user is logged-in the cache is user-specific. %1$s will intelligently refresh the cache when/if a user submits a form on your site with the GET or POST method. Or, if you make changes to their account (or another plugin makes changes to their account); including user <a href="http://codex.wordpress.org/Function_Reference/update_user_option" target="_blank">option</a>|<a href="http://codex.wordpress.org/Function_Reference/update_user_meta" target="_blank">meta</a> additions, updates &amp; deletions too. However, please note that enabling this feature (i.e., user-specific cache entries) will eat up much more disk space. That being said, the benefits of this feature for most sites will outweigh the disk overhead; i.e., it\'s not an issue in most cases. In other words, unless you\'re short on disk space, or you have thousands of users, the disk overhead is neglible.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][when_logged_in]" data-toggle="enable-disable" data-enabled-strings="1,postload" data-target=".-logged-in-users-options">'."\n";
-            echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['when_logged_in'], '0', false)).'>'.__('No, do NOT cache; or serve a cache file when a user is logged-in (safest option).', 'rapid-cache').'</option>'."\n";
-            echo '            <option value="postload"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' selected' : selected($this->plugin->options['when_logged_in'], 'postload', false)).'>'.__('Yes, and maintain a separate cache for each user (recommended for membership sites).', 'rapid-cache').'</option>'."\n";
-            if ($this->plugin->options['when_logged_in'] === '1' || get_site_option(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_was_1')) {
-                update_site_option(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_was_1', '1');
-                echo '            <option value="1"'.selected($this->plugin->options['when_logged_in'], '1', false).'>'.__('Yes, but DON\'T maintain a separate cache for each user (I know what I\'m doing).', 'rapid-cache').'</option>'."\n";
-            }
-            echo '         </select></p>'."\n";
-            if ($this->plugin->options['when_logged_in'] === '1' && $this->plugin->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_no_admin_bar', true)) {
-                echo '<p class="warning">'.sprintf(__('<strong>Warning:</strong> Whenever you enable caching for logged-in users (without a separate cache for each user), the WordPress Admin Bar <em>must</em> be disabled to prevent one user from seeing another user\'s details in the Admin Bar. <strong>Given your current configuration, %1$s will automatically hide the WordPress Admin Bar on the front-end of your site.</strong>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            }
-            echo '      <p class="info">'.sprintf(__('<strong>Note:</strong> %1$s includes comment authors as part of it\'s logged-in user check. This way comment authors will be able to see updates to comment threads immediately. And, so that any dynamically-generated messages displayed by your theme will work as intended. In short, %1$s thinks of a comment author as a logged-in user, even though technically they are not. Users who gain access to password-protected Posts/Pages are also considered by the logged-in user check.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-
-            echo '      <hr />'."\n";
-
-            echo '      <div class="plugin-menu-page-panel-if-enabled -logged-in-users-options">'."\n";
-            echo '        <h3>'.__('Cache Pages Containing Nonce Values in Markup?', 'rapid-cache').'</h3>'."\n";
-            echo '        <p>'.sprintf(__('This should almost always be set to <code>Yes</code>. WordPress injects Nonces (<a href="https://developer.wordpress.org/themes/theme-security/using-nonces/" target="_blank" rel="external">numbers used once</a>) into the markup on any given page that a logged-in user lands on. These Nonce values are generally used to improve security when actions are taken by a user; e.g., posting a form or clicking a link that performs an action. If you set this to <code>No</code>, any page containing an Nonce will bypass the cache and be served dynamically (a performance hit). Even the Admin Bar in WordPress injects Nonce values. That\'s reason enough to leave this at the default value of <code>Yes</code>; i.e., so Nonce values in the markup don\'t result in a cache bypass. In short, don\'t set this to <code>No</code> unless you know what you\'re doing.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '        <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_nonce_values_when_logged_in]">'."\n";
-            echo '           <option value="1"'.selected($this->plugin->options['cache_nonce_values_when_logged_in'], '1', false).'>'.__('Yes, for logged-in users, intelligently cache pages containing Nonce values (recommended).', 'rapid-cache').'</option>'."\n";
-            echo '           <option value="0"'.selected($this->plugin->options['cache_nonce_values_when_logged_in'], '0', false).'>'.__('No, for logged-in users, refuse to cache pages containing Nonce values.', 'rapid-cache').'</option>'."\n";
-            echo '           </select></p>'."\n";
-            echo '        <p class="info">'.sprintf(__('<strong>Note:</strong> Nonce values in WordPress have a limited lifetime. They can expire just 12 hours after they were first generated. For this reason, %1$s will automatically force cache files containing Nonce values to expire once they are 12+ hours old; i.e., a new request for an expired page containing Nonce values will be rebuilt automatically, generating new Nonces that will continue to operate as expected. This rule is enforced no matter what your overall Cache Expiration Time is set to.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '        <hr />'."\n";
-            echo '        <h3>'.__('Static CDN Filters Enabled for Logged-In Users &amp; Comment Authors?', 'rapid-cache').'</h3>'."\n";
-            echo '        <p>'.__('While this defaults to a value of <code>No</code>, it should almost always be set to <code>Yes</code>. This value defaults to <code>No</code> only because Logged-In User caching (see above) defaults to <code>No</code> and setting this value to <code>Yes</code> by default can cause confusion for some site owners. Once you understand that Static CDN Filters can be applied safely for all visitors (logged-in or not logged-in), please choose <code>Yes</code> in the dropdown below. If you are not using Static CDN Filters, the value below is ignored.', 'rapid-cache').'</p>'."\n";
-            echo '        <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cdn_when_logged_in]">'."\n";
-            echo '              <option value="0"'.selected($this->plugin->options['cdn_when_logged_in'], '0', false).'>'.__('No, disable Static CDN Filters when a user is logged-in.', 'rapid-cache').'</option>'."\n";
-            echo '                <option value="postload"'.selected($this->plugin->options['cdn_when_logged_in'], 'postload', false).'>'.__('Yes, enable Static CDN Filters for logged-in users (recommended) .', 'rapid-cache').'</option>'."\n";
-            echo '          </select></p>'."\n";
-            echo '        <p class="info">'.__('<strong>Note:</strong> Static CDN Filters serve <em>static</em> resources. Static resources, are, simply put, static. Thus, it is not a problem to cache these resources for any visitor (logged-in or not logged-in). To avoid confusion, this defaults to a value of <code>No</code>, and we ask that you set it to <code>Yes</code> on your own so that you\'ll know to expect this behavior; i.e., that static resources will always be served from the CDN (logged-in or not logged-in) even though Logged-In User caching may be disabled above.', 'rapid-cache').'</p>'."\n";
-            echo '        <hr />'."\n";
-            echo '        <h3>'.__('Enable HTML Compression for Logged-In Users?', 'rapid-cache').'</h3>'."\n";
-            echo '        <p>'.__('Disabled by default. This setting is only applicable when HTML Compression is enabled. HTML Compression should remain disabled for logged-in users because the user-specific cache has a much shorter Time To Live (TTL) which means their cache is likely to expire more quickly than a normal visitor. Rebuilding the HTML Compressor cache is time-consuming and doing it too frequently will actually slow things down for them. For example, if you\'re logged into the site as a user and you submit a form, that triggers a clearing of the cache for that user, including the HTML Compressor cache. Lots of little actions you take can result in a clearing of the cache. This shorter TTL is not ideal when running the HTML Compressor because it does a deep analysis of the page content and the associated resources in order to intelligently compress things. For logged-in users, it is better to skip that extra work and just cache the HTML source as-is, avoiding that extra overhead. In short, do NOT turn this on unless you know what you\'re doing.', 'rapid-cache').'</p>'."\n";
-            echo '        <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_when_logged_in]">'."\n";
-            echo '           <option value="0"'.selected($this->plugin->options['htmlc_when_logged_in'], '0', false).'>'.__('No, disable HTML Compression for logged-in users (recommended).', 'rapid-cache').'</option>'."\n";
-            echo '           <option value="postload"'.selected($this->plugin->options['htmlc_when_logged_in'], 'postload', false).'>'.__('Yes, enable HTML Compression for logged-in users.', 'rapid-cache').'</option>'."\n";
-            echo '           </select></p>'."\n";
-            echo '      </div>'."\n";
-            echo '   </div>'."\n";
-
-            echo '</div>'."\n";
+        echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
+        echo '      <i class="si si-group si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
+        echo '      <h3>'.__('Caching Enabled for Logged-In Users &amp; Comment Authors?', 'rapid-cache').'</h3>'."\n";
+        echo '      <p>'.__('This should almost always be set to <code>No</code>. Most sites don\'t cache content generated while a user is logged-in. Doing so could result in a cache of dynamic content generated specifically for a particular user, where the content being cached may contain details that pertain only to the user that was logged-in when the cache was generated. In short, don\'t turn this on unless you know what you\'re doing. Note also that most sites get most (sometimes all) of their traffic from users who <em>are not</em> logged-in. When a user <em>is</em> logged-in, disabling the cache is generally a good idea because a logged-in user has a session open with your site. The content they view should remain very dynamic in this scenario.', 'rapid-cache').'</p>'."\n";
+        echo '      <i class="si si-sitemap si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
+        echo '      <p>'.sprintf(__('<strong>Exception (Membership Sites):</strong> If you run a site with many users and the majority of your traffic comes from users who <em>are</em> logged-in, choose: <code>Yes (maintain separate cache)</code>. %1$s will operate normally, but when a user is logged-in the cache is user-specific. %1$s will intelligently refresh the cache when/if a user submits a form on your site with the GET or POST method. Or, if you make changes to their account (or another plugin makes changes to their account); including user <a href="http://codex.wordpress.org/Function_Reference/update_user_option" target="_blank">option</a>|<a href="http://codex.wordpress.org/Function_Reference/update_user_meta" target="_blank">meta</a> additions, updates &amp; deletions too. However, please note that enabling this feature (i.e., user-specific cache entries) will eat up much more disk space. That being said, the benefits of this feature for most sites will outweigh the disk overhead; i.e., it\'s not an issue in most cases. In other words, unless you\'re short on disk space, or you have thousands of users, the disk overhead is neglible.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+        echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][when_logged_in]" data-toggle="enable-disable" data-enabled-strings="1,postload" data-target=".-logged-in-users-options">'."\n";
+        echo '            <option value="0" '.selected($this->plugin->options['when_logged_in']).'>'.__('No, do NOT cache; or serve a cache file when a user is logged-in (safest option).', 'rapid-cache').'</option>'."\n";
+        echo '            <option value="postload"'.(selected($this->plugin->options['when_logged_in'], 'postload', false)).'>'.__('Yes, and maintain a separate cache for each user (recommended for membership sites).', 'rapid-cache').'</option>'."\n";
+        if ($this->plugin->options['when_logged_in'] === '1' || get_site_option(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_was_1')) {
+            update_site_option(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_was_1', '1');
+            echo '            <option value="1"'.selected($this->plugin->options['when_logged_in'], '1', false).'>'.__('Yes, but DON\'T maintain a separate cache for each user (I know what I\'m doing).', 'rapid-cache').'</option>'."\n";
         }
+        echo '         </select></p>'."\n";
+        if ($this->plugin->options['when_logged_in'] === '1' && $this->plugin->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_when_logged_in_no_admin_bar', true)) {
+            echo '<p class="warning">'.sprintf(__('<strong>Warning:</strong> Whenever you enable caching for logged-in users (without a separate cache for each user), the WordPress Admin Bar <em>must</em> be disabled to prevent one user from seeing another user\'s details in the Admin Bar. <strong>Given your current configuration, %1$s will automatically hide the WordPress Admin Bar on the front-end of your site.</strong>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+        }
+        echo '      <p class="info">'.sprintf(__('<strong>Note:</strong> %1$s includes comment authors as part of it\'s logged-in user check. This way comment authors will be able to see updates to comment threads immediately. And, so that any dynamically-generated messages displayed by your theme will work as intended. In short, %1$s thinks of a comment author as a logged-in user, even though technically they are not. Users who gain access to password-protected Posts/Pages are also considered by the logged-in user check.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+
+        echo '      <hr />'."\n";
+
+        echo '      <div class="plugin-menu-page-panel-if-enabled -logged-in-users-options">'."\n";
+        echo '        <h3>'.__('Cache Pages Containing Nonce Values in Markup?', 'rapid-cache').'</h3>'."\n";
+        echo '        <p>'.sprintf(__('This should almost always be set to <code>Yes</code>. WordPress injects Nonces (<a href="https://developer.wordpress.org/themes/theme-security/using-nonces/" target="_blank" rel="external">numbers used once</a>) into the markup on any given page that a logged-in user lands on. These Nonce values are generally used to improve security when actions are taken by a user; e.g., posting a form or clicking a link that performs an action. If you set this to <code>No</code>, any page containing an Nonce will bypass the cache and be served dynamically (a performance hit). Even the Admin Bar in WordPress injects Nonce values. That\'s reason enough to leave this at the default value of <code>Yes</code>; i.e., so Nonce values in the markup don\'t result in a cache bypass. In short, don\'t set this to <code>No</code> unless you know what you\'re doing.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+        echo '        <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][cache_nonce_values_when_logged_in]">'."\n";
+        echo '           <option value="1"'.selected($this->plugin->options['cache_nonce_values_when_logged_in'], '1', false).'>'.__('Yes, for logged-in users, intelligently cache pages containing Nonce values (recommended).', 'rapid-cache').'</option>'."\n";
+        echo '           <option value="0"'.selected($this->plugin->options['cache_nonce_values_when_logged_in'], '0', false).'>'.__('No, for logged-in users, refuse to cache pages containing Nonce values.', 'rapid-cache').'</option>'."\n";
+        echo '           </select></p>'."\n";
+        echo '        <p class="info">'.sprintf(__('<strong>Note:</strong> Nonce values in WordPress have a limited lifetime. They can expire just 12 hours after they were first generated. For this reason, %1$s will automatically force cache files containing Nonce values to expire once they are 12+ hours old; i.e., a new request for an expired page containing Nonce values will be rebuilt automatically, generating new Nonces that will continue to operate as expected. This rule is enforced no matter what your overall Cache Expiration Time is set to.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
+        echo '      </div>'."\n";
+        echo '   </div>'."\n";
+        echo '</div>'."\n";
         /* ----------------------------------------------------------------------------------------- */
 
-        echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? ' pro-preview' : '').'">'."\n";
+        echo '<div class="plugin-menu-page-panel">'."\n";
 
-        echo '   <a href="#" class="plugin-menu-page-panel-heading" data-additional-pro-features="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? __('additional pro features', 'rapid-cache') : '').'">'."\n";
+        echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
         echo '      <i class="si si-question-circle"></i> '.__('GET Requests', 'rapid-cache')."\n";
         echo '   </a>'."\n";
 
@@ -643,15 +545,14 @@ class MenuPageOptions extends MenuPage
         echo '      <p class="info">'.sprintf(__('<strong>Advanced Tip:</strong> If you are not caching GET requests (recommended), but you <em>do</em> want to allow some special URLs that include query string parameters to be cached, you can add this special parameter to any URL <code>?%2$sAC=1</code>. This tells %1$s that it\'s OK to cache that particular URL, even though it contains query string arguments. If you <em>are</em> caching GET requests and you want to force %1$s to <em>not</em> cache a specific request, you can add this special parameter to any URL <code>?%2$sAC=0</code>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME), esc_html(mb_strtolower(MEGAOPTIM_RAPID_CACHE_SHORT_NAME))).'</p>'."\n";
         echo '      <p style="font-style:italic;">'.__('<strong>Other Request Types:</strong> POST requests (i.e., forms with <code>method=&quot;post&quot;</code>) are always excluded from the cache, which is the way it should be. Any <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html" target="_blank">POST/PUT/DELETE</a> request should never, ever be cached. CLI and self-serve requests are also excluded from the cache automatically. A CLI request is one that comes from the command line; commonly used by CRON jobs and other automated routines. A self-serve request is an HTTP connection established from your site, to your site. For instance, a WP Cron job, or any other HTTP request that is spawned not by a user, but by the server itself.', 'rapid-cache').'</p>'."\n";
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div>'."\n";
-            echo    '<hr />'."\n";
-            echo    '<h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('List of GET Variable Names to Ignore', 'rapid-cache').'</h3>'."\n";
-            echo    '<p>'.__('You can enter one variable name per line. Each of the variable names that you list here will be ignored entirely; i.e., not considered when caching any given page, and not considered when serving any page that is already cached. For example, many sites use Google Analytics and there are <a href="https://support.google.com/analytics/answer/1033863?hl=en" target="_blank" rel="external">GET request variables used by Google Analytics</a>, which are read by client-side JavaScript only. Those GET variables can be ignored altogether when it comes to the cache algorithm — speeding up your site even further.', 'rapid-cache').'</p>'."\n";
-            echo    '<p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][ignore_get_request_vars]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['ignore_get_request_vars']).'</textarea></p>'."\n";
-            echo    '<p style="font-style:italic;">'.__('A wildcard <code>*</code> character can also be used when necessary; e.g., <code>utm_*</code> (where <code>*</code> = 0 or more characters that are NOT a slash <code>/</code>). To learn more about this syntax, please see <a href ="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache').'</p>'."\n";
-            echo '</div>'."\n";
-        }
+        echo '<div>'."\n";
+        echo    '<hr />'."\n";
+        echo    '<h3>'.__('List of GET Variable Names to Ignore', 'rapid-cache').'</h3>'."\n";
+        echo    '<p>'.__('You can enter one variable name per line. Each of the variable names that you list here will be ignored entirely; i.e., not considered when caching any given page, and not considered when serving any page that is already cached. For example, many sites use Google Analytics and there are <a href="https://support.google.com/analytics/answer/1033863?hl=en" target="_blank" rel="external">GET request variables used by Google Analytics</a>, which are read by client-side JavaScript only. Those GET variables can be ignored altogether when it comes to the cache algorithm — speeding up your site even further.', 'rapid-cache').'</p>'."\n";
+        echo    '<p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][ignore_get_request_vars]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['ignore_get_request_vars']).'</textarea></p>'."\n";
+        echo    '<p style="font-style:italic;">'.__('A wildcard <code>*</code> character can also be used when necessary; e.g., <code>utm_*</code> (where <code>*</code> = 0 or more characters that are NOT a slash <code>/</code>). To learn more about this syntax, please see <a href ="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache').'</p>'."\n";
+        echo '</div>'."\n";
+
         echo '   </div>'."\n";
 
         echo '</div>'."\n";
@@ -784,148 +685,10 @@ class MenuPageOptions extends MenuPage
 
         /* ----------------------------------------------------------------------------------------- */
 
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' pro-preview' : '').'">'."\n";
+        if ($this->plugin->isApache()) {
+            echo '<div class="plugin-menu-page-panel">'."\n";
 
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-sitemap"></i> '.__('Auto-Cache Engine', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <i class="si si-question-circle si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <h3>'.__('Enable the Auto-Cache Engine?', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.sprintf(__('After using %1$s for awhile (or any other page caching plugin, for that matter); it becomes obvious that at some point (based on your configured Expiration Time) %1$s has to refresh itself. It does this by ditching its cached version of a page, reloading the database-driven content, and then recreating the cache with the latest data. This is a never ending regeneration cycle that is based entirely on your configured Expiration Time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p>'.__('Understanding this, you can see that 99% of your visitors are going to receive a lightning fast response from your server. However, there will always be around 1% of your visitors that land on a page for the very first time (before it\'s been cached), or land on a page that needs to have its cache regenerated, because the existing cache has become outdated. We refer to this as a <em>First-Come Slow-Load Issue</em>. Not a huge problem, but if you\'re optimizing your site for every ounce of speed possible, the Auto-Cache Engine can help with this. The Auto-Cache Engine has been designed to combat this issue by taking on the responsibility of being that first visitor to a page that has not yet been cached, or has an expired cache. The Auto-Cache Engine is powered, in part, by <a href="http://codex.wordpress.org/Category:WP-Cron_Functions" target="_blank">WP-Cron</a> (already built into WordPress). The Auto-Cache Engine runs at 15-minute intervals via WP-Cron. It also uses the <a href="http://core.trac.wordpress.org/browser/trunk/wp-includes/http.php" target="_blank">WP_Http</a> class, which is also built into WordPress already.', 'rapid-cache').'</p>'."\n";
-            echo '      <p>'.__('The Auto-Cache Engine obtains its list of URLs to auto-cache, from two different sources. It can read an <a href="http://wordpress.org/extend/plugins/google-sitemap-generator/" target="_blank">XML Sitemap</a> and/or a list of specific URLs that you supply. If you supply both sources, it will use both sources collectively. The Auto-Cache Engine takes ALL of your other configuration options into consideration too, including your Expiration Time, as well as any cache exclusion rules.', 'rapid-cache').'</p>'."\n";
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_enable]" data-target=".-auto-cache-options">'."\n";
-            echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['auto_cache_enable'], '0', false)).'>'.__('No, leave the Auto-Cache Engine disabled please.', 'rapid-cache').'</option>'."\n";
-            echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' selected' : selected($this->plugin->options['auto_cache_enable'], '1', false)).'>'.__('Yes, I want the Auto-Cache Engine to keep pages cached automatically.', 'rapid-cache').'</option>'."\n";
-            echo '         </select></p>'."\n";
-
-            echo '      <hr />'."\n";
-
-            echo '      <div class="plugin-menu-page-panel-if-enabled -auto-cache-options">'."\n";
-            echo '         <h3>'.__('XML Sitemap URL (or an XML Sitemap Index)', 'rapid-cache').'</h3>'."\n";
-            echo '         <table style="width:100%;"><tr><td style="width:1px; font-weight:bold; white-space:pre;">'.esc_html(home_url('/')).'</td><td><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_sitemap_url]" value="'.esc_attr($this->plugin->options['auto_cache_sitemap_url']).'" /></td></tr></table>'."\n";
-            if (is_multisite()) {
-                echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_ms_children_too]">'."\n";
-                echo '            <option value="0"'.selected($this->plugin->options['auto_cache_ms_children_too'], '0', false).'>'.__('All URLs in this network are in the sitemap for the main site.', 'rapid-cache').'</option>'."\n";
-                echo '            <option value="1"'.selected($this->plugin->options['auto_cache_ms_children_too'], '1', false).'>'.__('Using the path I\'ve given, look for blog-specific sitemaps in each child blog also.', 'rapid-cache').'</option>'."\n";
-                echo '         </select></p>'."\n";
-                echo '      <p class="info" style="display:block; margin-top:0;">'.sprintf(__('<strong>↑</strong> If enabled here, each child blog can be auto-cached too. %1$s will dynamically change the leading <code>%2$s</code> as necessary; for each child blog in the network. %1$s supports both sub-directory &amp; sub-domain networks, including domain mapping plugins. For more information about how the Auto-Cache Engine caches child blogs, see <a href="#" target="_blank">this article</a>.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME), esc_html(home_url('/'))).'</p>'."\n";
-            }
-            echo '         <hr />'."\n";
-
-            echo '         <h3>'.__('And/Or; a List of URLs to Auto-Cache (One Per Line)', 'rapid-cache').'</h3>'."\n";
-            echo '         <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_other_urls]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['auto_cache_other_urls']).'</textarea></p>'."\n";
-            echo '         <p class="info" style="display:block; margin-top:-5px;">'.__('<strong>Note:</strong> Wildcards are NOT supported here. If you are going to supply a list of URLs above, each line must contain one full URL for the Auto-Cache Engine to auto-cache. If you have many URLs, we recommend using an <a href="https://en.wikipedia.org/wiki/Sitemaps" target="_blank">XML Sitemap</a>.', 'rapid-cache').'</p>'."\n";
-
-            echo '         <hr />'."\n";
-
-            echo '         <h3>'.__('Auto-Cache Delay Timer (in Milliseconds)', 'rapid-cache').'</h3>'."\n";
-            echo '         <p>'.__('As the Auto-Cache Engine runs through each URL, you can tell it to wait X number of milliseconds between each connection that it makes. It is strongly suggested that you DO have some small delay here. Otherwise, you run the risk of hammering your own web server with multiple repeated connections whenever the Auto-Cache Engine is running. This is especially true on very large sites; where there is the potential for hundreds of repeated connections as the Auto-Cache Engine goes through a long list of URLs. Adding a delay between each connection will prevent the Auto-Cache Engine from placing a heavy load on the processor that powers your web server. A value of <code>500</code> milliseconds is suggested here (half a second). If you experience problems, you can bump this up a little at a time, in increments of <code>500</code> milliseconds; until you find a happy place for your server. <em>Please note that <code>1000</code> milliseconds = <code>1</code> full second.</em>', 'rapid-cache').'</p>'."\n";
-            echo '         <p><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_delay]" value="'.esc_attr($this->plugin->options['auto_cache_delay']).'" /></p>'."\n";
-
-            echo '         <hr />'."\n";
-
-            echo '         <h3>'.__('Auto-Cache User-Agent String', 'rapid-cache').'</h3>'."\n";
-            echo '         <table style="width:100%;"><tr><td><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][auto_cache_user_agent]" value="'.esc_attr($this->plugin->options['auto_cache_user_agent']).'" /></td><td style="width:1px; font-weight:bold; white-space:pre;">; '.esc_html(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.' '.MEGAOPTIM_RAPID_CACHE_VERSION).'</td></tr></table>'."\n";
-            echo '         <p class="info" style="display:block;">'.__('This is how the Auto-Cache Engine identifies itself when connecting to URLs. See <a href="http://en.wikipedia.org/wiki/User_agent" target="_blank">User Agent</a> in the Wikipedia.', 'rapid-cache').'</p>'."\n";
-            echo '      </div>'."\n";
-            echo '   </div>'."\n";
-
-            echo '</div>'."\n";
-        }
-        /* ----------------------------------------------------------------------------------------- */
-
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' pro-preview' : '').'">'."\n";
-
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-html5"></i> '.__('HTML Compression', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <i class="si si-question-circle si-4x" style="float:right; margin: 0 0 0 25px;"></i>'."\n";
-            echo '      <h3>'.__('Enable WebSharks™ HTML Compression?', 'rapid-cache').'</h3>'."\n";
-            if (is_plugin_active('autoptimize/autoptimize.php')) {
-                echo '      <p class="warning">'.__('<strong>Autoptimize + Rapid Cache:</strong> Rapid Cache has detected that you are running the Autoptimize plugin. Autoptimize and the HTML Compressor feature of Rapid Cache are both designed to compress HTML, CSS, and JavaScript. Enabling the HTML Compressor alongside Autoptimize may result in unexpected behavior. If you\'re happy with Autoptimize, you can leave the HTML Compressor disabled. All other Rapid Cache features run great alongside Autoptimize.', 'rapid-cache').' <i class="si si-smile-o"></i></p>';
-            }
-            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_enable]" data-target=".-htmlc-options">'."\n";
-            echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['htmlc_enable'], '0', false)).'>'.__('No, do NOT compress HTML/CSS/JS code at runtime.', 'rapid-cache').'</option>'."\n";
-            echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' selected' : selected($this->plugin->options['htmlc_enable'], '1', false)).'>'.__('Yes, I want to compress HTML/CSS/JS for blazing fast speeds.', 'rapid-cache').'</option>'."\n";
-            echo '         </select></p>'."\n";
-            echo '      <hr />'."\n";
-            echo '      <div class="plugin-menu-page-panel-if-enabled -htmlc-options">'."\n";
-            echo '         <h3>'.__('HTML Compression Options', 'rapid-cache').'</h3>'."\n";
-            echo '         <p>'.__('You can <a href="https://github.com/websharks/html-compressor" target="_blank">learn more about all of these options here</a>.', 'rapid-cache').'</p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_combine_head_body_css]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_combine_head_body_css'], '1', false).'>'.__('Yes, combine CSS from &lt;head&gt; and &lt;body&gt; into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_combine_head_body_css'], '0', false).'>'.__('No, do not combine CSS from &lt;head&gt; and &lt;body&gt; into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_css_code]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_css_code'], '1', false).'>'.__('Yes, compress the code in any unified CSS files.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_css_code'], '0', false).'>'.__('No, do not compress the code in any unified CSS files.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_combine_head_js]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_combine_head_js'], '1', false).'>'.__('Yes, combine JS from &lt;head&gt; into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_combine_head_js'], '0', false).'>'.__('No, do not combine JS from &lt;head&gt; into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_combine_footer_js]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_combine_footer_js'], '1', false).'>'.__('Yes, combine JS footer scripts into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_combine_footer_js'], '0', false).'>'.__('No, do not combine JS footer scripts into fewer files.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_combine_remote_css_js]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_combine_remote_css_js'], '1', false).'>'.__('Yes, combine CSS/JS from remote resources too.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_combine_remote_css_js'], '0', false).'>'.__('No, do not combine CSS/JS from remote resources.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_js_code]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_js_code'], '1', false).'>'.__('Yes, compress the code in any unified JS files.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_js_code'], '0', false).'>'.__('No, do not compress the code in any unified JS files.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_inline_js_code]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_inline_js_code'], '1', false).'>'.__('Yes, compress inline JavaScript snippets.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_inline_js_code'], '0', false).'>'.__('No, do not compress inline JavaScript snippets.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_compress_html_code]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_compress_html_code'], '1', false).'>'.__('Yes, compress (remove extra whitespace) in the final HTML code too.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_compress_html_code'], '0', false).'>'.__('No, do not compress the final HTML code.', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_amp_exclusions_enable]" autocomplete="off">'."\n";
-            echo '               <option value="1"'.selected($this->plugin->options['htmlc_amp_exclusions_enable'], '1', false).'>'.__('Yes, auto-detect AMP (Accelerated Mobile Pages) and selectively disable incompatible features.', 'rapid-cache').'</option>'."\n";
-            echo '               <option value="0"'.selected($this->plugin->options['htmlc_amp_exclusions_enable'], '0', false).'>'.__('No, do not auto-detect AMP (Accelerated Mobile Pages) and selectively disable incompatible features', 'rapid-cache').'</option>'."\n";
-            echo '            </select></p>'."\n";
-            echo '         <hr />'."\n";
-            echo '         <h3>'.__('CSS Exclusion Patterns?', 'rapid-cache').'</h3>'."\n";
-            echo '         <p>'.__('Sometimes there are special cases when a particular CSS file should NOT be consolidated or compressed in any way. This is where you will enter those if you need to (one per line). Searches are performed against the <code>&lt;link href=&quot;&quot;&gt;</code> value, and also against the contents of any inline <code>&lt;style&gt;</code> tags (caSe insensitive). A wildcard <code>*</code> character can also be used when necessary; e.g., <code>xy*-framework</code> (where <code>*</code> = 0 or more characters that are NOT a slash <code>/</code>). Other special characters include: <code>**</code> = 0 or more characters of any kind, including <code>/</code> slashes; <code>^</code> = beginning of the string; <code>$</code> = end of the string. To learn more about this syntax, please see <a href ="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache').'</p>'."\n";
-            echo '         <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_css_exclusions]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['htmlc_css_exclusions']).'</textarea></p>'."\n";
-            echo '         <p class="info" style="display:block;">'.__('<strong>Note:</strong> please remember that your entries here should be formatted as a line-delimited list; e.g., one exclusion pattern per line.', 'rapid-cache').'</p>'."\n";
-            echo '         <h3>'.__('JavaScript Exclusion Patterns?', 'rapid-cache').'</h3>'."\n";
-            echo '         <p>'.__('Sometimes there are special cases when a particular JS file should NOT be consolidated or compressed in any way. This is where you will enter those if you need to (one per line). Searches are performed against the <code>&lt;script src=&quot;&quot;&gt;</code> value, and also against the contents of any inline <code>&lt;script&gt;</code> tags (caSe insensitive). A wildcard <code>*</code> character can also be used when necessary; e.g., <code>xy*-framework</code> (where <code>*</code> = 0 or more characters that are NOT a slash <code>/</code>). Other special characters include: <code>**</code> = 0 or more characters of any kind, including <code>/</code> slashes; <code>^</code> = beginning of the string; <code>$</code> = end of the string. To learn more about this syntax, please see <a href ="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache').'</p>'."\n";
-            echo '         <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_js_exclusions]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['htmlc_js_exclusions']).'</textarea></p>'."\n";
-            echo '         <p class="info" style="display:block;">'.__('<strong>Note:</strong> please remember that your entries here should be formatted as a line-delimited list; e.g., one exclusion pattern per line.', 'rapid-cache').'</p>'."\n";
-            echo '         <h3>'.__('URI Exclusions for HTML Compressor?', 'rapid-cache').'</h3>'."\n";
-            echo '         <p>'.__('When you enable HTML Compression above, you may want to prevent certain pages on your site from being cached by the HTML Compressor. This is where you will enter those if you need to (one per line). Searches are performed against the <a href="https://gist.github.com/jaswsinc/338b6eb03a36c048c26f" target="_blank" style="text-decoration:none;"><code>REQUEST_URI</code></a>; i.e., <code>/path/?query</code> (caSe insensitive). So, don\'t put in full URLs here, just word fragments found in the file path (or query string) is all you need, excluding the http:// and domain name. A wildcard <code>*</code> character can also be used when necessary; e.g., <code>/category/abc-followed-by-*</code> (where <code>*</code> = 0 or more characters that are NOT a slash <code>/</code>). Other special characters include: <code>**</code> = 0 or more characters of any kind, including <code>/</code> slashes; <code>^</code> = beginning of the string; <code>$</code> = end of the string. To learn more about this syntax, please see <a href ="https://github.com/megaoptim/rapid-cache/wiki/Watered-Down-Regex-Syntax" target="_blank">this KB article</a>.', 'rapid-cache').'</p>'."\n";
-            echo '         <p><textarea name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_uri_exclusions]" rows="5" spellcheck="false" class="monospace">'.format_to_edit($this->plugin->options['htmlc_uri_exclusions']).'</textarea></p>'."\n";
-            echo '         <p class="info">'.__('<strong>Tip:</strong> let\'s use this example URL: <code>http://www.example.com/post/example-post-123</code>. To exclude this URL, you would put this line into the field above: <code>/post/example-post-123</code>. Or, you could also just put in a small fragment, like: <code>example</code> or <code>example-*-123</code> and that would exclude any URI containing that word fragment.', 'rapid-cache').'</p>'."\n";
-            echo '         <p class="info">'.__('<strong>Note:</strong> please remember that your entries here should be formatted as a line-delimited list; e.g., one exclusion pattern per line.', 'rapid-cache').'</p>'."\n";
-            echo '         <hr />'."\n";
-            echo '         <h3>'.__('HTML Compression Cache Expiration', 'rapid-cache').'</h3>'."\n";
-            echo '         <p><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htmlc_cache_expiration_time]" value="'.esc_attr($this->plugin->options['htmlc_cache_expiration_time']).'" /></p>'."\n";
-            echo '         <p class="info" style="display:block;">'.__('<strong>Tip:</strong> the value that you specify here MUST be compatible with PHP\'s <a href="http://php.net/manual/en/function.strtotime.php" target="_blank" style="text-decoration:none;"><code>strtotime()</code></a> function. Examples: <code>2 hours</code>, <code>7 days</code>, <code>6 months</code>, <code>1 year</code>.', 'rapid-cache').'</p>'."\n";
-            echo '         <p>'.sprintf(__('<strong>Note:</strong> This does NOT impact the overall cache expiration time that you configure with %1$s. It only impacts the sub-routines provided by the HTML Compressor. In fact, this expiration time is mostly irrelevant. The HTML Compressor uses an internal checksum, and it also checks <code>filemtime()</code> before using an existing cache file. The HTML Compressor class also handles the automatic cleanup of your cache directories to keep it from growing too large over time. Therefore, unless you have VERY little disk space there is no reason to set this to a lower value (even if your site changes dynamically quite often). If anything, you might like to increase this value which could help to further reduce server load. You can <a href="https://github.com/websharks/HTML-Compressor" target="_blank">learn more here</a>. We recommend setting this value to at least double that of your overall %1$s expiration time.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      </div>'."\n";
-            echo '   </div>'."\n";
-
-            echo '</div>'."\n";
-        }
-
-        /* ----------------------------------------------------------------------------------------- */
-
-        if ($this->plugin->isApache() || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? ' pro-preview' : '').'">'."\n";
-
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-additional-pro-features="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isProPreview() ? __('additional pro features', 'rapid-cache') : '').'">'."\n";
+            echo '   <a href="#" class="plugin-menu-page-panel-heading">'."\n";
             echo '      <i class="si si-server"></i> '.__('Apache Optimizations', 'rapid-cache')."\n";
             echo '   </a>'."\n";
 
@@ -951,105 +714,24 @@ class MenuPageOptions extends MenuPage
             echo '        <p class="info" style="display:block;">'.__('<strong>Or</strong>, if your server is missing <code>mod_deflate</code>/<code>mod_filter</code>; open your <code>php.ini</code> file and add this line: <a href="http://php.net/manual/en/zlib.configuration.php" target="_blank" style="text-decoration:none;"><code>zlib.output_compression = on</code></a>', 'rapid-cache').'</p>'."\n";
             echo '      </div>'."\n";
 
-            if ((!MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->isApache()) && !$this->plugin->isProPreview()) {
-                echo '      <hr />'."\n";
-                echo '      <p class="warning" style="display:block;">'.sprintf(__('<a href="%1$s">Enable the Pro Preview</a> to see <strong>Leverage Browser Caching</strong>, <strong>Enforce Canonical URLs</strong>, and more!', 'rapid-cache'), esc_attr(add_query_arg(urlencode_deep(['page' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS, MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_pro_preview' => '1']), self_admin_url('/admin.php')))).'</p>'."\n";
-            }
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-                echo '      <hr />'."\n";
-                echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('Leverage Browser Caching?', 'rapid-cache').'</h3>'."\n";
-                echo '      <p>'.__('<a href="https://bit.ly/3lNT8ou" target="_blank">Browser Caching</a> is highly recommended. When loading a single page, downloading all of the resources for that page may require multiple roundtrips between the browser and server, which delays processing and may block rendering of page content. This also incurs data costs for the visitor. With browser caching, your server tells the visitor\'s browser that it is allowed to cache static resources for a certain amount of time (Google recommends 1 week and that\'s what Rapid Cache uses).', 'rapid-cache').'</p>'."\n";
-                echo '      <p>'.__('In WordPress, \'Page Caching\' is all about server-side performance (reducing the amount of time it takes the server to generate the page content). With Rapid Cache installed, you\'re drastically reducing page generation time. However, you can make a visitor\'s experience ​<em>even faster</em>​ when you leverage browser caching too. When this option is enabled, the visitor\'s browser will cache static resources from each page and reuse those cached resources on subsequent page loads. In this way, future visits to the same page will not require additional connections to your site to download static resources that the visitor\'s browser has already cached.', 'rapid-cache').'</p>'."\n";
-                echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htaccess_browser_caching_enable]" data-target=".-htaccess-browser-caching-enable-options">'."\n";
-                echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['htaccess_browser_caching_enable'], '0', false)).'>'.__('No, do NOT enable Browser Caching (or I\'ll update my configuration manually; see below)', 'rapid-cache').'</option>'."\n";
-                echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? 'selected' : selected($this->plugin->options['htaccess_browser_caching_enable'], '1', false)).'>'.__('Yes, enable Browser Caching for static resources (recommended)', 'rapid-cache').'</option>'."\n";
-                echo '         </select></p>'."\n";
-                echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
-                echo '      <div class="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'" style="display:none; margin-top:1em;">'."\n";
-                echo '        <p>'.__('<strong>To enable Browser Caching:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/browser-caching-enable.txt'))).'</code></pre>'."\n";
-                echo '      </div>'."\n";
-            }
-            if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-                echo '      <hr />'."\n";
-                echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('Enforce an Exact Hostname?', 'rapid-cache').'</h3>'."\n";
-                echo '      <p>'.sprintf(__('By enforcing an exact hostname you avoid duplicate cache files, which saves disk space and improves cache performance. For example, if a bot or crawler accesses your site using your server\'s IP address instead of using your domain name (e.g., <code>http://123.456.789/path</code>), this results in duplicate cache files, because the host was an IP address. The \'host\' being an important factor in any cache storage system. The same would be true if a visitor attempted to access your site using a made-up sub-domain; e.g., <code>http://foo.bar.%1$s/path</code>. This sort of thing can be avoided by explicitly enforcing an exact hostname in the request. One that matches exactly what you\'ve configured in <strong>WordPress Settings → General</strong>.', 'rapid-cache'), esc_html(parse_url(network_home_url(), PHP_URL_HOST))).'</p>'."\n";
-                echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htaccess_enforce_exact_host_name]" data-target=".-htaccess-enforce-exact-host-name-options">'."\n";
-                echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['htaccess_enforce_exact_host_name'], '0', false)).'>'.__('No, do NOT enforce an exact hostname (or I\'ll update my configuration manually; see below)', 'rapid-cache').'</option>'."\n";
-                echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? 'selected' : selected($this->plugin->options['htaccess_enforce_exact_host_name'], '1', false)).'>'.sprintf(__('Yes, enforce the exact hostname: %1$s', 'rapid-cache'), esc_html(parse_url(network_home_url(), PHP_URL_HOST))).'</option>'."\n";
-                echo '         </select></p>'."\n";
-                echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--enforce-exact-host-name').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
-                echo '      <div class="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--enforce-exact-host-name').'" style="display:none; margin-top:1em;">'."\n";
-                echo '        <p>'.__('<strong>To enforce an exact hostname:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/enforce-exact-host-name.txt'))).'</code></pre>'."\n";
-                echo '      </div>'."\n";
-            }
-            if ((MEGAOPTIM_RAPID_CACHE_IS_PRO && !empty($GLOBALS['wp_rewrite']->permalink_structure)) || $this->plugin->isProPreview()) {
-                echo '      <hr />'."\n";
-                echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('Enforce Canonical URLs?', 'rapid-cache').'</h3>'."\n";
-                echo '      <p>'.__('Permalinks (URLs) leading to Posts/Pages on your site (based on your WordPress Permalink Settings) '.($GLOBALS['wp_rewrite']->use_trailing_slashes ? 'require a <code>.../trailing-slash/</code>' : 'do not require a <code>.../trailing-slash</code>').'. Ordinarily, WordPress enforces this by redirecting a request for '.($GLOBALS['wp_rewrite']->use_trailing_slashes ? '<code>.../something</code>' : '<code>.../something/</code>').', to '.($GLOBALS['wp_rewrite']->use_trailing_slashes ? '<code>.../something/</code>' : '<code>.../something</code>').', thereby forcing the final location to match your Permalink configuration. However, whenever you install a plugin like Rapid Cache, much of WordPress (including this automatic redirection) is out of the picture when the cached copy of a page is being served. So enabling this option will add rules to your <code>.htaccess</code> file that make Apache aware of your WordPess Permalink configuration. Apache can do what WordPress normally would, only much more efficiently.', 'rapid-cache').'</p>'."\n";
-                echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htaccess_enforce_canonical_urls]" data-target=".-htaccess-enforce-canonical-urls-options">'."\n";
-                echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['htaccess_enforce_canonical_urls'], '0', false)).'>'.__('No, do NOT enforce canonical URLs (or I\'ll update my configuration manually; see below)', 'rapid-cache').'</option>'."\n";
-                echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? 'selected' : selected($this->plugin->options['htaccess_enforce_canonical_urls'], '1', false)).'>'.__('Yes, enforce canonical URLs (recommended)', 'rapid-cache').'</option>'."\n";
-                echo '         </select></p>'."\n";
-                echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--enforce-cononical-urls').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
-                echo '      <div class="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--enforce-cononical-urls').'" style="display:none; margin-top:1em;">'."\n";
-                echo '        <p>'.__('<strong>To enforce Canonical URLs:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                if ($GLOBALS['wp_rewrite']->use_trailing_slashes) {
-                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/canonical-urls-ts-enable.txt'))).'</code></pre>'."\n";
-                } else {
-                    echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/canonical-urls-no-ts-enable.txt'))).'</code></pre>'."\n";
-                }
-                echo '      </div>'."\n";
-            }
-            if ((MEGAOPTIM_RAPID_CACHE_IS_PRO && $this->plugin->options['cdn_enable']) || $this->plugin->isProPreview()) {
-                echo '      <hr />'."\n";
-                echo '      <h3 data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'.__('Send Access-Control-Allow-Origin Header?', 'rapid-cache').'</h3>'."\n";
-                if ($this->plugin->options['cdn_enable'] && !$this->plugin->options['htaccess_access_control_allow_origin']) {
-                    echo '        <p class="warning" style="display:block;">'.__('<strong>Warning:</strong> Send Access-Control-Allow-Origin Header has been disabled below but <strong>Rapid Cache → Plugin Options → Static CDN Filters</strong> are enabled. We recommend configuring your server to send the <code>Access-Control-Allow-Origin</code> header to avoid <a href="#" target="_blank">CORS errors</a> when a CDN is configured.', 'rapid-cache').'</p>'."\n";
-                }
-                echo '      <p>'.__('If you are using Static CDN Filters to load resources for your site from another domain, it\'s important that your server sends an <code>Access-Control-Allow-Origin</code> header to prevent Cross Origin Resource Sharing (CORS) errors. This option is enabled automatically when you enable Static CDN Filters. For more information, see <a href="#" target="_blank">this article</a>.', 'rapid-cache').'</p>'."\n";
-                echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htaccess_access_control_allow_origin]" data-target=".-htaccess-access-control-allow-origin-options">'."\n";
-                echo '            <option value="0"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? '' : selected($this->plugin->options['htaccess_access_control_allow_origin'], '0', false)).'>'.__('No, do NOT send the Access-Control-Allow-Origin header (or I\'ll update my configuration manually; see below)', 'rapid-cache').'</option>'."\n";
-                echo '            <option value="1"'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? 'selected' : selected($this->plugin->options['htaccess_access_control_allow_origin'], '1', false)).'>'.__('Yes, send the Access-Control-Allow-Origin header (recommended for Static CDN Filters)', 'rapid-cache').'</option>'."\n";
-                echo '         </select></p>'."\n";
-                echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--access-control-allow-origin').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
-                echo '      <div class="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--access-control-allow-origin').'" style="display:none; margin-top:1em;">'."\n";
-                echo '        <p>'.__('<strong>To send the Access-Control-Allow-Origin header:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
-                echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/access-control-allow-origin-enable.txt'))).'</code></pre>'."\n";
-                echo '      </div>'."\n";
-            }
-            echo '   </div>'."\n";
-            echo '</div>'."\n";
-        }
-
-        /* ----------------------------------------------------------------------------------------- */
-
-        if (MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->plugin->isProPreview()) {
-            echo '<div class="plugin-menu-page-panel'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? ' pro-preview' : '').'">'."\n";
-
-            echo '   <a href="#" class="plugin-menu-page-panel-heading" data-pro-version-only="'.(!MEGAOPTIM_RAPID_CACHE_IS_PRO ? __('pro version only', 'rapid-cache') : '').'">'."\n";
-            echo '      <i class="si si-octi-versions"></i> '.__('Dynamic Version Salt', 'rapid-cache')."\n";
-            echo '   </a>'."\n";
-
-            echo '   <div class="plugin-menu-page-panel-body clearfix">'."\n";
-            echo '      <img src="'.esc_attr($this->plugin->url('/assets/images/salt.png')).'" class="screenshot" />'."\n";
-            echo '      <h3>'.__('<i class="si si-flask"></i> <span style="display:inline-block; padding:5px; border-radius:3px; background:#FFFFFF; color:#354913;"><span style="font-weight:bold; font-size:80%;">GEEK ALERT</span></span> This is for VERY advanced users only...', 'rapid-cache').'</h3>'."\n";
-            echo '      <p>'.sprintf(__('<em>Note: Understanding the %1$s <a href="https://github.com/megaoptim/rapid-cache/wiki/What-is-the-Branched-Cache-Structure" target="_blank">Branched Cache Structure</a> is a prerequisite to understanding how Dynamic Version Salts are added to the mix.</em>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</p>'."\n";
-            echo '      <p>'.__('A Version Salt gives you the ability to dynamically create multiple variations of the cache, and those dynamic variations will be served on subsequent visits; e.g., if a visitor has a specific cookie (of a certain value) they will see pages which were cached with that version (i.e., w/ that Version Salt: the value of the cookie). A Version Salt can really be anything.', 'rapid-cache').'</p>'."\n";
-            echo '      <p>'.__('A Version Salt can be a single variable like <code>$_COOKIE[\'my_cookie\']</code>, or it can be a combination of multiple variables, like <code>$_COOKIE[\'my_cookie\'].$_COOKIE[\'my_other_cookie\']</code>. (When using multiple variables, please separate them with a dot, as shown in the example.)', 'rapid-cache').'</p>'."\n";
-            echo '      <p>'.__('Experts could even use PHP ternary expressions that evaluate into something. For example: <code>((preg_match(\'/iPhone/i\', $_SERVER[\'HTTP_USER_AGENT\'])) ? \'iPhones\' : \'\')</code>. This would force a separate version of the cache to be created for iPhones (e.g., <code>PROTOCOL.HOST.URI[...]v/iPhones.html</code>).', 'rapid-cache').'</p>'."\n";
-            echo '      <p>'.__('For more documentation, please see <a href="#" target="_blank">Dynamic Version Salts</a>.', 'rapid-cache').'</p>'."\n";
             echo '      <hr />'."\n";
-            echo '      <h3>'.sprintf(__('Create a Dynamic Version Salt For %1$s? &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size:90%%; opacity:0.5;">150%% OPTIONAL</span>', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).'</h3>'."\n";
-            echo '      <table style="width:100%;"><tr><td style="width:1px; font-weight:bold; white-space:pre;">PROTOCOL.HOST.URI.v.</td><td><input type="text" name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][version_salt]" value="'.esc_attr($this->plugin->options['version_salt']).'" class="monospace" placeholder="$_COOKIE[\'my_cookie\']" /></td><td style="width:1px; font-weight:bold; white-space:pre;"></td></tr></table>'."\n";
-            echo '      <p class="info" style="display:block;">'.__('<a href="http://php.net/manual/en/language.variables.superglobals.php" target="_blank">Super Globals</a> work here; <a href="http://codex.wordpress.org/Editing_wp-config.php#table_prefix" target="_blank"><code>$GLOBALS[\'table_prefix\']</code></a> is a popular one.<br />Or, perhaps a PHP Constant defined in <code>/wp-config.php</code>; such as <code>WPLANG</code> or <code>DB_HOST</code>.', 'rapid-cache').'</p>'."\n";
-            echo '      <p class="notice" style="display:block;">'.__('<strong>Important:</strong> your Version Salt is scanned for PHP syntax errors via <a href="http://phpcodechecker.com/" target="_blank"><code>phpCodeChecker.com</code></a>. If errors are found, you\'ll receive a notice in the Dashboard.', 'rapid-cache').'</p>'."\n";
-            echo '      <p class="info" style="display:block;">'.__('If you\'ve enabled a separate cache for each user (optional) that\'s perfectly OK. A Version Salt works with user caching too.', 'rapid-cache').'</p>'."\n";
-            echo '   </div>'."\n";
+            echo '      <h3>'.__('Leverage Browser Caching?', 'rapid-cache').'</h3>'."\n";
+            echo '      <p>'.__('<a href="https://bit.ly/3lNT8ou" target="_blank">Browser Caching</a> is highly recommended. When loading a single page, downloading all of the resources for that page may require multiple roundtrips between the browser and server, which delays processing and may block rendering of page content. This also incurs data costs for the visitor. With browser caching, your server tells the visitor\'s browser that it is allowed to cache static resources for a certain amount of time (Google recommends 1 week and that\'s what Rapid Cache uses).', 'rapid-cache').'</p>'."\n";
+            echo '      <p>'.__('In WordPress, \'Page Caching\' is all about server-side performance (reducing the amount of time it takes the server to generate the page content). With Rapid Cache installed, you\'re drastically reducing page generation time. However, you can make a visitor\'s experience ​<em>even faster</em>​ when you leverage browser caching too. When this option is enabled, the visitor\'s browser will cache static resources from each page and reuse those cached resources on subsequent page loads. In this way, future visits to the same page will not require additional connections to your site to download static resources that the visitor\'s browser has already cached.', 'rapid-cache').'</p>'."\n";
+            echo '      <p><select name="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS).'[saveOptions][htaccess_browser_caching_enable]" data-target=".-htaccess-browser-caching-enable-options">'."\n";
+            echo '            <option value="0"'.(selected($this->plugin->options['htaccess_browser_caching_enable'], '0', false)).'>'.__('No, do NOT enable Browser Caching (or I\'ll update my configuration manually; see below)', 'rapid-cache').'</option>'."\n";
+            echo '            <option value="1"'.(selected($this->plugin->options['htaccess_browser_caching_enable'], '1', false)).'>'.__('Yes, enable Browser Caching for static resources (recommended)', 'rapid-cache').'</option>'."\n";
+            echo '         </select></p>'."\n";
+            echo '      <p>'.__('Or, you can update your configuration manually: [<a href="#" data-toggle-target=".'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'"><i class="si si-eye"></i> .htaccess configuration <i class="si si-eye"></i></a>]', 'rapid-cache').'</p>'."\n";
+            echo '      <div class="'.esc_attr(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'-apache-optimizations--leverage-browser-caching').'" style="display:none; margin-top:1em;">'."\n";
+            echo '        <p>'.__('<strong>To enable Browser Caching:</strong> Create or edit the <code>.htaccess</code> file in your WordPress installation directory and add the following lines to the top:', 'rapid-cache').'</p>'."\n";
+            echo '        <pre class="code"><code>'.esc_html($this->plugin->fillReplacementCodes(file_get_contents(MEGAOPTIM_RAPID_CACHE_PATH.'stubs/htaccess/browser-caching-enable.txt'))).'</code></pre>'."\n";
+            echo '      </div>'."\n";
 
+            echo '   </div>'."\n";
             echo '</div>'."\n";
         }
+
         /* ----------------------------------------------------------------------------------------- */
 
         echo '<div class="plugin-menu-page-panel">'."\n";

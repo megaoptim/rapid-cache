@@ -13,7 +13,7 @@ trait AdminBarUtils {
 	/**
 	 * Showing admin bar.
 	 *
-	 * @param bool $feature Check something specific?
+	 * @param  bool  $feature  Check something specific?
 	 *
 	 * @return bool True if showing.
 	 * @since 1.0.0
@@ -29,12 +29,12 @@ trait AdminBarUtils {
 		if ( ( $showing = $this->options['enable'] && is_admin_bar_showing() ) ) {
 			switch ( $feature ) {
 				case 'cache_wipe':
-					$showing = $this->options['cache_clear_admin_bar_enable'] && $is_multisite;
+					$showing &= $is_multisite;
 					break;
 				case 'cache_clear':
 				default: // Default case handler.
-					$showing = ( $this->options['cache_clear_admin_bar_enable'] && $is_multisite )
-					           || ( $this->options['cache_clear_admin_bar_enable'] && ( ! $is_multisite || ! is_network_admin() || $this->isMenuPage( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '*' ) ) );
+					$showing = $is_multisite
+					           || ( ! $is_multisite || ! is_network_admin() || $this->isMenuPage( MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '*' ) );
 					break;
 			}
 		}
@@ -67,6 +67,7 @@ trait AdminBarUtils {
 	 *
 	 */
 	public function adminBarMenu( \WP_Admin_Bar &$wp_admin_bar ) {
+
 		if ( ! $this->adminBarShowing() ) {
 			return; // Nothing to do.
 		}
@@ -87,7 +88,7 @@ trait AdminBarUtils {
 		}
 		if ( $this->adminBarShowing( 'cache_clear' ) ) {
 
-			if ( ( $cache_clear_options_showing = $this->adminBarShowing( 'cache_clear_options' ) ) ) {
+			if ( ( $this->adminBarShowing( 'cache_clear_options' ) ) ) {
 				$cache_clear_options = '<li class="-home-url-only"><a href="#" title="' . __( 'Clear the Home Page cache', 'rapid-cache' ) . '">' . __( 'Home Page', 'rapid-cache' ) . '</a></li>';
 				if ( ! is_admin() ) {
 					$cache_clear_options .= '<li class="-current-url-only"><a href="#" title="' . __( 'Clear the cache for the current URL', 'rapid-cache' ) . '">' . __( 'Current URL', 'rapid-cache' ) . '</a></li>';
@@ -101,48 +102,6 @@ trait AdminBarUtils {
 				}
 			} else {
 				$cache_clear_options = ''; // Empty in this default case.
-			}
-
-			if ( $cache_clear_options && $this->options['cache_clear_admin_bar_options_enable'] === '2' ) {
-				$wp_admin_bar->add_menu(
-					[
-						'parent' => 'top-secondary',
-						'id'     => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear-options',
-						'title'  => '',
-						'href'   => '#',
-						'meta'   => [
-							'title'    => __( 'Clear Options', 'rapid-cache' ),
-							'class'    => '-clear-options',
-							'tabindex' => - 1,
-						],
-					]
-				);
-				$wp_admin_bar->add_group(
-					[
-						'parent' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear-options',
-						'id'     => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear-options-wrapper',
-						'meta'   => [
-							'class' => '-wrapper',
-						],
-					]
-				);
-				$wp_admin_bar->add_menu(
-					[
-						'parent' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear-options-wrapper',
-						'id'     => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear-options-container',
-						'title'  => '<div class="-label">' .
-						            '   <span class="-text">' . __( 'Clear Cache', 'rapid-cache' ) . '</span>' .
-						            '</div>' .
-						            '<ul class="-options">' .
-						            '   ' . $cache_clear_options .
-						            '</ul>' .
-						            '<div class="-spacer"></div>',
-						'meta'   => [
-							'class'    => '-container',
-							'tabindex' => - 1,
-						],
-					]
-				);
 			}
 
 			$wp_admin_bar->add_menu(
@@ -160,7 +119,7 @@ trait AdminBarUtils {
 					],
 				]
 			);
-			if ( $cache_clear_options && $this->options['cache_clear_admin_bar_options_enable'] === '1' ) {
+			if ( $cache_clear_options ) {
 				$wp_admin_bar->add_group(
 					[
 						'parent' => MEGAOPTIM_RAPID_CACHE_GLOBAL_NS . '-clear',
@@ -206,7 +165,6 @@ trait AdminBarUtils {
 			'isMultisite'              => is_multisite(),
 			'currentUserHasCap'        => current_user_can( $this->cap ),
 			'currentUserHasNetworkCap' => current_user_can( $this->network_cap ),
-			'htmlCompressorEnabled'    => (bool) $this->options['htmlc_enable'],
 			'ajaxURL'                  => site_url( '/wp-load.php', is_ssl() ? 'https' : 'http' ),
 			'i18n'                     => [
 				'name'             => MEGAOPTIM_RAPID_CACHE_NAME,

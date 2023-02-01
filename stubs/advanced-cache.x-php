@@ -40,6 +40,14 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
     return; // Unable to find stub. Fail softly.
 }
 
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    if ((include_once(dirname(RAPID_CACHE_PLUGIN_FILE).'/includes/utils/wp-cache-postload.php')) === false) {
+        return; // Unable to find postload function(s). Fail softly w/ PHP warning.
+    }
+} elseif ((@include_once(dirname(RAPID_CACHE_PLUGIN_FILE).'/includes/utils/wp-cache-postload.php')) === false) {
+    return; // Unable to find postload function(s). Fail softly.
+}
+
 if (!defined('RAPID_CACHE_PRO')) {
     /*
      * Rapid Cache Pro flag.
@@ -142,6 +150,17 @@ if (!defined('RAPID_CACHE_FEEDS_ENABLE')) {
      * @var string|integer|boolean A boolean-ish value; e.g. `1` or `0`.
      */
     define('RAPID_CACHE_FEEDS_ENABLE', '%%RAPID_CACHE_FEEDS_ENABLE%%');
+}
+
+if (!defined('RAPID_CACHE_WHEN_LOGGED_IN')) {
+    /*
+     * Cache logged-in users?
+     *
+     * @since 1.2.0
+     *
+     * @var string|integer|boolean A boolean-ish value; e.g. `1` or `0`; or `postload`.
+     */
+    define('RAPID_CACHE_WHEN_LOGGED_IN', '%%RAPID_CACHE_WHEN_LOGGED_IN%%');
 }
 
 if (!defined('RAPID_CACHE_DIR')) {

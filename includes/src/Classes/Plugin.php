@@ -8,7 +8,6 @@
  */
 namespace MegaOptim\RapidCache\Classes;
 
-use MegaOptim\RapidCache\Classes;
 use MegaOptim\RapidCache\Traits;
 
 /**
@@ -21,6 +20,7 @@ class Plugin extends AbsBaseAp
     /*[.build.php-auto-generate-use-Traits]*/
     use Traits\Plugin\ActionUtils;
     use Traits\Plugin\AdminBarUtils;
+	use Traits\Plugin\AutoCacheUtils;
     use Traits\Plugin\BbPressUtils;
     use Traits\Plugin\CleanupUtils;
     use Traits\Plugin\CondUtils;
@@ -50,7 +50,8 @@ class Plugin extends AbsBaseAp
     use Traits\Plugin\WcpTermUtils;
 	use Traits\Plugin\WcpTransientUtils;
     use Traits\Plugin\WcpUpdaterUtils;
-    use Traits\Plugin\WcpUtils;
+	use Traits\Plugin\WcpUrlUtils;
+	use Traits\Plugin\WcpUtils;
     use Traits\Plugin\WcpWooCommerceUtils;
     /*[/.build.php-auto-generate-use-Traits]*/
 
@@ -62,15 +63,6 @@ class Plugin extends AbsBaseAp
      * @type bool If `FALSE`, run without hooks.
      */
     public $enable_hooks = true;
-
-    /**
-     * Pro-only option keys.
-     *
-     * @since 1.0.0
-     *
-     * @type array Pro-only option keys.
-     */
-    public $pro_only_option_keys = [];
 
     /**
      * Default options.
@@ -176,93 +168,6 @@ class Plugin extends AbsBaseAp
 
         load_plugin_textdomain(MEGAOPTIM_RAPID_CACHE_SLUG); // Text domain.
 
-        $this->pro_only_option_keys = [
-            'cache_max_age_disable_if_load_average_is_gte',
-
-            'change_notifications_enable',
-
-            'cache_clear_admin_bar_options_enable',
-            'cache_clear_admin_bar_roles_caps',
-
-            'cache_clear_cdn_enable',
-            'cache_clear_opcache_enable',
-            'cache_clear_s2clean_enable',
-            'cache_clear_eval_code',
-            'cache_clear_urls',
-
-            'ignore_get_request_vars',
-            'cache_nonce_values_when_logged_in',
-
-            'when_logged_in',
-
-            'version_salt',
-            'mobile_adaptive_salt',
-            'mobile_adaptive_salt_enable',
-            'ua_info_last_data_update',
-
-            'htmlc_enable',
-            'htmlc_css_exclusions',
-            'htmlc_js_exclusions',
-            'htmlc_uri_exclusions',
-            'htmlc_cache_expiration_time',
-            'htmlc_compress_combine_head_body_css',
-            'htmlc_compress_combine_head_js',
-            'htmlc_compress_combine_footer_js',
-            'htmlc_compress_combine_remote_css_js',
-            'htmlc_compress_inline_js_code',
-            'htmlc_compress_css_code',
-            'htmlc_compress_js_code',
-            'htmlc_compress_html_code',
-            'htmlc_amp_exclusions_enable',
-            'htmlc_when_logged_in',
-
-            'auto_cache_enable',
-            'auto_cache_max_time',
-            'auto_cache_delay',
-            'auto_cache_sitemap_url',
-            'auto_cache_ms_children_too',
-            'auto_cache_other_urls',
-            'auto_cache_user_agent',
-
-            'htaccess_browser_caching_enable',
-            'htaccess_enforce_exact_host_name',
-            'htaccess_enforce_canonical_urls',
-            'htaccess_access_control_allow_origin',
-
-            'cdn_enable',
-            'cdn_host',
-            'cdn_hosts',
-            'cdn_invalidation_var',
-            'cdn_invalidation_counter',
-            'cdn_over_ssl',
-            'cdn_when_logged_in',
-            'cdn_whitelisted_extensions',
-            'cdn_blacklisted_extensions',
-            'cdn_whitelisted_uri_patterns',
-            'cdn_blacklisted_uri_patterns',
-
-            'stats_enable',
-            'stats_admin_bar_enable',
-            'stats_admin_bar_roles_caps',
-
-            'dir_stats_history_days',
-            'dir_stats_refresh_time',
-            'dir_stats_auto_refresh_max_resources',
-
-            'pro_update_check',
-            'pro_update_check_stable',
-            'last_pro_update_check',
-
-            'latest_pro_version',
-            'latest_pro_package',
-
-            'pro_update_username',
-            'pro_update_password',
-
-            'pro_auto_update_enable',
-
-            'last_pro_stats_log',
-        ];
         $this->default_options = [
             /* Core/systematic plugin options. */
 
@@ -292,16 +197,7 @@ class Plugin extends AbsBaseAp
 
             /* Related to cache clearing. */
 
-            'change_notifications_enable' => '1', // `0|1`.
-
-            'cache_clear_admin_bar_enable'         => '1', // `0|1`.
-            'cache_clear_admin_bar_options_enable' => '1', // `0|1|2`.
-            'cache_clear_admin_bar_roles_caps'     => '', // Comma-delimited list of roles/caps.
-
-            'cache_clear_cdn_enable'        => '0', // `0|1`.
             'cache_clear_opcache_enable'    => '0', // `0|1`.
-            'cache_clear_s2clean_enable'    => '0', // `0|1`.
-            'cache_clear_eval_code'         => '', // PHP code.
             'cache_clear_urls'              => '', // Line-delimited list of URLs.
             'cache_clear_transients_enable' => '0', // `0|1`
 
@@ -357,28 +253,6 @@ class Plugin extends AbsBaseAp
             'mobile_adaptive_salt_enable' => '0', // `0|1` Enable the mobile adaptive salt?
             'ua_info_last_data_update'    => '0', // Timestamp.
 
-            /* Related to HTML compressor. */
-
-            'htmlc_enable' => '0', // Enable HTML compression?
-
-            'htmlc_css_exclusions' => "id='rs-plugin-settings-inline-css'", // Empty string or line-delimited patterns.
-            // This defaults to an exclusion rule that handles compatibility with RevSlider. See: <https://github.com/websharks/rapid-cache/issues/614>
-
-            'htmlc_js_exclusions'         => '.php?', // Empty string or line-delimited patterns.
-            'htmlc_uri_exclusions'        => '', // Empty string or line-delimited patterns.
-            'htmlc_cache_expiration_time' => '14 days', // `strtotime()` compatible.
-
-            'htmlc_compress_combine_head_body_css' => '1', // `0|1`.
-            'htmlc_compress_combine_head_js'       => '1', // `0|1`.
-            'htmlc_compress_combine_footer_js'     => '1', // `0|1`.
-            'htmlc_compress_combine_remote_css_js' => '1', // `0|1`.
-            'htmlc_compress_inline_js_code'        => '1', // `0|1`.
-            'htmlc_compress_css_code'              => '1', // `0|1`.
-            'htmlc_compress_js_code'               => '1', // `0|1`.
-            'htmlc_compress_html_code'             => '1', // `0|1`.
-            'htmlc_amp_exclusions_enable'          => '1', // `0|1`.
-            'htmlc_when_logged_in'                 => '0', // `0|1`; enable when logged in?
-
             /* Related to auto-cache engine. */
 
             'auto_cache_enable'          => '0', // `0|1`.
@@ -393,63 +267,6 @@ class Plugin extends AbsBaseAp
 
             'htaccess_browser_caching_enable'      => '0', // `0|1`; enable browser caching?
             'htaccess_gzip_enable'                 => '0', // `0|1`; enable GZIP compression?
-            'htaccess_enforce_exact_host_name'     => '0', // `0|1`; enforce exact hostname?
-            'htaccess_enforce_canonical_urls'      => '0', // `0|1`; enforce canonical URLs?
-            'htaccess_access_control_allow_origin' => '0', // `0|1`; send Access-Control-Allow-Origin header?
-
-            /* Related to CDN functionality. */
-
-            'cdn_enable' => '0', // `0|1`; enable CDN filters?
-
-            'cdn_host'  => '', // e.g., `d1v41qemfjie0l.cloudfront.net`
-            'cdn_hosts' => '', // e.g., line-delimited list of CDN hosts.
-
-            'cdn_invalidation_var'     => 'iv', // A query string variable name.
-            'cdn_invalidation_counter' => '1', // Current version counter.
-
-            'cdn_over_ssl'       => '0', // `0|1`; enable SSL compat?
-            'cdn_when_logged_in' => '0', // `0|1`; enable when logged in?
-
-            'cdn_whitelisted_extensions' => '', // Whitelisted extensions.
-            // This is a comma-delimited list. Delimiters may include of these: `[|;,\s]`.
-            // Defaults to all extensions supported by the WP media library; i.e. `wp_get_mime_types()`.
-
-            'cdn_blacklisted_extensions' => '', // Blacklisted extensions.
-            // This is a comma-delimited list. Delimiters may include of these: `[|;,\s]`.
-
-            'cdn_whitelisted_uri_patterns' => '', // A line-delimited list of inclusion patterns.
-            // Wildcards `*` are supported here. Matched against local file URIs.
-
-            'cdn_blacklisted_uri_patterns' => '', // A line-delimited list of exclusion patterns.
-            // Wildcards `*` are supported here. Matched against local file URIs.
-
-            /* Related to statistics/charts. */
-
-            'stats_enable'               => is_multisite() && wp_is_large_network() ? '0' : '1',
-            'stats_admin_bar_enable'     => '1', // `0|1`; enable stats in admin bar?
-            'stats_admin_bar_roles_caps' => '', // Comma-delimited list of roles/caps.
-
-            'dir_stats_auto_refresh_max_resources' => '1500', // Don't use cache if less than this.
-            'dir_stats_refresh_time'               => '15 minutes', // `strtotime()` compatible.
-            'dir_stats_history_days'               => '30', // Numeric; number of days.
-
-            /* Related to automatic pro updates. */
-
-            'pro_update_check'        => '1', // `0|1`; enable?
-            'pro_update_check_stable' => '1', // `0` for beta/RC checks.
-            'last_pro_update_check'   => '0', // Timestamp.
-
-            'latest_pro_version' => MEGAOPTIM_RAPID_CACHE_VERSION, // Latest version.
-            'latest_pro_package' => '', // Latest package URL.
-
-            'pro_update_username' => '', // Username.
-            'pro_update_password' => '', // Password or license key.
-
-            'pro_auto_update_enable' => '0', // `0|1`; enable?
-
-            /* Related to stats logging. */
-
-            'last_pro_stats_log' => '0', // Timestamp.
 
             /* Related to uninstallation routines. */
 
@@ -476,6 +293,9 @@ class Plugin extends AbsBaseAp
         add_action('init', [$this, 'checkCronSetup'], PHP_INT_MAX);
 
         add_action('wp_loaded', [$this, 'actions']);
+
+	    add_action('admin_init', [$this, 'autoCacheMaybeClearPrimaryXmlSitemapError']);
+	    add_action('admin_init', [$this, 'autoCacheMaybeClearPhpReqsError']);
 
         add_action('admin_bar_menu', [$this, 'adminBarMenu']);
         add_action('wp_head', [$this, 'adminBarMetaTags'], 0);
@@ -554,6 +374,7 @@ class Plugin extends AbsBaseAp
         if (!is_multisite() || is_main_site()) { // Main site only.
             add_filter('cron_schedules', [$this, 'extendCronSchedules']);
             add_action('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_cleanup', [$this, 'cleanupCache']);
+	        add_action('_cron_'.MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_auto_cache', [$this, 'autoCache']);
         }
 
         /* -------------------------------------------------------------- */

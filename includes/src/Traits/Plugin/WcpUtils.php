@@ -127,7 +127,7 @@ trait WcpUtils
         }
 
         $this->doWpAction(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_purge_cache', $counter);
-        
+
         return $counter;
     }
 
@@ -199,7 +199,7 @@ trait WcpUtils
         }
         $counter += $this->wipeCache();
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($counter) ) {
             $this->enqueueNotice(sprintf(__('Detected significant changes that require a full wipe of the cache. Found %1$s in the cache; auto-wiping.', 'rapid-cache'), esc_html($this->i18nFiles($counter))), ['combinable' => true]);
         }
         return $counter;
@@ -245,7 +245,7 @@ trait WcpUtils
         }
         $counter += $this->clearCache();
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($counter) ) {
             $this->enqueueNotice(sprintf(__('Detected important site changes that affect the entire cache. Found %1$s in the cache for this site; auto-clearing.', 'rapid-cache'), esc_html($this->i18nFiles($counter))), ['combinable' => true]);
         }
         return $counter;
@@ -279,7 +279,7 @@ trait WcpUtils
         }
         $counter += $this->purgeCache();
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($counter) ) {
             $this->enqueueNotice(sprintf(__('Detected important site changes. Found %1$s in the cache for this site that were expired; auto-purging.', 'rapid-cache'), esc_html($this->i18nFiles($counter))), ['combinable' => true]);
         }
         return $counter;
@@ -313,7 +313,7 @@ trait WcpUtils
         }
         $counter += $this->wurgeCache();
 
-        if ($counter && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($counter) ) {
             $this->enqueueNotice(sprintf(__('Detected important site changes. Found %1$s in the cache that were expired; auto-purging.', 'rapid-cache'), esc_html($this->i18nFiles($counter))), ['combinable' => true]);
         }
         return $counter;
@@ -333,7 +333,7 @@ trait WcpUtils
     {
         $is_disabled = (boolean) $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_disable_auto_wipe_cache_routines', false);
 
-        if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($is_disabled) ) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
                 sprintf(__('<strong>%1$s:</strong> detected significant changes that would normally trigger cache wiping routines. However, cache wiping routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache/wiki/What-are-the-clear-cache-and-wipe-cache-routines" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
@@ -356,7 +356,7 @@ trait WcpUtils
     {
         $is_disabled = (boolean) $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_disable_auto_clear_cache_routines', false);
 
-        if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($is_disabled) ) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
                 sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache clearing routines. However, cache clearing routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache/wiki/What-are-the-clear-cache-and-wipe-cache-routines" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
@@ -379,7 +379,7 @@ trait WcpUtils
     {
         $is_disabled = (boolean) $this->applyWpFilters(MEGAOPTIM_RAPID_CACHE_GLOBAL_NS.'_disable_auto_purge_cache_routines', false);
 
-        if ($is_disabled && is_admin() && (!MEGAOPTIM_RAPID_CACHE_IS_PRO || $this->options['change_notifications_enable'])) {
+	    if ( $this->isChangeNotificationEnabled($is_disabled) ) {
             $this->enqueueMainNotice(
                 '<img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />'.
                 sprintf(__('<strong>%1$s:</strong> detected important site changes that would normally trigger cache purging routines. However, cache purging routines have been disabled by a site administrator. [<a href="https://github.com/megaoptim/rapid-cache/wiki/What-are-the-clear-cache-and-wipe-cache-routines" target="_blank">?</a>]', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME))
@@ -387,4 +387,17 @@ trait WcpUtils
         }
         return $is_disabled;
     }
+
+	/**
+	 * Is change notification enabled
+	 * @param $is_disabled
+	 *
+	 * @return bool
+	 */
+	protected function isChangeNotificationEnabled( $is_disabled ) {
+		if ( $is_disabled && is_admin() ) {
+			return true;
+		}
+		return false;
+	}
 }
