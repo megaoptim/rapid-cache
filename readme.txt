@@ -1,14 +1,14 @@
 === Rapid Cache ===
 
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires at least: 4.2
-Tested up to: 5.8
+Tested up to: 6.4
 Text Domain: rapid-cache
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Author: MegaOptim
 Author URI: https://megaoptim.com/rapid-cache
-Contributors: megaoptim,darkog
+Contributors: megaoptim, darkog
 Tags: cache, speed, performance, fast, caching, advanced cache, static, client-side cache, rss cache, feed cache, gzip compression, page cache
 
 Rapid Cache is advanced WordPress caching plugin inspired by simplicity that will make your site blazing fast!
@@ -236,6 +236,16 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
+
+= 1.2.0 =
+Release date: January 26th, 2024
+- New: Compatibility with PHP 8.3
+- New: Compatibility with WordPress 6.4
+- New: Cache Preloading with CRON
+- New: Option to cache logged-in users
+- New: Version cache salt filter - `rapid_cache_version_salt`
+- New: Reorganized settings
+- Fix: Fixes various PHP warnings
 
 = 1.1.0 =
 Release date: March 21st, 2020
