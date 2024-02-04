@@ -1,6 +1,6 @@
 === Rapid Cache ===
 
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires at least: 4.2
 Tested up to: 6.4
 Text Domain: rapid-cache
@@ -236,6 +236,11 @@ Ordinarily you can just deactivate Rapid Cache from the plugins menu in WordPres
 Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
+
+= 1.2.1 =
+Release date: February 4th, 2024
+
+* Fix: Fatal error in the settings screen in some cases
 
 = 1.2.0 =
 Release date: January 26th, 2024
