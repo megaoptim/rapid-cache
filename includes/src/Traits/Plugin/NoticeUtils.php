@@ -195,9 +195,8 @@ trait NoticeUtils
 
             $_combined = '<div class="updated notice is-dismissible" style="clear:both; padding-right:38px; position: relative;">';
             $_combined .= '<p><img src="'.esc_attr($this->url('/assets/images/clear.png')).'" style="float:left; margin:0 10px 0 0; border:0;" />';
-            $_combined .= sprintf(__('<strong>%1$s</strong> detected changes and intelligently cleared the cache to keep your site up-to-date.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).' <a href="#" id="'.MEGAOPTIM_RAPID_CACHE_SLUG.'-toggle-notices" style="text-decoration:none; border-bottom:1px dotted;" onclick="jQuery(\'#'.MEGAOPTIM_RAPID_CACHE_SLUG.'-combined-notices\').toggle(); if (jQuery(\'#rapid-cache-combined-notices\').is(\':visible\')) { jQuery(this).text(\''.$_hide_details.'\'); } else { jQuery(this).text(\''.$_see_details.'\'); }">'.$_see_details.'</a></p>';
-            $_combined .= '<div id="'.MEGAOPTIM_RAPID_CACHE_SLUG.'-combined-notices" style="display: none;">'.$_line_items.'</div>';
-            $_combined .= '<button type="button" class="notice-dismiss"><span class="screen-reader-text">'.__('Dismiss this notice.', 'rapid-cache').'</span></button>';
+            $_combined .= sprintf(__('<strong>%1$s</strong> detected changes and intelligently cleared the cache to keep your site up-to-date.', 'rapid-cache'), esc_html(MEGAOPTIM_RAPID_CACHE_NAME)).' <a href="#" id="rapid-cache-toggle-notices" style="text-decoration:none; border-bottom:1px dotted;" onclick="jQuery(\'#rapid-cache-combined-notices\').toggle(); if (jQuery(\'#rapid-cache-combined-notices\').is(\':visible\')) { jQuery(this).text(\''.$_hide_details.'\'); } else { jQuery(this).text(\''.$_see_details.'\'); }">'.$_see_details.'</a></p>';
+            $_combined .= '<div id="rapid-cache-combined-notices" style="display: none;">'.$_line_items.'</div>';
             $_combined .= '</div>';
 
             echo $_combined;
