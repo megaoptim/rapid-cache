@@ -1,8 +1,8 @@
 === Rapid Cache ===
 
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 Requires at least: 4.2
-Tested up to: 6.4
+Tested up to: 6.5
 Text Domain: rapid-cache
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -237,50 +237,59 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
 
+= 1.2.2 =
+*Release date - 23 Jan 2024*
+
+* Fix admin notice dismiss issue
+* Fix broken documentation link in settings
+* Test with WordPress 6.5
+
 = 1.2.1 =
-Release date: February 4th, 2024
+*Release date: February 4th, 2024*
 
 * Fix: Fatal error in the settings screen in some cases
 
 = 1.2.0 =
-Release date: January 26th, 2024
-- New: Compatibility with PHP 8.3
-- New: Compatibility with WordPress 6.4
-- New: Cache Preloading with CRON
-- New: Option to cache logged-in users
-- New: Version cache salt filter - `rapid_cache_version_salt`
-- New: Reorganized settings
-- Fix: Fixes various PHP warnings
+*Release date: January 26th, 2024*
+
+* New: Compatibility with PHP 8.3
+* New: Compatibility with WordPress 6.4
+* New: Cache Preloading with CRON
+* New: Option to cache logged*in users
+* New: Version cache salt filter - `rapid_cache_version_salt`
+* New: Reorganized settings
+* Fix: Fixes various PHP warnings
 
 = 1.1.0 =
-Release date: March 21st, 2020
-- New: Added more options for clearing cache in the Admin Bar
-- New: Fix wrong query parameter in 'GET Requests' settings. @props aj-adl
-- Fix: Improved instructions in Import/Export/Migration tab
+*Release date: March 21st, 2020*
+
+* New: Added more options for clearing cache in the Admin Bar
+* New: Fix wrong query parameter in 'GET Requests' settings. @props aj-adl
+* Fix: Improved instructions in Import/Export/Migration tab
 
 = 1.0.1 =
+*Release date: 13th September 2020*
 
-Release date: 13th September 2020
-- New: Added import/export options
-- New: Added option to preserve settings of the previous Comet install in Rapid Cache > "Import/Export"
+* New: Added import/export options
+* New: Added option to preserve settings of the previous Comet install in Rapid Cache > "Import/Export"
 
 = 1.0.0  =
+*Release date: 11th September 2020*
 
-Release date: 11th September 2020
-- New: Added composer PSR4 autoloading
-- New: Added mbstring polyfill for better compatibility
-- New: Removed old notification about deprecated APC support
-- New: Rewrote the requirement check system
-- New: Removed the PRO version front-end references
-- New: Moved the assets to own assets/ directory
-- New: Updated conflicting plugins
-- New: Removed old database migrations
-- New: Updated documentation https://github.com/megaoptim/rapid-cache/wiki
-- New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache(), rapidcache_get_options()
-- New: Added `rapid_cache_ob_callback_filter` that allow to filter the page output before saving into cache
-- Fix: 'Non static method should not be called statically
-- Fix: 'Headers already sent' warnings
-- Fix: 'Notice: id was called incorrectly. Product properties should not be accessed directly.' warning with WooCommerce
-- Fix: Warnings when disk_*_space functions are disabled
-- New: Add Referrer-Policy to cacheable headers list
-- New: Add actions: rapid_cache_wipe_cache, rapid_cache_clear_cache, rapid_cache_purge_cache, rapid_cache_wurge_cache
+* New: Added composer PSR4 autoloading
+* New: Added mbstring polyfill for better compatibility
+* New: Removed old notification about deprecated APC support
+* New: Rewrote the requirement check system
+* New: Removed the PRO version front-end references
+* New: Moved the assets to own assets/ directory
+* New: Updated conflicting plugins
+* New: Removed old database migrations
+* New: Updated documentation https://github.com/megaoptim/rapid-cache/wiki
+* New: Added developer functions: rapidcache_get_version(), rapidcache_clear_cache(), rapidcache_clear_post_cache($post_id), rapidcache_clear_url_cache($url), rapidcache_wipe_cache(), rapidcache_purge_expired_cache(), rapidcache_get_options()
+* New: Added `rapid_cache_ob_callback_filter` that allow to filter the page output before saving into cache
+* Fix: 'Non static method should not be called statically
+* Fix: 'Headers already sent' warnings
+* Fix: 'Notice: id was called incorrectly. Product properties should not be accessed directly.' warning with WooCommerce
+* Fix: Warnings when disk_*_space functions are disabled
+* New: Add Referrer-Policy to cacheable headers list
+* New: Add actions: rapid_cache_wipe_cache, rapid_cache_clear_cache, rapid_cache_purge_cache, rapid_cache_wurge_cache
