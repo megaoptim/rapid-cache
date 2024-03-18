@@ -167,11 +167,11 @@ trait NcDebugUtils
                     break; // Break switch handler.
 
                 case $this::NC_DEBUG_IS_LOGGED_IN_USER_NONCE:
-                    $reason = __('because the current page contains `_wpnonce` or `akismet_comment_nonce`. While your current configuration states that pages should be cached for logged-in visitors, it also states that pages with dynamic `*nonce*` values in the markup should not be cached, even for logged-in visitors. See https://bit.ly/2Gskz76 for further details.', 'rapid-cache');
+                    $reason = __('because the current page contains `_wpnonce` or `akismet_comment_nonce`. While your current configuration states that pages should be cached for logged-in visitors, it also states that pages with dynamic `*nonce*` values in the markup should not be cached, even for logged-in visitors. See https://megaoptim.com/link/11001 for further details.', 'rapid-cache');
                     break; // Break switch handler.
 
                 case $this::NC_DEBUG_PAGE_CONTAINS_NONCE:
-                    $reason = __('because the current page contains `_wpnonce` or `akismet_comment_nonce`. Your current configuration states that pages with dynamic `*nonce*` values in the markup should not be cached. See https://bit.ly/2Gskz76 for further details.', 'rapid-cache');
+                    $reason = __('because the current page contains `_wpnonce` or `akismet_comment_nonce`. Your current configuration states that pages with dynamic `*nonce*` values in the markup should not be cached. See https://megaoptim.com/link/11001 for further details.', 'rapid-cache');
                     break; // Break switch handler.
 
                 case $this::NC_DEBUG_NO_USER_TOKEN:
