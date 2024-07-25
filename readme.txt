@@ -1,8 +1,8 @@
 === Rapid Cache ===
 
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 Requires at least: 4.2
-Tested up to: 6.5
+Tested up to: 6.6
 Text Domain: rapid-cache
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

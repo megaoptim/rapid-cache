@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
+class ComposerStaticInite7848ccfb14ed7287dd47281c502dccc
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -41,6 +41,7 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
         'MegaOptim\\RapidCache\\Classes\\Actions' => __DIR__ . '/../..' . '/includes/src/Classes/Actions.php',
         'MegaOptim\\RapidCache\\Classes\\AdvancedCache' => __DIR__ . '/../..' . '/includes/src/Classes/AdvancedCache.php',
         'MegaOptim\\RapidCache\\Classes\\ApiBase' => __DIR__ . '/../..' . '/includes/src/Classes/ApiBase.php',
+        'MegaOptim\\RapidCache\\Classes\\AutoCache' => __DIR__ . '/../..' . '/includes/src/Classes/AutoCache.php',
         'MegaOptim\\RapidCache\\Classes\\Conflicts' => __DIR__ . '/../..' . '/includes/src/Classes/Conflicts.php',
         'MegaOptim\\RapidCache\\Classes\\FeedUtils' => __DIR__ . '/../..' . '/includes/src/Classes/FeedUtils.php',
         'MegaOptim\\RapidCache\\Classes\\MenuPage' => __DIR__ . '/../..' . '/includes/src/Classes/MenuPage.php',
@@ -58,6 +59,7 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
         'MegaOptim\\RapidCache\\Traits\\Ac\\ShutdownUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Ac/ShutdownUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\ActionUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/ActionUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\AdminBarUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/AdminBarUtils.php',
+        'MegaOptim\\RapidCache\\Traits\\Plugin\\AutoCacheUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/AutoCacheUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\BbPressUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/BbPressUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\CleanupUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/CleanupUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\CondUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/CondUtils.php',
@@ -87,6 +89,7 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTermUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpTermUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpTransientUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpTransientUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUpdaterUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpUpdaterUtils.php',
+        'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUrlUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpUrlUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Plugin\\WcpWooCommerceUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Plugin/WcpWooCommerceUtils.php',
         'MegaOptim\\RapidCache\\Traits\\Shared\\ArrayUtils' => __DIR__ . '/../..' . '/includes/src/Traits/Shared/ArrayUtils.php',
@@ -116,9 +119,9 @@ class ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0f8fab3c3cff01d3d81db23a1bf25714::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite7848ccfb14ed7287dd47281c502dccc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite7848ccfb14ed7287dd47281c502dccc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite7848ccfb14ed7287dd47281c502dccc::$classMap;
 
         }, null, ClassLoader::class);
     }
