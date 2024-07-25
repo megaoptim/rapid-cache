@@ -119,7 +119,6 @@ class AutoCache extends AbsBase {
 			$_blog_urls = array_merge( $_blog_sitemap_urls, $_blog_other_urls );
 			$_blog_urls = array_merge( $_blog_urls, $_wp_default_sitemap_urls );
 			$_blog_urls = array_unique( $_blog_urls ); // Unique URLs only.
-			error_log(print_r($_blog_urls, true));
 			shuffle( $_blog_urls ); // Randomize the order.
 
 			foreach ( $_blog_urls as $_url ) {
