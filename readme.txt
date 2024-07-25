@@ -237,6 +237,12 @@ Rapid Cache is now completely uninstalled and you can start fresh :-)
 
 == Changelog ==
 
+= 1.2.3 =
+*Release date - 25 Jul 2024*
+
+* Remove unnecessary error_log entry
+* Test with WordPress 6.6
+
 = 1.2.2 =
 *Release date - 23 Jan 2024*
 
